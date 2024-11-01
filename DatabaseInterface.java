@@ -46,5 +46,7 @@ public interface DatabaseInterface {
 
     void readBlocked();
 
-    ArrayList<User> getUsers()
+    ArrayList<User> getUsers();
+
+    void logIn();
 }
