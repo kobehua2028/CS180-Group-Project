@@ -18,16 +18,28 @@ public interface PostInterface {
 
 
     //These six methods should implement synchronized
-    public void addLike();
-    public void removeLike();
+    //public void addLike();
+    //public void removeLike();
 
-    public void addDislike();
-    public void removeDislike();
+    //public void addDislike();
+    //public void removeDislike();
 
-    void incrementCommentCount();
-    void decrementCommentCount();
+    //void incrementCommentCount();
+    //void decrementCommentCount();
 
+    //methods used by Post.java:
+    
+    boolean equals(Post post);
+    
+    void addComment(Comment comment);
 
+    public String getTitle();
+
+    public String getSubtext();
+
+    public User getAuthor();
+
+    public String toString();
 
 
 
