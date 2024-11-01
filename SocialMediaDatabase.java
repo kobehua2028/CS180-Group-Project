@@ -150,4 +150,24 @@ public class SocialMediaDatabase {
         }
     }
 
+    
+//    public synchronized void writeUser(User user) {
+////        usersIn
+//        try {
+//            File userFile = new File(usersIn);
+//            PrintWriter pw = new PrintWriter(new FileWriter(userFile, true));
+//            pw.println(String.format("%s,%s,%s", user.getUsername(), user.getPassword(), user.getAboutMe()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public synchronized void writePost(Post post) {
+////        postIn
+//    }
+//
+//    public synchronized void writeComment(Comment comment) {
+////        commentsIn
+//    }
+
 }
