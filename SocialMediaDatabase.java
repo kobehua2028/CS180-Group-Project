@@ -1,8 +1,10 @@
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
 
 public class SocialMediaDatabase {
+    private Scanner scan = new Scanner(System.in);
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
                                                     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
@@ -130,53 +132,21 @@ public class SocialMediaDatabase {
         return posts;
     }
 
-    public void createUser() {
+    public boolean createUser(String username, String password) {
         try {
-            String username;
-            String password;
-            String message = "";
-            do {
-                message += "Create a username:";
-                username = JOptionPane.showInputDialog(message);
-
-                if (!Character.isLetter(username.charAt(0))) {
-                    message = "Invalid Username: Must begin with a letter.\n";
-                }
-
-                else {
-                    message = ""; //resets message variable
-                    do {
-                        message += "Create a password:";
-                        password = JOptionPane.showInputDialog(message);
-
-                        if (password.length() < 8)
-                            message = "Invalid Password: Must be at least eight characters long.\n";
-
-                    } while (password.length() < 8); //More requirements? Special characters?
-                }
-
-            } while (!Character.isLetter(username.charAt(0)));
-            JOptionPane.showMessageDialog(null, "Your username is: " + username);
-
+            if (username != null &&  password != null)
+                if (username.length() > 0 && username.length() <= 20 &&
+                    password.length () > 4 && username.length() <= 50)
+                    if (!" ".equals(username.charAt(0))) {
+                        String userString = String.format("%s,%s", username, password);
+                        synchronized (new Object()) {
+                            users.add(new User(userString, this));
+                        }
+                        return true;
+                    }
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public boolean login(String username, String password) {
-        if (findUser(username) != null) {
-            // if the user doesnt exist yet, create the account
-            //  <!> TODO: AFTER WRITE METHODS
-            //  <!> TODO: AFTER WRITE METHODS
-            //  <!> TODO: AFTER WRITE METHODS
-        } else {
-            // if the user does exist
-            User user = findUser(username);
-            if (password.equals(User.getPassword())) {
-                return true;
-            } else {
-                return false;
-            }
         }
     }
 
