@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
@@ -11,13 +10,16 @@ public class SocialMediaDatabase {
     private String usersIn; //filename that supplied a list of all initial users
     private String postsIn;
     private String commentsIn;
+    private String friendsIn;
+    private String blockedIn;
 
 
-
-    public SocialMediaDatabase(String usersIn, String postsIn, String commentsIn) {
+    public SocialMediaDatabase(String usersIn, String postsIn, String commentsIn, String friendsIn, String blockedIn) {
         this.usersIn = usersIn;
         this.postsIn = postsIn;
         this.commentsIn = commentsIn;
+        this.friendsIn = friendsIn;
+        this.blockedIn = blockedIn;
     }
     public User findUser(String username) { //validates if there's a user with the same username
         for (int i = 0; i < users.size(); i++) {
@@ -43,7 +45,7 @@ public class SocialMediaDatabase {
                  users.add(new User(userLine, this));
              }
         } catch (IOException e) {
-            return;
+            e.printStackTrace();
         }
     }
 
@@ -74,6 +76,46 @@ public class SocialMediaDatabase {
 
                 if (findUser(author) != null && findPost(title) != null)
                     findPost(title).addComment(new Comment(commentLine, this));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFriends() {
+        try (BufferedReader bfr = new BufferedReader(new FileReader(new File(friendsIn)))) {
+            while (true) {
+                String friendsLine = bfr.readLine();
+                if (friendsLine == null)
+                    break;
+                String user = friendsLine.substring(0, friendsLine.indexOf(","));
+                if (findUser(user) != null) {
+                    String[] friendsList = friendsLine.split(",");
+                    for (int j = 1; j < friendsList.length; j++) {
+                        if (findUser(friendsList[j]) != null)
+                            findUser(user).addFriend(findUser(friendsList[j]));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readBlocked() {
+        try (BufferedReader bfr = new BufferedReader(new FileReader(new File(blockedIn)))) {
+            while (true) {
+                String blockedLine = bfr.readLine();
+                if (blockedLine == null)
+                    break;
+                String user = blockedLine.substring(0, blockedLine.indexOf(","));
+                if (findUser(user) != null) {
+                    String[] blockedList = blockedLine.split(",");
+                    for (int j = 1; j < blockedList.length; j++) {
+                        if (findUser(blockedList[j]) != null)
+                            findUser(user).block(findUser(blockedList[j]));
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
