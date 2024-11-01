@@ -42,4 +42,9 @@ public interface DatabaseInterface {
 
     void createUser();
 
+    void readFriends();
+
+    void readBlocked();
+
+    ArrayList<User> getUsers()
 }
