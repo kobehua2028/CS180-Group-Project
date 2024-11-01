@@ -29,4 +29,20 @@ public interface DatabaseInterface {
     ArrayList<Post> newFeed(User user); //returns a list of posts in reverse chronological order.
                                         //Filters posts by blocked users.
                                         //Prioritizes posts by friends?
+    
+    //methods used by SocialMediaDatabase:
+    User findUser(String username);
+
+    Post findPost(String title);
+
+    void readUsers();
+
+    void readPosts();
+
+    void readComments();
+
+    ArrayList<Post> getPosts();
+
+    void createUser();
+
 }
