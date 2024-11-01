@@ -163,4 +163,21 @@ public class SocialMediaDatabase {
         }
     }
 
+    public boolean login(String username, String password) {
+        if (findUser(username) != null) {
+            // if the user doesnt exist yet, create the account
+            //  <!> TODO: AFTER WRITE METHODS
+            //  <!> TODO: AFTER WRITE METHODS
+            //  <!> TODO: AFTER WRITE METHODS
+        } else {
+            // if the user does exist
+            User user = findUser(username);
+            if (password.equals(User.getPassword())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
 }
