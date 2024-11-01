@@ -1,82 +1,37 @@
-We're going to be developing a social media news-feed.
+# CS180 Group Project
+News feed style application.
 
-Classes:
-- **User**
-    - *Fields*  
-    - String Username
-    - String Password
-    - String aboutMe
-    - ArrayList<User> friendsList
-    - ArrayList<User> blockedList
-    - (type?) profileImage
- 
-    - 
-    - *Methods*
-    - addFriend(User newFriend);
-    - 
-    - blockUser(User blocked);
-    - likePost(Post post);
-    - dislikePost(Post post);
-    - hidePost(Post post); //Hides this post specifically
-      addComment(String text)
-      removeComment(Comment comment); //delete this comment
-      userSearch()
-      createPost(String title, boolean commentsAllowed);
-      deletePost()
-      setPFP( insertpfp);
-      createComment(Post post, String text);
-      likeComment(Post post, Comment comment);
-      dislikeComment(Post post, Comment comment);
+### Interfaces:
+ - UserInterface
+   - Declares methods and variables for User to implement, outlining the class
+ - PostInterface
+   - Declares methods and variables for Post to implement, outlining the class
+ - CommentInterface
+   - Declares methods and variables for Comment to implement, outlining the class
+ - DatabaseInterface
+   - Declares methods useful for retrieving and formatting information from files
 
-      deletePostComment(Post post, Comment comment);
+### Classes:
+ - User
+   - Implements UserInterface
+   - Stores values about the user like username, password, and friendsList
+ - Post
+   - Implements PostInterface 
+   - Stores values about the post like title, author, comments, and likes/dislikes
+ - Comment
+   - Implements CommentInterface
+   - Stores the author of the comment, the parent post, and the text
+ - Database
+   - Implements DatabaseInterface
+   - Retrieves values from the user, post, and comment files and creates objects from them
 
-      displayUserProfile(User user);
-
-      logIn(String userName, String password);      
-      
-
-
-
-- **Post**
-  *Fields*
-  - int likes
-  - int dislikes
-  - int commentCount
-  - ArrayList of comments
-  - User poster
-  - String title
-  - String subtext???
- 
-  - *Methods*
-  -  addLike();
-
-     addDislike();
-
-    void incrementCommentCount();
-    void decrementCommentCount();
-  - 
-  
-- **Comment**
-  *Fields*
-  - int likes
-  - int dislikes
-  - int commentCount
-  - ArrayList of comments
-  - User poster
-  - String title
- 
-  - *Methods*
-  -  addLike();
-
-     addDislike();
-
-    void incrementCommentCount();
-    void decrementCommentCount();
-  
-- **Database**
-    Files
-  read files
-  store contents in array of users/posts/comments
-
-  
-
+### Files:
+- User
+  - Stores all fields of a user in the format:
+  - `username,password,aboutMe`
+- Post
+  - Stores all fields of a user in the format:
+  - `author,title,subtext`
+- Comment
+  - Stores all fields of a user in the format:
+  - `author,post,text`
