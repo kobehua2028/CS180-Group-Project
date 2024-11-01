@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class User {
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
-    private SocialMediaDatabase sm;
+    private static SocialMediaDatabase sm;
     private String username; //the name of this account
     private String password; //the password to this account
     private String aboutMe; //The "about me" section
@@ -59,13 +59,14 @@ public class User {
         try {
             ArrayList<User> users = sm.getUsers();
 
-            if (friendsList.contains(newFriend)) { //checks if new friend is already in the user's friends list
-                System.out.printf("%s is already in your friends list.\n", newFriend.getUsername());
-                return;
-            }
-
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).equals(newFriend)) {
+            if (sm.findUser(newFriend.getUsername()) != null) {
+                if (friendsList.contains(newFriend)) { //checks if new friend is already in the user's friends list
+                    System.out.printf("%s is already in your friends list.\n", newFriend.getUsername());
+                    return;
+                } else if ((blockedList.contains(newFriend))) {
+                    System.out.printf("%s is blocked.\n", newFriend.getUsername());
+                    return;
+                } else {
                     friendsList.add(newFriend);
                     return;
                 }
