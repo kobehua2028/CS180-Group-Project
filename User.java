@@ -125,6 +125,10 @@ public class User {
         return friendsList;
     }
 
+    public ArrayList<User> getBlockedList() {
+        return blockedList;
+    }
+
     public String toString() {
         return String.format("%s,%s,%s", username, password, aboutMe);
     }
