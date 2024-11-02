@@ -1,7 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Post {
-    private static SocialMediaDatabase sm;
+public class Post implements Serializable {
     private User author; //The user who created this post.
     private String title; //title of post.
     private String subtext; //subtext of post
@@ -9,29 +9,23 @@ public class Post {
     private int likes; //number of likes this post received
     private int dislikes; //number of dislikes this post received.
 
-
-    public Post(User poster) {
-        author = poster;
-        likes = 0;
-        dislikes = 0;
-
-    }
-
-    public Post(String postLine, SocialMediaDatabase sm) {
-        author = sm.findUser(postLine.substring(0, postLine.indexOf(",")));
-        postLine = postLine.substring(postLine.indexOf(",") + 1);
-
-        title = postLine.substring(0, postLine.indexOf(","));
-        postLine = postLine.substring(postLine.indexOf(",") + 1);
-
-        subtext = postLine;
+    public Post(User author, String title, String subtext, ArrayList<Comment> comments, int likes, int dislikes, SocialMediaDatabase sm) {
+        this.author = author;
+        this.title = title;
+        this.subtext = subtext;
+        this.comments = comments;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        sm.writePost(this);
     }
 
     public boolean equals(Post post) {
         return (author.equals(post.getAuthor()) && title.equals(post.getTitle()) && subtext.equals(post.getSubtext()));
     }
-    public void addComment(Comment comment) {
+
+    public void addComment(Comment comment, SocialMediaDatabase sm) {
         comments.add(comment);
+        sm.overwritePost(this);
     }
 
     public String getTitle() {
@@ -46,10 +40,24 @@ public class Post {
         return author;
     }
 
-    public String toString() {
-        return String.format("%s,%s,%s", author.getUsername(), title, subtext);
+    public ArrayList<Comment> getComments() {
+        return comments;
     }
 
+    public int getLikes() {
+        return likes;
+    }
 
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void incrementLikes() {
+        likes++;
+    }
+
+    public void incrementDislikes() {
+        dislikes++;
+    }
 
 }
