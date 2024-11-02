@@ -25,6 +25,11 @@ public class User implements Serializable {
             throw new IllegalArgumentException("Usernames must be between 3 and 15 characters");
         }
 
+        // check if username exists already
+        if (sm.userExists(username)) {
+            throw new IllegalArgumentException("Username " + username + " already exists");
+        }
+
         this.username = username;
         this.password = password;
         this.aboutMe = aboutMe;
@@ -46,7 +51,7 @@ public class User implements Serializable {
         }
     }
 
-    public void addFriend(User newFriend) {
+    public void addFriend(User newFriend, SocialMediaDatabase sm) {
         if (friendsList.contains(newFriend)) {
             throw new IllegalArgumentException("Friend already exists");
         }
