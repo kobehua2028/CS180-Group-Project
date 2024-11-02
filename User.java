@@ -1,112 +1,71 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
-    private static SocialMediaDatabase sm;
     private String username; //the name of this account
     private String password; //the password to this account
     private String aboutMe; //The "about me" section
 
-    //The following two constructors are initial prototypes. Still haven't decided how a new User would be created.
-  /*  public User(String username, String password, String aboutMe) { //passwords must be at least eight characters long?
+    public User(String username, String password, String aboutMe, ArrayList<User> friendsList, ArrayList<User> blockedList, SocialMediaDatabase sm) {
+        // check if len(password) > 5 & < 50
+        if (password.length() < 5 || password.length() > 50) {
+            throw new IllegalArgumentException("Password must be between 5 and 50 characters");
+        }
+
+        // check if username starts with letter
+        char first = username.charAt(0);
+        if ((first < 65 || first > 90) && (first < 97 || first > 122)) {
+            throw new IllegalArgumentException("Usernames must start with a letter");
+        }
+
+        // check if len(username) > 3 & < 15
+        if (username.length() < 3 || username.length() > 15) {
+            throw new IllegalArgumentException("Usernames must be between 3 and 15 characters");
+        }
+
         this.username = username;
+        this.password = password;
         this.aboutMe = aboutMe;
-        if (password.length() >= 8)
-            this.password = password;
-    }
-    public User(String username, String password) { //passwords must be at least eight characters long?
-        this.username = username;
-        if (password.length() >= 8)
-            this.password = password;
-    } */
-
-    public User(String userString, SocialMediaDatabase platform) {
-        username = userString.substring(0, userString.indexOf(","));
-        userString = userString.substring(userString.indexOf(",") + 1);
-
-        password = userString.substring(0, userString.indexOf(","));
-        userString = userString.substring(userString.indexOf(",") + 1);
-
-        aboutMe = userString;
-
-        sm = platform;
+        this.friendsList = friendsList;
+        this.blockedList = blockedList;
+        sm.writeUser(this);
     }
 
     public boolean equals(Object account) { //checks if two accounts are the same
         if (account instanceof User) {
-            return (username == getUsername() && password == getPassword());
+            return (username.equals(this.getUsername()) && password.equals(this.getPassword()));
         }
         return false;
     }
 
     public void removeFriend(User formerFriend) {
-        try {
-            for (int i = 0; i < friendsList.size(); i++) {
-                if (formerFriend.getUsername().equals(friendsList.get(i).getUsername())) {
-                    friendsList.remove(i);
-                    break;
-                }
-            }
-
-            throw new UserNotFoundException("No results for " + formerFriend.getUsername());
-        } catch (UserNotFoundException e) {
-            System.out.printf("%s is not in your friends list.", formerFriend.getUsername());
+        if (!friendsList.remove(formerFriend)) {
+            throw new IllegalArgumentException("Friend does not exist");
         }
     }
 
     public void addFriend(User newFriend) {
-        try {
-            ArrayList<User> users = sm.getUsers();
-
-            if (sm.findUser(newFriend.getUsername()) != null) {
-                if (friendsList.contains(newFriend)) { //checks if new friend is already in the user's friends list
-                    System.out.printf("%s is already in your friends list.\n", newFriend.getUsername());
-                    return;
-                } else if ((blockedList.contains(newFriend))) {
-                    System.out.printf("%s is blocked.\n", newFriend.getUsername());
-                    return;
-                } else {
-                    friendsList.add(newFriend);
-                    return;
-                }
-            }
-            throw new UserNotFoundException("No results for " + newFriend.getUsername());
-        } catch (UserNotFoundException e) {
-            System.out.println(e.getMessage());
+        if (friendsList.contains(newFriend)) {
+            throw new IllegalArgumentException("Friend already exists");
         }
+        if (blockedList.contains(newFriend)) {
+            throw new IllegalArgumentException("User is blocked");
+        }
+        friendsList.add(newFriend);
     }
 
     public void block(User blockedUser) {
-        try {
-
-            if (blockedList.contains(blockedUser)) { //checks if blockedUser is already blocked.
-                System.out.printf("%s is already blocked.\n", blockedUser.getUsername());
-                return;
-            }
-
-            ArrayList<User> users = sm.getUsers();
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).equals(blockedUser)) {
-                    blockedList.add(blockedUser);
-                    if (friendsList.contains(blockedUser))
-                        friendsList.remove(blockedUser);
-                    return;
-                }
-            }
-            throw new UserNotFoundException("No results for " + blockedUser.getUsername());
-        } catch (UserNotFoundException e) {
-            System.out.println(e.getMessage());
+        if (blockedList.contains(blockedUser)) {
+            throw new IllegalArgumentException("User is already blocked");
         }
+        blockedList.add(blockedUser);
     }
 
     public boolean equals(User user) {
         return (username.equals(user.getUsername()) && password.equals(user.getPassword()) &&
                 aboutMe.equals(user.getAboutMe()));
-    }
-
-    public void createPost() {
-        
     }
 
     public String getPassword() {
@@ -125,7 +84,7 @@ public class User {
         return friendsList;
     }
 
-    public String toString() {
-        return String.format("%s,%s,%s", username, password, aboutMe);
+    public ArrayList<User> getBlockedList() {
+        return blockedList;
     }
 }
