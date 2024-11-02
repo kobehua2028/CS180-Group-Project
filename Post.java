@@ -19,6 +19,10 @@ public class Post implements Serializable {
         sm.writePost(this);
     }
 
+    public void createComment(User author, String text) {
+        Comment comment = new Comment(author, text, 0, 0, sm);
+    }
+
     public boolean equals(Post post) {
         return (author.equals(post.getAuthor()) && title.equals(post.getTitle()) && subtext.equals(post.getSubtext()));
     }

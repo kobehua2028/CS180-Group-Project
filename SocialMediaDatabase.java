@@ -42,14 +42,6 @@ public class SocialMediaDatabase {
         return null;
     }
 
-    public void readUsers() {
-        //
-    }
-
-    public void readPosts() {
-        //
-    }
-
     public ArrayList<User> getUsers() {
         return users;
     }
@@ -77,4 +69,55 @@ public class SocialMediaDatabase {
 
     public void overwritePost(Post post) {
     }
+
+    public void readUsers() {
+        try (FileInputStream fis = new FileInputStream(usersIn);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            while (true) {
+                try {
+                    User user = (User) ois.readObject();
+                    users.add(user);
+                } catch (IOException e) {
+                    break;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readPosts() {
+        try (FileInputStream fis = new FileInputStream(postsIn);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            while (true) {
+                try {
+                    Post post = (Post) ois.readObject();
+                    posts.add(post);
+                } catch (IOException e) {
+                    break;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeUser(User user) {
+        try (FileOutputStream fos = new FileOutputStream(usersIn);
+            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writePost(Post post) {
+        try (FileOutputStream fos = new FileOutputStream(postsIn);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

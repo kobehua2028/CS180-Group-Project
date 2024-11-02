@@ -45,6 +45,10 @@ public class User implements Serializable {
         return false;
     }
 
+    public void createPost(String title, String subtext) {
+        Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
+    }
+
     public void removeFriend(User formerFriend, SocialMediaDatabase sm) {
         if (!friendsList.remove(formerFriend)) {
             throw new IllegalArgumentException("Friend does not exist");
