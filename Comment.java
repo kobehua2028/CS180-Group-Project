@@ -4,7 +4,7 @@ public class Comment {
     private int dislikes;
     private User author;
     private Post post; //the post to which this comment belongs
-    private SocialMediaDatabase sm;
+    private static SocialMediaDatabase sm;
 
 
     public Comment(String commentLine, SocialMediaDatabase sm) {

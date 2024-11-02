@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Post {
-    private SocialMediaDatabase sm;
+    private static SocialMediaDatabase sm;
     private User author; //The user who created this post.
     private String title; //title of post.
     private String subtext; //subtext of post
