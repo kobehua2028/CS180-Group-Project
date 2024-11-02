@@ -58,13 +58,7 @@ public class SocialMediaDatabase {
         posts.add(post);
     }
 
-    public void writeUser(User user) {
-    }
-
     public void overwriteUser(User user) {
-    }
-
-    public void writePost(Post post) {
     }
 
     public void overwritePost(Post post) {
