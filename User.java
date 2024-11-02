@@ -40,7 +40,7 @@ public class User implements Serializable {
         return false;
     }
 
-    public void removeFriend(User formerFriend) {
+    public void removeFriend(User formerFriend, SocialMediaDatabase sm) {
         if (!friendsList.remove(formerFriend)) {
             throw new IllegalArgumentException("Friend does not exist");
         }
@@ -54,18 +54,15 @@ public class User implements Serializable {
             throw new IllegalArgumentException("User is blocked");
         }
         friendsList.add(newFriend);
+        sm.overwriteUser(this);
     }
 
-    public void block(User blockedUser) {
+    public void block(User blockedUser, SocialMediaDatabase sm) {
         if (blockedList.contains(blockedUser)) {
             throw new IllegalArgumentException("User is already blocked");
         }
         blockedList.add(blockedUser);
-    }
-
-    public boolean equals(User user) {
-        return (username.equals(user.getUsername()) && password.equals(user.getPassword()) &&
-                aboutMe.equals(user.getAboutMe()));
+        sm.overwriteUser(this);
     }
 
     public String getPassword() {

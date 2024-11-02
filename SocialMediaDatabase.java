@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class SocialMediaDatabase {
     private Scanner scan = new Scanner(System.in);
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
-                                                    // (in reverse chronological order?)
+    // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
     //private ArrayList<Comment> comments = new ArrayList<Comment>(); //This array should be in the posts imo (Abdul)
     private String usersIn; //filename that supplied a list of all initial users
@@ -40,12 +40,14 @@ public class SocialMediaDatabase {
 
     public void readUsers() {
         try (BufferedReader bfr = new BufferedReader(new FileReader(new File(usersIn)))) {
-             while (true) {
-                 String userLine = bfr.readLine();
-                 if (userLine == null)
-                     break;
-                 users.add(new User(userLine, this));
-             }
+            while (true) {
+                String userLine = bfr.readLine();
+                if (userLine == null)
+                    break;
+                synchronized (new Object()) {
+                    users.add(new User(userLine, this));
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,7 +60,9 @@ public class SocialMediaDatabase {
                 if (postLine == null)
                     break;
                 if (findUser(postLine.substring(0, postLine.indexOf(","))) != null)
-                    posts.add(new Post(postLine, this));
+                    synchronized (new Object()) {
+                        posts.add(new Post(postLine, this));
+                    }
             }
         } catch (IOException e) {
             return;
@@ -77,7 +81,9 @@ public class SocialMediaDatabase {
                 String title = commentLineCopy.substring(0, commentLineCopy.indexOf(","));
 
                 if (findUser(author) != null && findPost(title) != null)
-                    findPost(title).addComment(new Comment(commentLine, this));
+                    synchronized (new Object()) {
+                        findPost(title).addComment(new Comment(commentLine, this));
+                    }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,38 +142,20 @@ public class SocialMediaDatabase {
         try {
             if (username != null &&  password != null)
                 if (username.length() > 0 && username.length() <= 20 &&
-                    password.length () > 4 && username.length() <= 50)
+                        password.length () > 4 && username.length() <= 50)
                     if (!" ".equals(username.charAt(0))) {
-                        String userString = String.format("%s,%s", username, password);
+                        String userString = String.format("%s,%s,%s", username, password, "");
+                        User newUser = new User(userString, this);
                         synchronized (new Object()) {
-                            users.add(new User(userString, this));
+                            users.add(newUser);
                         }
                         return true;
                     }
             return false;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
-
-    
-//    public synchronized void writeUser(User user) {
-////        usersIn
-//        try {
-//            File userFile = new File(usersIn);
-//            PrintWriter pw = new PrintWriter(new FileWriter(userFile, true));
-//            pw.println(String.format("%s,%s,%s", user.getUsername(), user.getPassword(), user.getAboutMe()));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public synchronized void writePost(Post post) {
-////        postIn
-//    }
-//
-//    public synchronized void writeComment(Comment comment) {
-////        commentsIn
-//    }
 
 }
