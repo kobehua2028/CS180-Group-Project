@@ -19,7 +19,7 @@ class CommentTest {
 
     @BeforeEach
     void setUp() {
-        sm = new SocialMediaDatabase("users.txt", "posts.txt");
+        sm = new SocialMediaDatabase("users.dat", "posts.dat");
         testUser = new User("PurduePete",
                 "password123",
                 "asd",
@@ -60,5 +60,12 @@ class CommentTest {
         int initialDislikes = testComment.getDislikes();
         testComment.incrementDislikes();
         assertEquals(initialDislikes + 1, testComment.getDislikes());
+    }
+
+    public void run() {
+        this.setUp();
+        this.testGetters();
+        this.testIncrementLikes();
+        this.testIncrementDislikes();
     }
 }

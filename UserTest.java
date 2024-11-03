@@ -89,7 +89,22 @@ public class UserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testEqualsMethod() {
-        User duplicateUser1 = new User("Alice", "password123", "Different bio", new ArrayList<>(), new ArrayList<>(), sm);
+        User duplicateUser1 = new User("Alice", "password123",
+                "Different bio", new ArrayList<>(), new ArrayList<>(), sm);
+    }
+
+    public void run() {
+        this.testCreateUser();
+        this.testAddFriend();
+        this.testAddExistingFriendThrowsException();
+        this.testRemoveFriend();
+        this.testRemoveNonExistentFriendThrowsException();
+        this.testBlockUser();
+        this.testBlockAlreadyBlockedUserThrowsException();
+        this.testUnblockUser();
+        this.testUnblockNonBlockedUserThrowsException();
+        this.testChangeAboutMe();
+        this.testEqualsMethod();
     }
 
     /*public void createPost(String title, String subtext) {

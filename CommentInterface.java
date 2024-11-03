@@ -1,6 +1,6 @@
 /**
  * CS180 Group Project
- * Program description here
+ * Interface for the Comment Class
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
