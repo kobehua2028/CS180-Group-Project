@@ -18,9 +18,12 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         this.postsIn = postsIn;
     }
 
-    public void createUser(String username, String password) {
+    public void createUser(String username, String password, String aboutMe) {
+        if (aboutMe == null) {
+            aboutMe = "This is me!";
+        }
         try {
-            User user = new User(username, password, "This is me!", new ArrayList<User>(), new ArrayList<User>(), this);
+            User user = new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), this);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }

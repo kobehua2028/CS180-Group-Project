@@ -41,7 +41,11 @@ public class User implements Serializable, UserInterface {
     }
 
     public void changeAboutMe(String newAboutMe) {
-        this.aboutMe = newAboutMe;
+        if (newAboutMe.length() < 500) {
+            this.aboutMe = newAboutMe;
+        } else {
+            throw new IllegalArgumentException("New about mes must have at least 500 characters");
+        }
     }
 
     public boolean equals(Object account) { //checks if two accounts are the same
