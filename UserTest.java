@@ -1,34 +1,78 @@
-import org.junit.jupiter.api.Test;
-
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.junit.Assert.assertEquals;
-
 public class UserTest {
-    String testUserString = "PurduePete,MyPurdue1234,Hey guys it's me, Pete from Purdue!";
-    String testPostString = "PurduePete,Project Help,Hey guys, I'm having a hard time figuring out the project.";
+    private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
+    private User user1 = new User("Alice", "password123", "Hello, I'm Alice!", new ArrayList<>(), new ArrayList<>(), sm);
 
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users.ser", "posts.ser");
-    private User testUser = new User();
-    private Post testPost = new Post(testPostString, sm);
+    private User user2 = new User("Bob", "securePass456", "Hello, I'm Bob!", new ArrayList<>(), new ArrayList<>(), sm);
 
     @Test
-    public void testUser() {
-        String input = "PurduePete,MyPurdue1234,Hey guys it's me, Pete from Purdue!";
-        SocialMediaDatabase sm = new SocialMediaDatabase("users,txt", "posts.txt","comments.txt");
-        User testUser = new User(testUserString, sm);
-
-        String expectedUsername = "PurduePete";
-        String expectedPassword = "MyPurdue1234";
-        String expectedAboutMe = "Hey guys it's me, Pete from Purdue!";
-
-        assertEquals(expectedUsername, testUser.getUsername());
-        assertEquals(expectedPassword, testUser.getPassword());
-        assertEquals(expectedAboutMe, testUser.getAboutMe());
+    public void testCreateUser() {
+        assertNotNull(user1);
+        assertEquals("Alice", user1.getUsername());
+        assertEquals("password123", user1.getPassword());
+        assertEquals("Hello, I'm Alice!", user1.getAboutMe());
     }
 
+    @Test
+    public void testAddFriend() {
+        user1.addFriend(user2);
+        assertTrue(user1.getFriendsList().contains(user2));
+    }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddExistingFriendThrowsException() {
+        user1.addFriend(user2);
+        user1.addFriend(user2); // Should throw an exception
+    }
 
+    @Test
+    public void testRemoveFriend() {
+        user1.addFriend(user2);
+        user1.removeFriend(user2);
+        assertFalse(user1.getFriendsList().contains(user2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveNonExistentFriendThrowsException() {
+        user1.removeFriend(user2); // Should throw an exception
+    }
+
+    @Test
+    public void testBlockUser() {
+        user1.block(user2);
+        assertTrue(user1.getBlockedList().contains(user2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBlockAlreadyBlockedUserThrowsException() {
+        user1.block(user2);
+        user1.block(user2); // Should throw an exception
+    }
+
+    @Test
+    public void testUnblockUser() {
+        user1.block(user2);
+        user1.unblock(user2, sm);
+        assertFalse(user1.getBlockedList().contains(user2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnblockNonBlockedUserThrowsException() {
+        user1.unblock(user2, sm); // Should throw an exception
+    }
+
+    @Test
+    public void testChangeAboutMe() {
+        user1.changeAboutMe("Updated about me.");
+        assertEquals("Updated about me.", user1.getAboutMe());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEqualsMethod() {
+        User duplicateUser1 = new User("Alice", "password123", "Different bio", new ArrayList<>(), new ArrayList<>(), sm);
+    }
 }
