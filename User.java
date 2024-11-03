@@ -6,7 +6,8 @@ import java.util.ArrayList;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author
+ * @author Abdulmajed AlQarni
+ * @author Michael Ikriannikov
  * @version Nov 03, 2024
  */
 public class User implements Serializable, UserInterface {
