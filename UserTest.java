@@ -2,28 +2,25 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
-/**
- * CS180 Group Project
- * Program description here
- *
- * <p>Purdue University -- CS18000 -- Fall 2024</p>
- *
- * @author
- * @version Nov 03, 2024
- */
+
 public class UserTest {
     private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
     private User user1 = new User("Alice", "password123", "Hello, I'm Alice!",
             new ArrayList<>(), new ArrayList<>(), sm);
+
     private User user2 = new User("Bob", "securePass456", "Hello, I'm Bob!",
             new ArrayList<>(), new ArrayList<>(), sm);
 
     @Test
     public void testCreateUser() {
+        String expectedUsername = "Alice";
+        String expectedPassword = "password123";
+        String expectedAboutMe = "Hello, I'm Alice!";
+
         assertNotNull(user1);
-        assertEquals("Alice", user1.getUsername());
-        assertEquals("password123", user1.getPassword());
-        assertEquals("Hello, I'm Alice!", user1.getAboutMe());
+        assertEquals(expectedUsername, user1.getUsername());
+        assertEquals(expectedPassword, user1.getPassword());
+        assertEquals(expectedAboutMe, user1.getAboutMe());
     }
 
     @Test
@@ -77,7 +74,17 @@ public class UserTest {
     @Test
     public void testChangeAboutMe() {
         user1.changeAboutMe("Updated about me.");
-        assertEquals("Updated about me.", user1.getAboutMe());
+
+        String expectedAboutMe = "Updated about me.";
+        assertEquals(expectedAboutMe, user1.getAboutMe());
+    }
+
+    @Test
+    public void testEquals() {
+        User user3 = user1;
+        assertEquals(true, user1.equals(user3));
+        assertEquals(false, user1.equals(new User("BobbyB", "password999",
+                "Hello, I'm Alice!", new ArrayList<>(), new ArrayList<>(), sm)));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -98,5 +105,64 @@ public class UserTest {
         this.testUnblockNonBlockedUserThrowsException();
         this.testChangeAboutMe();
         this.testEqualsMethod();
+    }
+
+    /*public void createPost(String title, String subtext) {
+        Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
+    }*/
+
+    @Test
+    public void testCreatePost() {
+        user1.createPost("My first post!!!", "Hello everyone!");
+        //createPost() creates a new Post object, which implicitly calls the writePost() method
+
+        assertEquals(true, sm.getPosts().contains(new Post(user1, "My first post!!!", "Hello everyone!",
+                new ArrayList<Comment>(), 0, 0 , sm)));
+    }
+
+    @Test
+    public void testGetUsername() {
+        String expectedUsername1 = "Alice";
+        String expectedUsername2 = "Bob";
+
+        assertEquals(expectedUsername1, user1.getUsername());
+        assertEquals(expectedUsername2, user2.getUsername());
+    }
+
+    @Test
+    public void testGetPassword() {
+        String expectedPassword1 = "password123";
+        String expectedPassword2 = "securePass456";
+
+        assertEquals(expectedPassword1, user1.getPassword());
+        assertEquals(expectedPassword2, user2.getPassword());
+    }
+
+
+    @Test
+    public void testGetAboutMe() {
+        String expectedAboutMe1 = "Hello, I'm Alice!";
+        String expectedAboutMe2 = "Hello, I'm Bob!";
+
+        assertEquals(expectedAboutMe1, user1.getAboutMe());
+        assertEquals(expectedAboutMe2, user2.getAboutMe());
+    }
+
+    @Test
+    public void testGetFriendsList() {
+        User newUser = new User("Fred", "Friddler", "Me fred", new ArrayList<User>(),
+                new ArrayList<User>(), sm);
+        user1.addFriend(newUser);
+
+        assertEquals(newUser, user1.getFriendsList().get(0));
+    }
+
+    @Test
+    public void testGetBlockedList() {
+        User bleh = new User("Bread", "Breadman", "Bread can't talk, dummy", new ArrayList<User>(),
+                new ArrayList<User>(), sm);
+        user1.block(bleh);
+
+        assertEquals(bleh, user1.getBlockedList().get(0));
     }
 }
