@@ -1,11 +1,11 @@
 import java.io.Serializable;
 
 public class Comment implements Serializable {
-    private String text;
+    private final String text;
     private int likes;
     private int dislikes;
-    private User author;
-    private Post post; //the post to which this comment belongs
+    private final User author;
+    private final Post post; //the post to which this comment belongs
     private final SocialMediaDatabase sm;
 
     public Comment(User author, String text, int likes, int dislikes, Post post, SocialMediaDatabase sm) {

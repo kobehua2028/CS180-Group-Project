@@ -4,8 +4,8 @@ import java.util.ArrayList;
 public class User implements Serializable, UserInterface {
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
-    private String username; //the name of this account
-    private String password; //the password to this account
+    private final String username; //the name of this account
+    private final String password; //the password to this account
     private String aboutMe; //The "about me" section
     private final SocialMediaDatabase sm;
 

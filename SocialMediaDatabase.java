@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
@@ -9,8 +7,8 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
     //private ArrayList<Comment> comments = new ArrayList<Comment>(); //This array should be in the posts imo (Abdul)
-    private String usersIn; //filename that supplied a list of all initial users
-    private String postsIn;
+    private final String usersIn; //filename that supplied a list of all initial users
+    private final String postsIn;
 
 
     public SocialMediaDatabase(String usersIn, String postsIn) {
