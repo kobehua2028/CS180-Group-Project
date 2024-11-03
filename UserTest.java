@@ -2,7 +2,15 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
-
+/**
+ * CS180 Group Project
+ * Program description here
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author
+ * @version Nov 03, 2024
+ */
 public class UserTest {
     private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
     private User user1 = new User("Alice", "password123", "Hello, I'm Alice!", new ArrayList<>(), new ArrayList<>(), sm);
