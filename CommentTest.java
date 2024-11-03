@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 /**
  * CS180 Group Project
- * Program description here
+ * A class for testing the functionaly of the Comment class
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author
+ * @author MichaelIkriannikov
  * @version Nov 03, 2024
  */
 class CommentTest {
