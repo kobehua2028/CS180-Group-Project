@@ -47,12 +47,15 @@ public class User implements Serializable, UserInterface {
 
     public void createPost(String title, String subtext) {
         Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
+        sm.writePost(post);
     }
 
     public void removeFriend(User formerFriend, SocialMediaDatabase sm) {
-        if (!friendsList.remove(formerFriend)) {
+        if (!friendsList.contains(formerFriend)) {
             throw new IllegalArgumentException("Friend does not exist");
         }
+        friendsList.remove(formerFriend);
+        sm.writeUser(this);
     }
 
     public void addFriend(User newFriend, SocialMediaDatabase sm) {
@@ -63,7 +66,7 @@ public class User implements Serializable, UserInterface {
             throw new IllegalArgumentException("User is blocked");
         }
         friendsList.add(newFriend);
-        sm.overwriteUser(this);
+        sm.writeUser(this);
     }
 
     public void block(User blockedUser, SocialMediaDatabase sm) {
@@ -71,7 +74,15 @@ public class User implements Serializable, UserInterface {
             throw new IllegalArgumentException("User is already blocked");
         }
         blockedList.add(blockedUser);
-        sm.overwriteUser(this);
+        sm.writeUser(this);
+    }
+
+    public void unblock(User unblockedUser, SocialMediaDatabase sm) {
+        if (!blockedList.contains(unblockedUser)) {
+            throw new IllegalArgumentException("User is not blocked");
+        }
+        blockedList.remove(unblockedUser);
+        sm.writeUser(this);
     }
 
     public String getPassword() {
