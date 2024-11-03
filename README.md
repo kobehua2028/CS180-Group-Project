@@ -6,59 +6,43 @@ News feed style application, where users are able to...
 - add/block users.
 - have their comment/post/user data saved to a centralized database
 
-### Interfaces:
- - UserInterface
-   - Declares methods and variables for User to implement, outlining the class
- - PostInterface
-   - Declares methods and variables for Post to implement, outlining the class
- - CommentInterface
-   - Declares methods and variables for Comment to implement, outlining the class
- - DatabaseInterface
-   - Declares methods useful for retrieving and formatting information from files
-
-### Classes:
- - User
-   - Implements UserInterface
-   - Stores values about the user
-     - username
-     - password
-     - bio
-     - list of friends
-     - list of blocked
-     - instance of database
- - Post
-   - Implements PostInterface 
-   - Stores values about the post
-     - author
-     - title
-     - body
-     - list of comments
-     - number of likes
-     - number of dislikes
-     - instance of database
- - Comment
-   - Implements CommentInterface
-   - Stores values about the comment
-     - author
-     - text
-     - parent post
-     - number of likes
-     - number of dislikes
- - Database
-   - Implements DatabaseInterface
-   - Stores:
-     - list of users
-     - list of posts
-     - name of user file
-     - name of post file
-   - Retrieves user objects from users file and adds them to the list of users
-   - Retrieves post objects from posts file and adds them to the list of posts
-   - Writes users anda posts to their respective files
-
-### Files:
-- User
-  - Stores all Users in a file as a serializable object
-    - All Users are then deserialized and fields are accessed through getters  
-- Post
-  - Stores all Posts in a file as a serializable object
-    - All Posts are then deserialized and fields are accessed through getters
+### Users
+- User class
+  - Stores important values like username, password, bio, friends, and blocked.
+  - Validates all fields are correct upon creation.
+  - Provides methods useful for changing bio, adding friends/blocked, checking if equals, etc.
+- User interface
+  - Defines methods for user class.
+- User test class
+  - Ensures that users are being modified correctly when using the methods.
+  - Ensures users are storing the values correctly.
+- User file
+  - Stores all users on platform.
+### Posts
+- Post class
+  - Stores important values like the author, text, body, list of comments, and likes/dislikes.
+  - Provides useful methods like adding comments, equals, and incrementing dislikes/likes.
+- Post interface
+  - Defines methods for post class.
+- Post test class
+  - Ensures that posts values are being modified correctly when using the methods.
+  - Ensures that users are storing the values correctly.
+- Post file
+  - Stores all posts on platform.
+### Database
+- Database class
+  - Stores the names of the user and post file.
+  - Reads and writes users and posts to their respective files synchronously.
+  - Provides essential methods such as checking if a user already exists, and adding posts and users.
+- Database interface
+  - Defines methods for database to implement.
+- Database test class
+  - Ensures database is reading, writing, and utilizing the user and post data properly.
+### Comments
+- Comment class
+  - Creates comment with fields like author, text, parent post, likes, and dislikes.
+  - Stores itself inside the parent post's list of comments.
+- Comment interface
+  - Defines methods for comment class
+- Comment test class
+  - Ensures that methods such as incrementing likes/dislikes or creating comments is working properly.
