@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User implements Serializable {
+public class User implements Serializable, UserInterface {
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
     private final String username; //the name of this account
