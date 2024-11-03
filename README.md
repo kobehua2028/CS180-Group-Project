@@ -32,11 +32,11 @@ News feed style application, where users are able to...
 
 ### Files:
 - User
-  - Stores all fields of a user in the format:
-  - `username,password,aboutMe`
+  - Stores all Users in a txt file as a serializable object
+    - All Users are then deserialized and fields are accessed through getters  
 - Post
-  - Stores all fields of a user in the format:
-  - `author,title,subtext`
+  - Stores all Posts in a txt file as a serializable object
+    - All Posts are then deserialized and fields are accessed through getters  
 - Comment
-  - Stores all fields of a user in the format:
-  - `author,post,text`
+  - Stores all Comments in a txt file as a serializable object
+    - All Comments are then deserialized and fields are accessed through getters  
