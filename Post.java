@@ -1,6 +1,14 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * CS180 Group Project
+ * Program description here
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author
+ * @version Nov 03, 2024
+ */
 public class Post implements Serializable {
     private final User author; //The user who created this post.
     private final String title; //title of post.
