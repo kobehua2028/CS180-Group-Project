@@ -59,12 +59,6 @@ public class SocialMediaDatabase implements DatabaseInterface {
         posts.add(post);
     }
 
-    public void overwriteUser(User user) {
-    }
-
-    public void overwritePost(Post post) {
-    }
-
     public void readUsers() {
         try (FileInputStream fis = new FileInputStream(usersIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
@@ -111,7 +105,7 @@ public class SocialMediaDatabase implements DatabaseInterface {
                 }
             }
         }
-        try (FileOutputStream fos = new FileOutputStream(postsIn, true);
+        try (FileOutputStream fos = new FileOutputStream(postsIn);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(posts);
         } catch (IOException e) {

@@ -7,6 +7,7 @@ public class User implements Serializable, UserInterface {
     private String username; //the name of this account
     private String password; //the password to this account
     private String aboutMe; //The "about me" section
+    private final SocialMediaDatabase sm;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList, ArrayList<User> blockedList, SocialMediaDatabase sm) {
         // check if len(password) > 5 & < 50
@@ -35,6 +36,7 @@ public class User implements Serializable, UserInterface {
         this.aboutMe = aboutMe;
         this.friendsList = friendsList;
         this.blockedList = blockedList;
+        this.sm = sm;
         sm.writeUser(this);
     }
 
@@ -50,15 +52,14 @@ public class User implements Serializable, UserInterface {
         sm.writePost(post);
     }
 
-    public void removeFriend(User formerFriend, SocialMediaDatabase sm) {
-        if (!friendsList.contains(formerFriend)) {
+    public void removeFriend(User formerFriend) {
+        if (!friendsList.remove(formerFriend)) {
             throw new IllegalArgumentException("Friend does not exist");
         }
-        friendsList.remove(formerFriend);
         sm.writeUser(this);
     }
 
-    public void addFriend(User newFriend, SocialMediaDatabase sm) {
+    public void addFriend(User newFriend) {
         if (friendsList.contains(newFriend)) {
             throw new IllegalArgumentException("Friend already exists");
         }
@@ -69,7 +70,7 @@ public class User implements Serializable, UserInterface {
         sm.writeUser(this);
     }
 
-    public void block(User blockedUser, SocialMediaDatabase sm) {
+    public void block(User blockedUser) {
         if (blockedList.contains(blockedUser)) {
             throw new IllegalArgumentException("User is already blocked");
         }
@@ -78,10 +79,9 @@ public class User implements Serializable, UserInterface {
     }
 
     public void unblock(User unblockedUser, SocialMediaDatabase sm) {
-        if (!blockedList.contains(unblockedUser)) {
+        if (!blockedList.remove(unblockedUser)) {
             throw new IllegalArgumentException("User is not blocked");
         }
-        blockedList.remove(unblockedUser);
         sm.writeUser(this);
     }
 
