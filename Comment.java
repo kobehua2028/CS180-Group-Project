@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author
  * @version Nov 03, 2024
  */
-public class Comment implements Serializable {
+public class Comment implements Serializable, CommentInterface {
     private final String text;
     private int likes;
     private int dislikes;
