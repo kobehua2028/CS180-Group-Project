@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @authors Abdulmajed AlQarni,
+ * @authors Abdulmajed AlQarni
  * @version Nov 03, 2024
  */
 public class SocialMediaDatabase implements Serializable {
