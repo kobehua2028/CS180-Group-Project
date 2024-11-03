@@ -14,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author
+ * @author Kobe
+ * @author Abdul
  * @version Nov 03, 2024
  */
 public class SocialMediaDatabaseTest {

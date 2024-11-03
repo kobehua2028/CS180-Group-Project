@@ -8,6 +8,8 @@ import java.util.ArrayList;
  *
  * @author Abdulmajed AlQarni
  * @author Michael Ikriannikov
+ * @author Levin
+ * @author Kobe
  * @version Nov 03, 2024
  */
 public class User implements Serializable, UserInterface {

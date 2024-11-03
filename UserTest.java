@@ -7,6 +7,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * CS180 Group Project
+ * An test class for the User class
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Sharma
+ * @author Abdul
+ * @version Nov 03, 2024
+ */
+
 public class UserTest {
     private SocialMediaDatabase sm;
     private User user1;

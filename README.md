@@ -6,6 +6,9 @@ News feed style application, where users are able to...
 - add/block users.
 - have their comment/post/user data saved to a centralized database
 
+#### Add JUnit 4.13.1 and 5.8.1 to classpath
+#### Compile all classes, run test cases to check functionality
+
 ### Users
 - User class
   - Stores important values like username, password, bio, friends, and blocked.
