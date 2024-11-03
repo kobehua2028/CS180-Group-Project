@@ -2,12 +2,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Post implements Serializable {
-    private User author; //The user who created this post.
-    private String title; //title of post.
-    private String subtext; //subtext of post
+    private final User author; //The user who created this post.
+    private final String title; //title of post.
+    private final String subtext; //subtext of post
     private ArrayList<Comment> comments = new ArrayList<Comment>();
     private int likes; //number of likes this post received
     private int dislikes; //number of dislikes this post received.
+    private final SocialMediaDatabase sm;
 
     public Post(User author, String title, String subtext, ArrayList<Comment> comments, int likes, int dislikes, SocialMediaDatabase sm) {
         this.author = author;
@@ -16,20 +17,21 @@ public class Post implements Serializable {
         this.comments = comments;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.sm = sm;
         sm.writePost(this);
     }
 
     public void createComment(User author, String text) {
-        Comment comment = new Comment(author, text, 0, 0, sm);
+        Comment comment = new Comment(author, text, 0, 0, this, sm);
+        sm.writePost(this);
     }
 
     public boolean equals(Post post) {
         return (author.equals(post.getAuthor()) && title.equals(post.getTitle()) && subtext.equals(post.getSubtext()));
     }
 
-    public void addComment(Comment comment, SocialMediaDatabase sm) {
+    public void addComment(Comment comment) {
         comments.add(comment);
-        sm.overwritePost(this);
     }
 
     public String getTitle() {
@@ -58,10 +60,12 @@ public class Post implements Serializable {
 
     public void incrementLikes() {
         likes++;
+        sm.writePost(this);
     }
 
     public void incrementDislikes() {
         dislikes++;
+        sm.writePost(this);
     }
 
 }

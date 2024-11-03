@@ -10,8 +10,8 @@ public class UserTest {
     String testUserString = "PurduePete,MyPurdue1234,Hey guys it's me, Pete from Purdue!";
     String testPostString = "PurduePete,Project Help,Hey guys, I'm having a hard time figuring out the project.";
 
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users,txt", "posts.txt","comments.txt");
-    private User testUser = new User(testUserString, sm);
+    private SocialMediaDatabase sm = new SocialMediaDatabase("users.ser", "posts.ser");
+    private User testUser = new User();
     private Post testPost = new Post(testPostString, sm);
 
     @Test

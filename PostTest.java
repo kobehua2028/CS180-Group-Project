@@ -11,8 +11,7 @@ class PostTest {
 
     @Test
     public void testPost() {
-        sm.readUsers();
-        Post testPost = new Post(testPostString, sm);
+        Post testPost = new Post(, "MyPurdue1234", );
 
         String expectedAuthor = "PurduePete,MyPurdue1234,Hey guys it's me, Pete from Purdue!\n";
         String expectedTitle = "Project Help";

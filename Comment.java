@@ -1,18 +1,20 @@
 import java.io.Serializable;
 
-public class Comment implements Serializable, CommentInterface {
+public class Comment implements Serializable {
     private String text;
     private int likes;
     private int dislikes;
     private User author;
     private Post post; //the post to which this comment belongs
+    private final SocialMediaDatabase sm;
 
-    public Comment(User author, String text, int likes, int dislikes, Post post) {
+    public Comment(User author, String text, int likes, int dislikes, Post post, SocialMediaDatabase sm) {
         this.author = author;
         this.text = text;
         this.likes = likes;
         this.dislikes = dislikes;
         this.post = post;
+        this.sm = sm;
         post.addComment(this);
     }
 
@@ -34,5 +36,15 @@ public class Comment implements Serializable, CommentInterface {
 
     public Post getPost() {
         return post;
+    }
+
+    public void incrementLikes() {
+        likes++;
+        sm.writePost(post);
+    }
+
+    public void incrementDislikes() {
+        dislikes++;
+        sm.writePost(post);
     }
 }
