@@ -1,5 +1,10 @@
 # CS180 Group Project
-News feed style application.
+News feed style application, where users are able to...
+- create an account with a username and password
+- create a new post
+- interact with posts from other users
+- add/block users.
+- have their comment/post/user data saved to a centralized database
 
 ### Interfaces:
  - UserInterface
