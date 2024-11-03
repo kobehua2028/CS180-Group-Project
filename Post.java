@@ -18,7 +18,8 @@ public class Post implements Serializable, PostInterface {
     private int dislikes; //number of dislikes this post received.
     private final SocialMediaDatabase sm;
 
-    public Post(User author, String title, String subtext, ArrayList<Comment> comments, int likes, int dislikes, SocialMediaDatabase sm) {
+    public Post(User author, String title, String subtext, ArrayList<Comment> comments,
+                int likes, int dislikes, SocialMediaDatabase sm) {
         if (author == null) {
             throw new IllegalArgumentException("Author cannot be null");
         }
@@ -95,6 +96,20 @@ public class Post implements Serializable, PostInterface {
     public void incrementDislikes() {
         dislikes++;
         sm.writePost(this);
+    }
+
+    public void removeLike() {
+        if (likes > 0) {
+            likes--;
+            sm.writePost(this);
+        }
+    }
+
+    public void removeDislike() {
+        if (dislikes > 0) {
+            dislikes--;
+            sm.writePost(this);
+        }
     }
 
 }

@@ -20,4 +20,6 @@ public interface PostInterface {
     int getDislikes();
     void incrementLikes();
     void incrementDislikes();
+    void removeLike();
+    void removeDislike();
 }

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PostTest {
     String testPostString = "PurduePete,Project Help,Hey guys, I'm having a hard time figuring out the project.";
 
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users,txt", "posts.txt");
+    private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
 
     User test = new User("PurduePete","lYER4CAK", "AboutMe", new ArrayList<User>(),
             new ArrayList<User>(), sm);
@@ -115,10 +115,25 @@ class PostTest {
         assertEquals(1, testPost.getDislikes());
     }
 
+    public void testRemoveLike() {
+        testPost.removeLike();
+
+        assertEquals(0, testPost.getLikes());
+    }
+
+    @Test
+    public void testRemoveDislike() {
+
+        testPost.removeDislike();
+
+        assertEquals(0, testPost.getDislikes());
+    }
+
     @Test
     public void testEquals() {
 
-        assertEquals(true, testPost.equals(new Post(test, "Test case", "Lorem Ispum", new ArrayList<Comment>(),
+        assertEquals(true, testPost.equals(new Post(test, "Test case",
+                "Lorem Ispum", new ArrayList<Comment>(),
                 0, 1, sm)));
         assertEquals(false, testPost.equals(new Post(test, "Test casen't",
                 "Ispum Lor", new ArrayList<Comment>(), 0, 1, sm)));
@@ -131,5 +146,22 @@ class PostTest {
         String expectedCommentText = "That's my post!";
 
         assertEquals(expectedCommentText, testPost.getComments().get(0).getText());
+    }
+
+    public void run() {
+        this.testPost();
+        this.testGetComments();
+        this.testGetLikes();
+        this.testGetSubtext();
+        this.testGetComments();
+        this.testAddComment();
+        this.testGetLikes();
+        this.testGetDislikes();
+        this.testIncrementLikes();
+        this.testIncrementDislikes();
+        this.testRemoveLike();
+        this.testRemoveDislike();
+        this.testEquals();
+        this.testCreateComment();
     }
 }

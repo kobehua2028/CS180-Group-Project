@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author
+ * @authors Abdulmajed AlQarni,
  * @version Nov 03, 2024
  */
-public class SocialMediaDatabase implements DatabaseInterface, Serializable {
+public class SocialMediaDatabase implements Serializable {
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
@@ -22,16 +22,20 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
     public SocialMediaDatabase(String usersIn, String postsIn) {
         this.usersIn = usersIn;
         this.postsIn = postsIn;
+        this.readUsers();
+        this.readPosts();
     }
 
-    public void createUser(String username, String password, String aboutMe) {
+    public User createUser(String username, String password, String aboutMe) {
         if (aboutMe == null) {
             aboutMe = "This is me!";
         }
         try {
             User user = new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), this);
+            return user;
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+            return null;
         }
     }
 
@@ -77,7 +81,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         posts.add(post);
     }
 
-    public void readUsers() {
+    public synchronized void readUsers() {
         try (FileInputStream fis = new FileInputStream(usersIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.users = (ArrayList<User>) ois.readObject();
@@ -86,7 +90,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         }
     }
 
-    public void readPosts() {
+    public synchronized void readPosts() {
         try (FileInputStream fis = new FileInputStream(postsIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.posts = (ArrayList<Post>) ois.readObject();
@@ -95,7 +99,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         }
     }
 
-    public void writeUser(User user) {
+    public synchronized void writeUser(User user) {
         if (!users.contains(user)) {
             users.add(user);
         } else {
@@ -106,14 +110,14 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
             }
         }
         try (FileOutputStream fos = new FileOutputStream(usersIn);
-            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(users);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writePost(Post post) {
+    public synchronized void writePost(Post post) {
         if (!posts.contains(post)) {
             posts.add(post);
         } else {
@@ -129,6 +133,18 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        CommentTest commentTest = new CommentTest();
+        UserTest userTest = new UserTest();
+        PostTest postTest = new PostTest();
+        SocialMediaDatabaseTest socialMediaDatabaseTest = new SocialMediaDatabaseTest();
+
+        commentTest.run();
+        userTest.run();
+        postTest.run();
+        //socialMediaDatabaseTest.run();
     }
 
 }
