@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
 
-public class SocialMediaDatabase {
+public class SocialMediaDatabase implements DatabaseInterface {
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
