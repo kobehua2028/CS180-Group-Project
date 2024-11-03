@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
 
-public class SocialMediaDatabase implements DatabaseInterface {
+public class SocialMediaDatabase implements DatabaseInterface, Serializable {
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
@@ -19,7 +19,11 @@ public class SocialMediaDatabase implements DatabaseInterface {
     }
 
     public void createUser(String username, String password) {
-        User user = new User(username, password, "This is me!", new ArrayList<User>(), new ArrayList<User>(), this);
+        try {
+            User user = new User(username, password, "This is me!", new ArrayList<User>(), new ArrayList<User>(), this);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     public User findUser(String username) { //validates if there's a user with the same username

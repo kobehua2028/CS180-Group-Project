@@ -11,6 +11,26 @@ public class Post implements Serializable {
     private final SocialMediaDatabase sm;
 
     public Post(User author, String title, String subtext, ArrayList<Comment> comments, int likes, int dislikes, SocialMediaDatabase sm) {
+        if (author == null) {
+            throw new IllegalArgumentException("Author cannot be null");
+        }
+
+        if (title.isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+
+        if (subtext.isEmpty()) {
+            throw new IllegalArgumentException("Subtext cannot be empty");
+        }
+
+        if (likes < 0) {
+            throw new IllegalArgumentException("Likes cannot be negative");
+        }
+
+        if (dislikes < 0) {
+            throw new IllegalArgumentException("Dislikes cannot be negative");
+        }
+
         this.author = author;
         this.title = title;
         this.subtext = subtext;
@@ -18,6 +38,7 @@ public class Post implements Serializable {
         this.likes = likes;
         this.dislikes = dislikes;
         this.sm = sm;
+
         sm.writePost(this);
     }
 
