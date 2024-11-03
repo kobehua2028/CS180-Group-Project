@@ -5,7 +5,7 @@ import java.io.Serializable;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author RaghavSharma, LevinCozza, AbdulmajedAlqarni, MichaelIkriannikov, KobeHuang 
+ * @author
  * @version Nov 03, 2024
  */
 public class Comment implements Serializable {
