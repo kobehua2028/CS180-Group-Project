@@ -2,7 +2,15 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * CS180 Group Project
+ * Program description here
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author
+ * @version Nov 03, 2024
+ */
 public class SocialMediaDatabaseTest {
     private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
 
