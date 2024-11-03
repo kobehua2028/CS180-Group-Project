@@ -6,8 +6,6 @@ News feed style application, where users are able to...
 - add/block users.
 - have their comment/post/user data saved to a centralized database
 
-(instructions on how to run/compile project)
-
 ### Interfaces:
  - UserInterface
    - Declares methods and variables for User to implement, outlining the class
@@ -21,24 +19,46 @@ News feed style application, where users are able to...
 ### Classes:
  - User
    - Implements UserInterface
-   - Stores values about the user like username, password, and friendsList
+   - Stores values about the user
+     - username
+     - password
+     - bio
+     - list of friends
+     - list of blocked
+     - instance of database
  - Post
    - Implements PostInterface 
-   - Stores values about the post like title, author, comments, and likes/dislikes
+   - Stores values about the post
+     - author
+     - title
+     - body
+     - list of comments
+     - number of likes
+     - number of dislikes
+     - instance of database
  - Comment
    - Implements CommentInterface
-   - Stores the author of the comment, the parent post, and the text
+   - Stores values about the comment
+     - author
+     - text
+     - parent post
+     - number of likes
+     - number of dislikes
  - Database
    - Implements DatabaseInterface
-   - Retrieves values from the user, post, and comment files and creates objects from them
+   - Stores:
+     - list of users
+     - list of posts
+     - name of user file
+     - name of post file
+   - Retrieves user objects from users file and adds them to the list of users
+   - Retrieves post objects from posts file and adds them to the list of posts
+   - Writes users anda posts to their respective files
 
 ### Files:
 - User
-  - Stores all Users in a txt file as a serializable object
+  - Stores all Users in a file as a serializable object
     - All Users are then deserialized and fields are accessed through getters  
 - Post
-  - Stores all Posts in a txt file as a serializable object
-    - All Posts are then deserialized and fields are accessed through getters  
-- Comment
-  - Stores all Comments in a txt file as a serializable object
-    - All Comments are then deserialized and fields are accessed through getters  
+  - Stores all Posts in a file as a serializable object
+    - All Posts are then deserialized and fields are accessed through getters
