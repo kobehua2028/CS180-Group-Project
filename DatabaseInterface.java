@@ -8,45 +8,29 @@ public interface DatabaseInterface {
     *
     *
     *  */
-
-    //The following three methods are inspired by readResearcher() from PRJ-3
-    //boolean readUsers(String usersFile); //File containing all users that initially exist
-    //boolean readPosts(String postsFile); //File containing all posts that initially exist
-    //boolean readComments(String commentsFile); //File containing all comments that initially exist.
-
-
-    //boolean createNewUser(String username, String password); //A method that creates a new user
-                                                    // if the username and password exist.
-
-    //Ideally, the three methods would be triggered by User, Post, and Comment objects
-    //boolean deleteUser(User markedForDeletion); //Removes user from database
-    //boolean deletePost(Post markedForDeletion); //Removes post from database
-    //boolean deleteComment(Comment comment); //Removes comment from database
-
-    //ArrayList<Post> newFeed(User user); //returns a list of posts in reverse chronological order.
-                                        //Filters posts by blocked users.
-                                        //Prioritizes posts by friends?
-    
-    //methods used by SocialMediaDatabase:
     User findUser(String username);
 
+    boolean userExists(String username)
+    
     Post findPost(String title);
+
+    ArrayList<User> getUsers();
+
+    ArrayList<Post> getPosts();
+
+    void addUser(User user);
+
+    void addPost(Post post);
+
+    void overwriteUser(User user);
+
+    void overwritePost(Post post);
 
     void readUsers();
 
     void readPosts();
 
-    void readComments();
+    void writeUser(User user);
 
-    ArrayList<Post> getPosts();
-
-    void createUser();
-
-    void readFriends();
-
-    void readBlocked();
-
-    ArrayList<User> getUsers();
-
-    void logIn();
+    void writePost(Post post);
 }
