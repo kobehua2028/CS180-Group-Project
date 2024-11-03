@@ -106,15 +106,6 @@ public class SocialMediaDatabaseTest {
     }
 
 
-/*public void readPosts() {
-        try (FileInputStream fis = new FileInputStream(postsIn);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-            this.posts = (ArrayList<Post>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @Test
     public void testReadPosts() {
         sm.readPosts();
@@ -140,8 +131,19 @@ public class SocialMediaDatabaseTest {
 
         assertEquals(true, sm.getPosts().contains(newPost));
     }
-
-
-
-
+    
+    public void run() {
+        this.testGetUser();
+        this.testGetPost();
+        this.testAddUser();
+        this.testAddPost();
+        this.testCreateUser();
+        this.testFindUser();
+        this.testUserExists();
+        this.testFindPost();
+        this.testReadUsers();
+        this.testReadPosts();
+        this.testWriteUser();
+        this.testWritePost();
+    }
 }

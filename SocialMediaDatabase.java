@@ -144,7 +144,7 @@ public class SocialMediaDatabase implements Serializable {
         commentTest.run();
         userTest.run();
         postTest.run();
-        //socialMediaDatabaseTest.run();
+        socialMediaDatabaseTest.run();
     }
 
 }
