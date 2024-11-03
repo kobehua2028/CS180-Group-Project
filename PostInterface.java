@@ -15,34 +15,25 @@ public interface PostInterface {
     *
     *
     * */
-
-
-    //These six methods should implement synchronized
-    //public void addLike();
-    //public void removeLike();
-
-    //public void addDislike();
-    //public void removeDislike();
-
-    //void incrementCommentCount();
-    //void decrementCommentCount();
-
-    //methods used by Post.java:
+    void createComment(User author, String text);
     
     boolean equals(Post post);
     
-    void addComment(Comment comment);
+    void addComment(Comment comment, SocialMediaDatabase sm);
+    
+    String getTitle();
+    
+    String getSubtext();
+    
+    User getAuthor();
+    
+    ArrayList<Comment> getComments();
+    
+    int getLikes();
+    
+    int getDislikes();
+    
+    void incrementLikes();
 
-    public String getTitle();
-
-    public String getSubtext();
-
-    public User getAuthor();
-
-    public String toString();
-
-
-
-
-
+    public void incrementDislikes();
 }
