@@ -1,15 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-/**
- * CS180 Group Project
- * Program description here
- *
- * <p>Purdue University -- CS18000 -- Fall 2024</p>
- *
- * @author
- * @version Nov 03, 2024
- */
-public class User implements Serializable, UserInterface {
+
+public class User implements Serializable {
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
     private final String username; //the name of this account
@@ -50,16 +42,12 @@ public class User implements Serializable, UserInterface {
     }
 
     public void changeAboutMe(String newAboutMe) {
-        if (newAboutMe.length() < 500) {
-            this.aboutMe = newAboutMe;
-        } else {
-            throw new IllegalArgumentException("New about mes must have at least 500 characters");
-        }
+        this.aboutMe = newAboutMe;
     }
 
     public boolean equals(Object account) { //checks if two accounts are the same
         if (account instanceof User) {
-            return (username.equals(this.getUsername()) && password.equals(this.getPassword()));
+            return (username.equals(((User) account).getUsername()) && password.equals(((User) account).getPassword()));
         }
         return false;
     }
@@ -83,6 +71,7 @@ public class User implements Serializable, UserInterface {
             throw new IllegalArgumentException("User is blocked");
         }
         friendsList.add(newFriend);
+
         sm.writeUser(this);
     }
 
