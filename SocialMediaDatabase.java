@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author
+ * @authors Abdulmajed AlQarni,
  * @version Nov 03, 2024
  */
-public class SocialMediaDatabase implements DatabaseInterface, Serializable {
+public class SocialMediaDatabase implements Serializable {
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
@@ -26,14 +26,16 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         this.readPosts();
     }
 
-    public void createUser(String username, String password, String aboutMe) {
+    public User createUser(String username, String password, String aboutMe) {
         if (aboutMe == null) {
             aboutMe = "This is me!";
         }
         try {
             User user = new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), this);
+            return user;
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+            return null;
         }
     }
 
@@ -108,7 +110,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
             }
         }
         try (FileOutputStream fos = new FileOutputStream(usersIn);
-            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(users);
         } catch (IOException e) {
             e.printStackTrace();
