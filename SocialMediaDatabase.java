@@ -22,6 +22,8 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
     public SocialMediaDatabase(String usersIn, String postsIn) {
         this.usersIn = usersIn;
         this.postsIn = postsIn;
+        this.readUsers();
+        this.readPosts();
     }
 
     public void createUser(String username, String password, String aboutMe) {
@@ -77,7 +79,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         posts.add(post);
     }
 
-    public void readUsers() {
+    public synchronized void readUsers() {
         try (FileInputStream fis = new FileInputStream(usersIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.users = (ArrayList<User>) ois.readObject();
@@ -86,7 +88,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         }
     }
 
-    public void readPosts() {
+    public synchronized void readPosts() {
         try (FileInputStream fis = new FileInputStream(postsIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.posts = (ArrayList<Post>) ois.readObject();
@@ -95,7 +97,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         }
     }
 
-    public void writeUser(User user) {
+    public synchronized void writeUser(User user) {
         if (!users.contains(user)) {
             users.add(user);
         } else {
@@ -113,7 +115,7 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         }
     }
 
-    public void writePost(Post post) {
+    public synchronized void writePost(Post post) {
         if (!posts.contains(post)) {
             posts.add(post);
         } else {
@@ -129,6 +131,18 @@ public class SocialMediaDatabase implements DatabaseInterface, Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        CommentTest commentTest = new CommentTest();
+        UserTest userTest = new UserTest();
+        PostTest postTest = new PostTest();
+        SocialMediaDatabaseTest socialMediaDatabaseTest = new SocialMediaDatabaseTest();
+
+        commentTest.run();
+        userTest.run();
+        postTest.run();
+        //socialMediaDatabaseTest.run();
     }
 
 }

@@ -13,9 +13,10 @@ import java.util.ArrayList;
  */
 public class UserTest {
     private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
-    private User user1 = new User("Alice", "password123", "Hello, I'm Alice!", new ArrayList<>(), new ArrayList<>(), sm);
-
-    private User user2 = new User("Bob", "securePass456", "Hello, I'm Bob!", new ArrayList<>(), new ArrayList<>(), sm);
+    private User user1 = new User("Alice", "password123", "Hello, I'm Alice!",
+            new ArrayList<>(), new ArrayList<>(), sm);
+    private User user2 = new User("Bob", "securePass456", "Hello, I'm Bob!",
+            new ArrayList<>(), new ArrayList<>(), sm);
 
     @Test
     public void testCreateUser() {
@@ -81,6 +82,21 @@ public class UserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testEqualsMethod() {
-        User duplicateUser1 = new User("Alice", "password123", "Different bio", new ArrayList<>(), new ArrayList<>(), sm);
+        User duplicateUser1 = new User("Alice", "password123",
+                "Different bio", new ArrayList<>(), new ArrayList<>(), sm);
+    }
+
+    public void run() {
+        this.testCreateUser();
+        this.testAddFriend();
+        this.testAddExistingFriendThrowsException();
+        this.testRemoveFriend();
+        this.testRemoveNonExistentFriendThrowsException();
+        this.testBlockUser();
+        this.testBlockAlreadyBlockedUserThrowsException();
+        this.testUnblockUser();
+        this.testUnblockNonBlockedUserThrowsException();
+        this.testChangeAboutMe();
+        this.testEqualsMethod();
     }
 }

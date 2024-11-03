@@ -17,7 +17,8 @@ public class User implements Serializable, UserInterface {
     private String aboutMe; //The "about me" section
     private final SocialMediaDatabase sm;
 
-    public User(String username, String password, String aboutMe, ArrayList<User> friendsList, ArrayList<User> blockedList, SocialMediaDatabase sm) {
+    public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
+                ArrayList<User> blockedList, SocialMediaDatabase sm) {
         // check if len(password) > 5 & < 50
         if (password.length() < 5 || password.length() > 50) {
             throw new IllegalArgumentException("Password must be between 5 and 50 characters");
