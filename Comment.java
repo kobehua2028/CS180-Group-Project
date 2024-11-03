@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class Comment implements Serializable {
+public class Comment implements Serializable, CommentInterface {
     private String text;
     private int likes;
     private int dislikes;
