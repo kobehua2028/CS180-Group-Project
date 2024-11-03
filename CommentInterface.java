@@ -15,4 +15,7 @@ public interface CommentInterface {
     Post getPost();
     void incrementLikes();
     void incrementDislikes();
+    void removeDislike();
+    void removeLike();
+
 }

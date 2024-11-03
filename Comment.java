@@ -47,12 +47,35 @@ public class Comment implements Serializable, CommentInterface {
     }
 
     public void incrementLikes() {
-        likes++;
+        synchronized (new Object()) {
+            likes++;
+        }
         sm.writePost(post);
     }
 
     public void incrementDislikes() {
-        dislikes++;
+        synchronized (new Object()) {
+            dislikes++;
+        }
+        sm.writePost(post);
+    }
+
+    public void removeLike() {
+        synchronized (new Object()) {
+            if (likes > 0) {
+                likes--;
+            }
+        }
+        sm.writePost(post);
+
+    }
+
+    public void removeDislike() {
+        synchronized (new Object()) {
+            if (dislikes > 0) {
+                dislikes--;
+            }
+        }
         sm.writePost(post);
     }
 }
