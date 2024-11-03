@@ -1,5 +1,6 @@
 import java.io.Serializable;
 /**
+ * CS180 Group Project
  * A class to handle commenting on posts.
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
