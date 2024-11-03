@@ -40,6 +40,10 @@ public class User implements Serializable, UserInterface {
         sm.writeUser(this);
     }
 
+    public void changeAboutMe(String newAboutMe) {
+        this.aboutMe = newAboutMe;
+    }
+
     public boolean equals(Object account) { //checks if two accounts are the same
         if (account instanceof User) {
             return (username.equals(this.getUsername()) && password.equals(this.getPassword()));
