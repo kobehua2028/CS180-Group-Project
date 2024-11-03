@@ -5,6 +5,7 @@ News feed style application, where users are able to...
 - interact with posts from other users
 - add/block users.
 - have their comment/post/user data saved to a centralized database
+(instructions on how to run/compile project)
 
 ### Interfaces:
  - UserInterface
