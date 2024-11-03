@@ -1,15 +1,41 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserTest {
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
-    private User user1 = new User("Alice", "password123", "Hello, I'm Alice!",
-            new ArrayList<>(), new ArrayList<>(), sm);
+    private SocialMediaDatabase sm;
+    private User user1;
+    private User user2;
+    @Before
+    public void setUp() throws Exception {
+        sm = new SocialMediaDatabase("users.dat", "posts.dat");
+        user1 = new User("Alice", "password123", "Hello, I'm Alice!",
+                new ArrayList<>(), new ArrayList<>(), sm);
+        user2 = new User("Bob", "securePass456", "Hello, I'm Bob!",
+                new ArrayList<>(), new ArrayList<>(), sm);
+    }
 
-    private User user2 = new User("Bob", "securePass456", "Hello, I'm Bob!",
-            new ArrayList<>(), new ArrayList<>(), sm);
+    @After
+    public void clearFile() throws IOException {
+        File userFile = new File("users.dat");
+        File postFile = new File("posts.dat");
+        if (userFile.exists()) {
+            userFile.delete();
+        }
+        if (postFile.exists()) {
+            postFile.delete();
+        }
+        userFile.createNewFile();
+        postFile.createNewFile();
+        this.sm = null;
+        this.user1 = null;
+        this.user2 = null;
+    }
 
     @Test
     public void testCreateUser() {
@@ -92,24 +118,6 @@ public class UserTest {
         User duplicateUser1 = new User("Alice", "password123",
                 "Different bio", new ArrayList<>(), new ArrayList<>(), sm);
     }
-
-    public void run() {
-        this.testCreateUser();
-        this.testAddFriend();
-        this.testAddExistingFriendThrowsException();
-        this.testRemoveFriend();
-        this.testRemoveNonExistentFriendThrowsException();
-        this.testBlockUser();
-        this.testBlockAlreadyBlockedUserThrowsException();
-        this.testUnblockUser();
-        this.testUnblockNonBlockedUserThrowsException();
-        this.testChangeAboutMe();
-        this.testEqualsMethod();
-    }
-
-    /*public void createPost(String title, String subtext) {
-        Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
-    }*/
 
     @Test
     public void testCreatePost() {

@@ -1,6 +1,11 @@
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 /**
  * CS180 Group Project
@@ -18,22 +23,31 @@ class CommentTest {
     private Comment testComment;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
-        testUser = new User("PurduePete",
-                "password123",
-                "asd",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                sm);
-        testPost = new Post(testUser,
-                "Test Post",
-                "This is a post",
-                new ArrayList<>(),
-                4,
-                2,
-                sm);
+        testUser = new User("PurduePete", "password123", "asd", new ArrayList<>(),
+                new ArrayList<>(), sm);
+        testPost = new Post(testUser, "Test Post", "This is a post", new ArrayList<>(), 4,
+                2, sm);
         testComment = new Comment(testUser, "This is a comment", 4, 2, testPost, sm);
+    }
+
+    @AfterEach
+    public void clearFile() throws IOException {
+        File userFile = new File("users.dat");
+        File postFile = new File("posts.dat");
+        if (userFile.exists()) {
+            userFile.delete();
+        }
+        if (postFile.exists()) {
+            postFile.delete();
+        }
+        userFile.createNewFile();
+        postFile.createNewFile();
+        this.sm = null;
+        this.testUser = null;
+        this.testPost = null;
+        this.testComment = null;
     }
 
     @Test
@@ -60,12 +74,5 @@ class CommentTest {
         int initialDislikes = testComment.getDislikes();
         testComment.incrementDislikes();
         assertEquals(initialDislikes + 1, testComment.getDislikes());
-    }
-
-    public void run() {
-        this.setUp();
-        this.testGetters();
-        this.testIncrementLikes();
-        this.testIncrementDislikes();
     }
 }

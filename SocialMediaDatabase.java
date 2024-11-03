@@ -82,20 +82,24 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public synchronized void readUsers() {
-        try (FileInputStream fis = new FileInputStream(usersIn);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-            this.users = (ArrayList<User>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        if (new File(usersIn).exists() && new File(postsIn).length() > 0) {
+            try (FileInputStream fis = new FileInputStream(usersIn);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                this.users = (ArrayList<User>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public synchronized void readPosts() {
-        try (FileInputStream fis = new FileInputStream(postsIn);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-            this.posts = (ArrayList<Post>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        if (new File(postsIn).exists() && new File(postsIn).length() > 0) {
+            try (FileInputStream fis = new FileInputStream(postsIn);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                this.posts = (ArrayList<Post>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -133,18 +137,6 @@ public class SocialMediaDatabase implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        CommentTest commentTest = new CommentTest();
-        UserTest userTest = new UserTest();
-        PostTest postTest = new PostTest();
-        SocialMediaDatabaseTest socialMediaDatabaseTest = new SocialMediaDatabaseTest();
-
-        commentTest.run();
-        userTest.run();
-        postTest.run();
-        socialMediaDatabaseTest.run();
     }
 
 }

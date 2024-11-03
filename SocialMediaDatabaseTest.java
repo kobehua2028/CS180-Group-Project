@@ -1,4 +1,10 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,13 +18,40 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version Nov 03, 2024
  */
 public class SocialMediaDatabaseTest {
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
-    private User expectedUser = new User("Dunsmore","CS180istheBest",
-            "I teach CS180", new ArrayList<>(), new ArrayList<>(), sm);
-    private Post expectedPost = new Post(expectedUser, "Purdue CS180",
-            "Purdue CS 180 is the best CS class", new ArrayList<Comment>(), 0, 0, sm);
-    private ArrayList<User> expected = new ArrayList<User>();
-    private ArrayList<Post> expectedPosts = new ArrayList<Post>();
+    private SocialMediaDatabase sm;
+    private User expectedUser;
+    private Post expectedPost;
+    private ArrayList<User> expected;
+    private ArrayList<Post> expectedPosts;
+    @Before
+    public void setUp() throws Exception {
+        sm = new SocialMediaDatabase("users.dat", "posts.dat");
+        expectedUser = new User("Dunsmore","CS180istheBest",
+                "I teach CS180", new ArrayList<>(), new ArrayList<>(), sm);
+        expectedPost = new Post(expectedUser, "Purdue CS180",
+                "Purdue CS 180 is the best CS class", new ArrayList<Comment>(), 0, 0, sm);
+        expected = new ArrayList<User>();
+        expectedPosts = new ArrayList<Post>();
+    }
+
+    @After
+    public void clearFile() throws IOException {
+        File userFile = new File("users.dat");
+        File postFile = new File("posts.dat");
+        if (userFile.exists()) {
+            userFile.delete();
+        }
+        if (postFile.exists()) {
+            postFile.delete();
+        }
+        userFile.createNewFile();
+        postFile.createNewFile();
+        this.expectedUser = null;
+        this.expectedPost = null;
+        this.expected = null;
+        this.expectedPosts = null;
+        this.sm = null;
+    }
 
     @Test
     public void testGetUser() {
@@ -130,20 +163,5 @@ public class SocialMediaDatabaseTest {
         //Creating a post implicitly calls writePost()
 
         assertEquals(true, sm.getPosts().contains(newPost));
-    }
-    
-    public void run() {
-        this.testGetUser();
-        this.testGetPost();
-        this.testAddUser();
-        this.testAddPost();
-        this.testCreateUser();
-        this.testFindUser();
-        this.testUserExists();
-        this.testFindPost();
-        this.testReadUsers();
-        this.testReadPosts();
-        this.testWriteUser();
-        this.testWritePost();
     }
 }

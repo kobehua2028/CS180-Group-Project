@@ -1,9 +1,13 @@
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * CS180 Group Project
  * Program description here
@@ -16,14 +20,37 @@ import static org.junit.jupiter.api.Assertions.*;
 class PostTest {
     String testPostString = "PurduePete,Project Help,Hey guys, I'm having a hard time figuring out the project.";
 
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
+    private SocialMediaDatabase sm;
 
-    User test = new User("PurduePete","lYER4CAK", "AboutMe", new ArrayList<User>(),
-            new ArrayList<User>(), sm);
-    Post testPost = new Post(test, "Test case", "Lorem Ispum", new ArrayList<Comment>(),
-            0, 0, sm);
+    private User test;
+    private Post testPost;
 
+    @BeforeEach
+    public void setUp() throws Exception {
+        sm = new SocialMediaDatabase("users.dat", "posts.dat");
+        test = null;
+        test = new User("PurduePete","lYER4CAK", "AboutMe", new ArrayList<User>(),
+                new ArrayList<User>(), sm);
+        testPost = new Post(test, "Test case", "Lorem Ispum", new ArrayList<Comment>(),
+                0, 0, sm);
+    }
 
+    @AfterEach
+    public void clearFile() throws IOException {
+        File userFile = new File("users.dat");
+        File postFile = new File("posts.dat");
+        if (userFile.exists()) {
+            userFile.delete();
+        }
+        if (postFile.exists()) {
+            postFile.delete();
+        }
+        userFile.createNewFile();
+        postFile.createNewFile();
+        this.sm = null;
+        this.test = null;
+        this.testPost = null;
+    }
 
     @Test
     public void testPost() {
@@ -146,22 +173,5 @@ class PostTest {
         String expectedCommentText = "That's my post!";
 
         assertEquals(expectedCommentText, testPost.getComments().get(0).getText());
-    }
-
-    public void run() {
-        this.testPost();
-        this.testGetComments();
-        this.testGetLikes();
-        this.testGetSubtext();
-        this.testGetComments();
-        this.testAddComment();
-        this.testGetLikes();
-        this.testGetDislikes();
-        this.testIncrementLikes();
-        this.testIncrementDislikes();
-        this.testRemoveLike();
-        this.testRemoveDislike();
-        this.testEquals();
-        this.testCreateComment();
     }
 }
