@@ -1,7 +1,15 @@
 import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
-
+/**
+ * CS180 Group Project
+ * Program description here
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author
+ * @version Nov 03, 2024
+ */
 public class SocialMediaDatabase implements DatabaseInterface, Serializable {
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
