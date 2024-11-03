@@ -1,5 +1,12 @@
 import java.io.Serializable;
-
+/**
+ * A class to handle commenting on posts.
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author RaghavSharma, LevinCozza, AbdulmajedAlqarni, MichaelIkriannikov, KobeHuang 
+ * @version Nov 03, 2024
+ */
 public class Comment implements Serializable {
     private final String text;
     private int likes;
