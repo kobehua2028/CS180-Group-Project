@@ -1,5 +1,13 @@
 import java.util.ArrayList;
-
+/**
+ * CS180 Group Project
+ * Program description here
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author
+ * @version Nov 03, 2024
+ */
 public interface DatabaseInterface {
     
     User findUser(String username);
