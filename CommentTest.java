@@ -25,13 +25,13 @@ class CommentTest {
                 4,
                 2,
                 sm);
-        testComment = new Comment(testUser, "This is a post", 4, 2, testPost, sm);
+        testComment = new Comment(testUser, "This is a comment", 4, 2, testPost, sm);
     }
 
     @Test
     void testGetters() {
         //Test all getter methods
-        assertEquals("This is a post", testComment.getText());
+        assertEquals("This is a comment", testComment.getText());
         assertEquals(4, testComment.getLikes());
         assertEquals(2, testComment.getDislikes());
         assertEquals(testUser, testComment.getAuthor());
