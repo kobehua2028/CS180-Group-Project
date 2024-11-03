@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PostTest {
     String testPostString = "PurduePete,Project Help,Hey guys, I'm having a hard time figuring out the project.";
 
-    private SocialMediaDatabase sm = new SocialMediaDatabase("users,txt", "posts.txt","comments.txt");
+    private SocialMediaDatabase sm = new SocialMediaDatabase("users,txt", "posts.txt");
     //private User testUser = new User(testUserString, sm);
 
     @Test
     public void testPost() {
-        Post testPost = new Post(, "MyPurdue1234", );
+        Post testPost = new Post();
 
         String expectedAuthor = "PurduePete,MyPurdue1234,Hey guys it's me, Pete from Purdue!\n";
         String expectedTitle = "Project Help";
