@@ -17,6 +17,11 @@ public class SocialMediaDatabase implements DatabaseInterface {
         this.usersIn = usersIn;
         this.postsIn = postsIn;
     }
+
+    public void createUser(String username, String password) {
+        User user = new User(username, password, "This is me!", new ArrayList<User>(), new ArrayList<User>(), this);
+    }
+
     public User findUser(String username) { //validates if there's a user with the same username
         for (User user : users) {
             if (username.equals(user.getUsername())) {
