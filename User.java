@@ -1,6 +1,14 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * CS180 Group Project
+ * Program description here
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author
+ * @version Nov 03, 2024
+ */
 public class User implements Serializable, UserInterface {
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
