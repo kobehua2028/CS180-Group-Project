@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author
  * @version Nov 03, 2024
  */
-public class Post implements Serializable {
+public class Post implements Serializable, PostInterface {
     private final User author; //The user who created this post.
     private final String title; //title of post.
     private final String subtext; //subtext of post
