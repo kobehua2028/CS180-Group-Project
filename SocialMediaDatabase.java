@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
@@ -67,14 +68,7 @@ public class SocialMediaDatabase implements DatabaseInterface {
     public void readUsers() {
         try (FileInputStream fis = new FileInputStream(usersIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
-            while (true) {
-                try {
-                    User user = (User) ois.readObject();
-                    users.add(user);
-                } catch (IOException e) {
-                    break;
-                }
-            }
+            this.users = (ArrayList<User>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -83,32 +77,43 @@ public class SocialMediaDatabase implements DatabaseInterface {
     public void readPosts() {
         try (FileInputStream fis = new FileInputStream(postsIn);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
-            while (true) {
-                try {
-                    Post post = (Post) ois.readObject();
-                    posts.add(post);
-                } catch (IOException e) {
-                    break;
-                }
-            }
+            this.posts = (ArrayList<Post>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void writeUser(User user) {
+        if (!users.contains(user)) {
+            users.add(user);
+        } else {
+            for (User compareUser : users) {
+                if (user.getUsername().equals(compareUser.getUsername())) {
+                    users.set(users.indexOf(compareUser), user);
+                }
+            }
+        }
         try (FileOutputStream fos = new FileOutputStream(usersIn);
             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(user);
+            oos.writeObject(users);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void writePost(Post post) {
-        try (FileOutputStream fos = new FileOutputStream(postsIn);
+        if (!posts.contains(post)) {
+            posts.add(post);
+        } else {
+            for (Post comparePost : posts) {
+                if (post.getTitle().equals(comparePost.getTitle())) {
+                    posts.set(posts.indexOf(comparePost), post);
+                }
+            }
+        }
+        try (FileOutputStream fos = new FileOutputStream(postsIn, true);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(post);
+            oos.writeObject(posts);
         } catch (IOException e) {
             e.printStackTrace();
         }
