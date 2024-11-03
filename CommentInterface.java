@@ -9,24 +9,16 @@ public interface CommentInterface {
     User commentor //The user who created this comment
     ArrayList<Comment> replies //List of replies, represented by comment objects.
     String commentText //The actual text that makes up a comment (rename?)
-
-    *
-    *
-    *
-    *
-    *
-    *
     * */
 
-    public void addLike();
-    public void removeLike();
+    String getText();
 
-    public void addDislike();
-    public void removeDislike();
+    int getLikes();
 
-    void incrementReplyCount();
-    void decrementReplyCount();
+    int getDislikes();
 
-    boolean setCommentText(String newText); //
+    User getAuthor();
+
+    Post getPost();
 
 }
