@@ -111,7 +111,7 @@ public class SocialMediaDatabase implements DatabaseInterface {
                 }
             }
         }
-        try (FileOutputStream fos = new FileOutputStream(postsIn, true);
+        try (FileOutputStream fos = new FileOutputStream(postsIn);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(posts);
         } catch (IOException e) {
