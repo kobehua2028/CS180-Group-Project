@@ -2,6 +2,7 @@ Phase 2 focuses on...
 
   Concurrency and if the code is thread safe.
   Client and server
+  Login method
 
   One Server with multiple threads to support multiple clients
 
