@@ -1,6 +1,16 @@
 import java.net.*;
 import java.io.*;
 
+/**
+ * CS180 Group Project
+ * Server class for client to communicate to database
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author (update with your name if you work on the class)
+ * @version Nov 13, 2024
+ */
+
 public class SMServer implements Runnable {
     SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
     Socket socket;
@@ -33,6 +43,8 @@ public class SMServer implements Runnable {
     public void run() {
         User client;
         int scroll = 0; //argument for display(). Increment after each use.
+        
+        // TODO: we need to make this display the specific users feed, not all of the posts in the databse
 
         try (BufferedReader bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter pw = new PrintWriter(socket.getOutputStream())) {
