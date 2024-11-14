@@ -76,11 +76,15 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public void addUser(User user) {
-        users.add(user);
+        synchronized (new Object()) {
+            users.add(user);
+        }
     }
 
     public void addPost(Post post) {
-        posts.add(post);
+        synchronized (new Object()) {
+            posts.add(post);
+        }
     }
 
     public synchronized void readUsers() {
