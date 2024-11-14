@@ -61,7 +61,7 @@ public class Post implements Serializable, PostInterface {
         return (author.equals(post.getAuthor()) && title.equals(post.getTitle()) && subtext.equals(post.getSubtext()));
     }
 
-    public void addComment(Comment comment) {
+    public synchronized void addComment(Comment comment) {
         comments.add(comment);
     }
 
@@ -89,24 +89,24 @@ public class Post implements Serializable, PostInterface {
         return dislikes;
     }
 
-    public void incrementLikes() {
+    public synchronized void incrementLikes() {
         likes++;
         sm.writePost(this);
     }
 
-    public void incrementDislikes() {
+    public synchronized void incrementDislikes() {
         dislikes++;
         sm.writePost(this);
     }
 
-    public void removeLike() {
+    public synchronized void removeLike() {
         if (likes > 0) {
             likes--;
             sm.writePost(this);
         }
     }
 
-    public void removeDislike() {
+    public synchronized void removeDislike() {
         if (dislikes > 0) {
             dislikes--;
             sm.writePost(this);
