@@ -60,7 +60,7 @@ public class Post implements Serializable, PostInterface {
         return (author.equals(post.getAuthor()) && title.equals(post.getTitle()) && subtext.equals(post.getSubtext()));
     }
 
-    public synchronized void addComment(Comment comment) {
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 
@@ -88,28 +88,42 @@ public class Post implements Serializable, PostInterface {
         return dislikes;
     }
 
-    public synchronized void incrementLikes() {
-        likes++;
+    public void incrementLikes() {
+        synchronized (new Object()) {
+            likes++;
+        }
         sm.writePost(this);
     }
 
-    public synchronized void incrementDislikes() {
-        dislikes++;
+    public void incrementDislikes() {
+        synchronized (new Object()) {
+            dislikes++;
+        }
         sm.writePost(this);
     }
 
-    public synchronized void removeLike() {
-        if (likes > 0) {
-            likes--;
-            sm.writePost(this);
+    public void removeLike() {
+        synchronized (new Object()) {
+            if (likes > 0) {
+                likes--;
+                sm.writePost(this);
+            }
+        }
+
+    }
+
+    public void removeDislike() {
+        synchronized (new Object()) {
+            if (dislikes > 0) {
+                dislikes--;
+                sm.writePost(this);
+            }
         }
     }
 
-    public synchronized void removeDislike() {
-        if (dislikes > 0) {
-            dislikes--;
-            sm.writePost(this);
-        }
+    public String toString() {
+        return String.format("%s says...\n%s\n\n%s\n\uD83D\uDC4D%d  \uD83D\uDC4E%d  \uD83D\uDCAC%d",
+                getAuthor().getUsername(), getTitle(), getSubtext(), getLikes(), getDislikes(), getComments().size());
     }
 
 }
