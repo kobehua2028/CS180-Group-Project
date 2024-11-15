@@ -19,9 +19,10 @@ public class User implements Serializable, UserInterface {
     private final String password; //the password to this account
     private String aboutMe; //The "about me" section
     private final SocialMediaDatabase sm;
+    private ArrayList<Post> posts;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
-                ArrayList<User> blockedList, SocialMediaDatabase sm) {
+                ArrayList<User> blockedList, ArrayList<Post> posts, SocialMediaDatabase sm) {
         // check if len(password) > 5 & < 50
         if (password.length() < 5 || password.length() > 50) {
             throw new IllegalArgumentException("Password must be between 5 and 50 characters");
@@ -48,6 +49,7 @@ public class User implements Serializable, UserInterface {
         this.aboutMe = aboutMe;
         this.friendsList = friendsList;
         this.blockedList = blockedList;
+        this.posts = posts;
         this.sm = sm;
         sm.writeUser(this);
     }
@@ -65,6 +67,7 @@ public class User implements Serializable, UserInterface {
 
     public void createPost(String title, String subtext) {
         Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
+        posts.add(post);
     }
 
     public void removeFriend(User formerFriend) {

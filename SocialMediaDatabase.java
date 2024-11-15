@@ -33,8 +33,7 @@ public class SocialMediaDatabase implements Serializable {
             aboutMe = "This is me!";
         }
         try {
-            User user = new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), this);
-            return user;
+            return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), this);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
@@ -139,6 +138,41 @@ public class SocialMediaDatabase implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        SocialMediaDatabase sm = new SocialMediaDatabase("usersIn", "postsIn");
+        sm.createUser("KOBE", "password", "asjajfs");
+        sm.createUser("Levin", "password", "akjhsdgjshg");
+
+        sm.readUsers();
+
+        User kobe = sm.getUsers().get(0);
+        User levin = sm.getUsers().get(1);
+        kobe.addFriend(levin);
+        kobe.createPost("Tiger", "lil dawg");
+
+
+        sm.readUsers();
+        sm.readPosts();
+
+        String username1 = sm.getUsers().get(1).getUsername();
+        String password1 = sm.getUsers().get(1).getPassword();
+        String kobeFriendusername = sm.getUsers().get(0).getFriendsList().get(0).getUsername();
+        String username2 = sm.getUsers().get(0).getUsername();
+        String password2 = sm.getUsers().get(0).getPassword();
+
+        System.out.println(username1);
+        System.out.println(password1);
+        System.out.println("KOBES FRIENDS" + kobeFriendusername);
+        System.out.println(username2);
+        System.out.println(password2);
+
+        String postTitle = sm.getPosts().get(0).getTitle();
+        System.out.println(postTitle);
+
+
+
     }
 
 }

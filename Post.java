@@ -48,7 +48,6 @@ public class Post implements Serializable, PostInterface {
         this.likes = likes;
         this.dislikes = dislikes;
         this.sm = sm;
-
         sm.writePost(this);
     }
 
