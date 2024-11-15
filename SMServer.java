@@ -12,8 +12,8 @@ import java.io.*;
  */
 
 public class SMServer implements Runnable {
-    SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
-    Socket socket;
+    private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
+    private Socket socket;
 
     public SMServer(Socket socket) {
         this.socket = socket;
