@@ -30,4 +30,6 @@ public interface UserInterface {
     ArrayList<User> getFriendsList();
     
     ArrayList<User> getBlockedList();
+
+    void hidePost(Post post);
 }
