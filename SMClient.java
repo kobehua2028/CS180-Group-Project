@@ -44,4 +44,9 @@ public class SMClient implements Serializable {
         }
         System.out.print(postString);
     }
+
+    public static void main(String[] args) {
+        // eventually going to be gui
+        // maybe just terminal testing for now once server-client setup is done?
+    }
 }
