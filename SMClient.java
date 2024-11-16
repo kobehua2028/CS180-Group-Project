@@ -5,12 +5,11 @@ import java.io.*;
 
 public class SMClient implements Serializable {
 
-    private int postsShown;
+    private final User user;
+    private SocialMediaDatabase sm;
 
-    SocialMediaDatabase sm;
-
-    public SMClient(SocialMediaDatabase sm) {
-        postsShown = 0;
+    public SMClient(User user, SocialMediaDatabase sm) {
+        this.user = user;
         this.sm = sm;
     }
 
@@ -21,9 +20,14 @@ public class SMClient implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter pw = new PrintWriter(socket.getOutputStream());
 
+        pw.println("ECHO");
+        pw.flush();
 
-
-
+        String line = br.readLine();
+        while(line != null) {
+            System.out.println(line);
+            line = br.readLine();
+        }
 
     }
 
