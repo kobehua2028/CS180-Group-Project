@@ -22,10 +22,10 @@ public class SMClient implements Serializable {
 
         pw.println("ECHO");
         pw.flush();
-        System.out.println("Sent ECHO");
+
         String line = br.readLine();
         while(line != null) {
-            System.out.println("RECEIVED: " + line);
+            System.out.println(line);
             line = br.readLine();
         }
 
