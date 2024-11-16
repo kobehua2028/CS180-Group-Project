@@ -28,17 +28,12 @@ public class SocialMediaServer implements Runnable {
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(outputStream);
 
-            String line = br.readLine();
-
-
-            while (line != null) {
-                String[] command = line.split(" ");
+            String[] command = br.readLine().split("`");
+            while (command != null) {
                 boolean success;
                 switch (command[0]) {
                     case "ECHO" -> {
-                        pw.println("SUCCESS");
-                        pw.flush();
-                        System.out.println("Server sent SUCCESS");
+                        pw.println("SUCCESS\n");
                     }
                     case "LOGIN" -> {
                         if(command.length != 3) {
@@ -132,7 +127,7 @@ public class SocialMediaServer implements Runnable {
                         return;
                     }
                 }
-                line = br.readLine();
+                command = br.readLine().split(" ");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -343,16 +338,5 @@ public class SocialMediaServer implements Runnable {
             return true;
         }
     }
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
 
 }

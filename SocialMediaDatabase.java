@@ -126,6 +126,7 @@ public class SocialMediaDatabase implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        readUsers();
     }
 
     public synchronized void writePost(Post post) {
@@ -144,6 +145,7 @@ public class SocialMediaDatabase implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        readPosts();
     }
 }
 //    public static void main(String[] args) {
