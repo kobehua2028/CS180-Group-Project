@@ -27,9 +27,9 @@ public class SocialMediaServer implements Runnable {
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(outputStream);
-
-            String[] command = br.readLine().split("`");
-            while (command != null) {
+            String line = br.readLine();
+            while (line != null) {
+                String[] command = line.split("`");
                 boolean success;
                 switch (command[0]) {
                     case "ECHO" -> {
@@ -123,11 +123,12 @@ public class SocialMediaServer implements Runnable {
 
                     }
                     default -> {
-                        System.out.println("UNKNOWN_COMMENT");
+                        // replace with error Message
+                        System.out.println("UNKNOWN_COMMAND");
                         return;
                     }
                 }
-                command = br.readLine().split(" ");
+                line = br.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -226,8 +227,8 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(blockList.substring(0, blockList.length() - 1));
 
             String postList = "POSTS_LIST`";
-            for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
-                postList += profileUser.getUserPosts().get(i).getTitle() + "`";
+            for (int i = 0; i < profileUser.getPosts().size(); i++) {
+                postList += profileUser.getPosts().get(i).getTitle() + "`";
             }
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -242,8 +243,8 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(friendList.substring(0, friendList.length() - 1));
 
             String postList = "POSTS_LIST`";
-            for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
-                postList += profileUser.getUserPosts().get(i).getTitle() + "`";
+            for (int i = 0; i < profileUser.getPosts().size(); i++) {
+                postList += profileUser.getPosts().get(i).getTitle() + "`";
             }
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -297,7 +298,7 @@ public class SocialMediaServer implements Runnable {
             return true;
         }
     }
-    
+
     public boolean unblockUser(String username, String blockUsername) {
         User user = sm.findUser(username);
         User block = sm.findUser(blockUsername);
@@ -310,14 +311,14 @@ public class SocialMediaServer implements Runnable {
             return true;
         }
     }
-    
+
     public boolean hidePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
-        
+
         if (user == null || post == null) {
             return false;
-        } else if (user.getUserPosts().contains(post) || user.getHiddenPosts().contains(post)) {
+        } else if (user.getPosts().contains(post) || user.getHiddenPosts().contains(post)) {
             return false;
         } else {
             user.hidePost(post);
@@ -338,5 +339,55 @@ public class SocialMediaServer implements Runnable {
             return true;
         }
     }
+
+    public boolean createPost(String authorUsername, String title, String subtext) {
+        try {
+            User user = sm.findUser(authorUsername);
+            if (user == null) {
+                throw new IllegalArgumentException("No Post Author");
+            }
+            user.createPost(title, subtext);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+    
+    public boolean deletePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+        if (user == null || post == null) {
+            return false;
+        } else if (!user.getPosts().contains(post) || !post.getAuthor().equals(user)) {
+            return false;
+        } else {
+            user.deletePost(post);
+            return true;
+        }
+    }
+    
+    public boolean createComment(String postTitle, String username, String comment) {
+        Post post = sm.findPost(postTitle);
+        User user = sm.findUser(username);
+        if (user == null || post == null || comment.isEmpty() || comment == null) {
+            return false;
+        } else {
+            post.createComment(user, comment);
+            return true;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
