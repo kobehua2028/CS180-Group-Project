@@ -97,7 +97,9 @@ public class NewsFeed implements Serializable {
                             password = "";
                         } else {
                             user = new User(username, password, "",
-                                    new ArrayList<User>(), new ArrayList<User>(), sm);
+                                    new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
+                                    new ArrayList<>(), new ArrayList<>(),
+                                    new ArrayList<>(), sm);
                             System.out.printf("Welcome, %s!\n", user.getUsername());
                             return;
                         }
