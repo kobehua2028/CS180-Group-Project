@@ -18,6 +18,8 @@ public class User implements Serializable, UserInterface {
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
     private ArrayList<Post> likedPosts = new ArrayList<Post>();
     private ArrayList<Post> dislikedPosts = new ArrayList<Post>();
+    private ArrayList<Post> hiddenPosts = new ArrayList<>();
+    private ArrayList<Post> userPosts = new ArrayList<>();
     private final String username; //the name of this account
     private final String password; //the password to this account
     private String aboutMe; //The "about me" section
@@ -25,7 +27,7 @@ public class User implements Serializable, UserInterface {
     private Boolean isDeleted;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
-                ArrayList<User> blockedList, SocialMediaDatabase sm) {
+                ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts, ArrayList<Post> hiddenPosts, ArrayList<Post> userPosts, SocialMediaDatabase sm) {
         isDeleted = false;
 
         // check if len(password) > 5 & < 50
@@ -54,6 +56,10 @@ public class User implements Serializable, UserInterface {
         this.aboutMe = aboutMe;
         this.friendsList = friendsList;
         this.blockedList = blockedList;
+        this.likedPosts = likedPosts;
+        this.dislikedPosts = dislikedPosts;
+        this.hiddenPosts = hiddenPosts;
+        this.userPosts = userPosts;
         this.sm = sm;
         sm.writeUser(this);
     }
@@ -77,6 +83,7 @@ public class User implements Serializable, UserInterface {
 
     public void createPost(String title, String subtext) {
         Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
+        userPosts.add(post);
     }
 
     public void removeFriend(User formerFriend) {
@@ -167,8 +174,8 @@ public class User implements Serializable, UserInterface {
         return blockedList;
     }
   
-    public ArrayList<Post> getPosts() {
-        return posts;
+    public ArrayList<Post> getUserPosts() {
+        return userPosts;
     }
 
     public ArrayList<Post> getHiddenPosts() {

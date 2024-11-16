@@ -33,7 +33,9 @@ public class SocialMediaDatabase implements Serializable {
             aboutMe = "This is me!";
         }
         try {
-            return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), this);
+            return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(),
+                    new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(),
+                    this);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
