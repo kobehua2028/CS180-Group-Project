@@ -13,13 +13,13 @@ import java.util.ArrayList;
  * @version Nov 03, 2024
  */
 public class User implements Serializable, UserInterface {
-    private static final long serialVersionUID = 1810526504588534166L;
+    private static final long serialVersionUID = -932986220204596630L;
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
     private ArrayList<Post> likedPosts = new ArrayList<Post>();
     private ArrayList<Post> dislikedPosts = new ArrayList<Post>();
-    private ArrayList<Post> hiddenPosts = new ArrayList<>();
-    private ArrayList<Post> userPosts = new ArrayList<>();
+    private ArrayList<Comment> likedComments = new ArrayList<Comment>();
+    private ArrayList<Comment> dislikedComments = new ArrayList<Comment>();
     private final String username; //the name of this account
     private final String password; //the password to this account
     private String aboutMe; //The "about me" section
@@ -27,7 +27,7 @@ public class User implements Serializable, UserInterface {
     private Boolean isDeleted;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
-                ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts, ArrayList<Post> hiddenPosts, ArrayList<Post> userPosts, SocialMediaDatabase sm) {
+                ArrayList<User> blockedList, SocialMediaDatabase sm) {
         isDeleted = false;
 
         // check if len(password) > 5 & < 50
@@ -56,10 +56,8 @@ public class User implements Serializable, UserInterface {
         this.aboutMe = aboutMe;
         this.friendsList = friendsList;
         this.blockedList = blockedList;
-        this.likedPosts = likedPosts;
-        this.dislikedPosts = dislikedPosts;
-        this.hiddenPosts = hiddenPosts;
-        this.userPosts = userPosts;
+        this.likedPosts = new ArrayList<Post>();
+
         this.sm = sm;
         sm.writeUser(this);
     }
@@ -83,7 +81,6 @@ public class User implements Serializable, UserInterface {
 
     public void createPost(String title, String subtext) {
         Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
-        userPosts.add(post);
     }
 
     public void removeFriend(User formerFriend) {
@@ -173,30 +170,28 @@ public class User implements Serializable, UserInterface {
     public ArrayList<User> getBlockedList() {
         return blockedList;
     }
-  
-    public ArrayList<Post> getUserPosts() {
-        return userPosts;
-    }
 
-    public ArrayList<Post> getHiddenPosts() {
-        return hiddenPosts;
-    }
-
-    public void hidePost(Post post) {
-        if (!hiddenPosts.contains(post)) {
-            hiddenPosts.add(post);
-        } else {
-            throw new IllegalArgumentException("Post already hidden");
-        }
-        sm.writeUser(this);
-    }
-  
     public ArrayList<Post> getLikedPosts() {
+        if ((likedPosts == null))
+            likedPosts = new ArrayList<Post>();
         return likedPosts;
     }
 
     public ArrayList<Post> getDislikedPosts() {
+        if (dislikedPosts == null)
+            dislikedPosts = new ArrayList<Post>();
         return dislikedPosts;
+    }
+    public ArrayList<Comment> getLikedComments() {
+        if (likedComments == null)
+            likedComments = new ArrayList<Comment>();
+        return likedComments;
+    }
+
+    public ArrayList<Comment> getDislikedComments() {
+        if (dislikedComments == null)
+            dislikedComments = new ArrayList<Comment>();
+        return dislikedComments;
     }
 
     public void addLikedPost(Post post) {
@@ -213,6 +208,22 @@ public class User implements Serializable, UserInterface {
 
     public void removeDislikedPost(Post post) {
         dislikedPosts.remove(post);
+    }
+
+    public void addLikedComment(Comment comment) {
+        likedComments.add(comment);
+    }
+
+    public void removeLikedComment(Comment comment) {
+        likedComments.remove(comment);
+    }
+
+    public void addDislikedComment(Comment comment) {
+        dislikedComments.add(comment);
+    }
+
+    public void removeDislikedComment(Comment comment) {
+        dislikedComments.remove(comment);
     }
 
 }

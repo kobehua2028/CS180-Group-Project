@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
  * @version Nov 03, 2024
  */
 public class SocialMediaDatabase implements Serializable {
+    private static final long serialVersionUID = 4529130014177127982L;
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
@@ -33,9 +35,7 @@ public class SocialMediaDatabase implements Serializable {
             aboutMe = "This is me!";
         }
         try {
-            return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(),
-                    new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(),
-                    this);
+            return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(), this);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;

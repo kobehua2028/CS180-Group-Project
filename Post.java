@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @version Nov 03, 2024
  */
 public class Post implements Serializable, PostInterface {
+    private static final long serialVersionUID = 6724365140647805401L;
     private final User author; //The user who created this post.
     private final String title; //title of post.
     private final String subtext; //subtext of post
@@ -48,6 +49,7 @@ public class Post implements Serializable, PostInterface {
         this.likes = likes;
         this.dislikes = dislikes;
         this.sm = sm;
+
         sm.writePost(this);
     }
 
@@ -120,6 +122,8 @@ public class Post implements Serializable, PostInterface {
             }
         }
     }
+
+
 
     public String toString() {
         return String.format("%s says...\n%s\n\n%s\n\uD83D\uDC4D%d  \uD83D\uDC4E%d  \uD83D\uDCAC%d",
