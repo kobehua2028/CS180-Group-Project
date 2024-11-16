@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import java.util.*;
 
 public class SocialMediaServer implements Runnable {
     private Socket socket;
@@ -24,15 +25,25 @@ public class SocialMediaServer implements Runnable {
     public void run() {
         try {
             InputStream inputStream = socket.getInputStream();
-            BufferedReader ois = new ObjectInputStream(inputStream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             OutputStream outputStream = socket.getOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+            PrintWriter pw = new PrintWriter(outputStream);
 
-            String[] command = ((String) ois.readObject()).split(" ");
+            String[] command = br.readLine().split("`");
             while (command != null) {
+                boolean success;
                 switch (command[0]) {
                     case "LOGIN" -> {
-
+                        if(command.length != 3) {
+                            pw.write("INVALID_LOGIN_ATTEMPT\n");
+                        } else {
+                            success = login(command[1], command[2]);
+                            if (success) {
+                                pw.write("SUCCESS\n");
+                            } else {
+                                pw.write("FAIL\n");
+                            }
+                        }
                     }
                     case "REGISTER_USER" -> {
 
@@ -111,24 +122,178 @@ public class SocialMediaServer implements Runnable {
                         return;
                     }
                 }
-                command = ((String) ois.readObject()).split(" ");
+                command = br.readLine().split(" ");
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public User login(String username, String password) {
+    public boolean login(String username, String password) {
         sm.readUsers();
         User loginUser = sm.findUser(username);
         if (loginUser != null) {
             if (loginUser.getPassword().equals(password)) {
-                return loginUser;
+                return true;
             }
         }
-        return null;
+        return false;
     }
+
+    public boolean createUser(String username, String password, String aboutMe) {
+        try {
+            sm.createUser(username, password, aboutMe);
+            if (sm.findUser(username) != null) {
+                return true;
+            }
+            return false;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public boolean deleteUser(String username) {
+        User deleteUser = sm.findUser(username);
+        if (deleteUser != null) {
+            sm.getUsers().remove(deleteUser);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String[] displayPosts(String username) {
+        User user = sm.findUser(username);
+        String[] postStrings = new String[5];
+        if (user == null) {
+            return postStrings;
+        }
+        Random random = new Random();
+        ArrayList<Integer> postNumbers = new ArrayList<>();
+        for (int i = 0; i < 5;) {
+            int j = random.nextInt(0,sm.getPosts().size() - 1);
+            Post post = sm.getPosts().get(j);
+            if (!user.getHiddenPosts().contains(post) && !postNumbers.contains(j)) {
+                String postString = post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor() + "`" +
+                        post.getComments().size() + "`" + post.getLikes() + "`" + post.getDislikes();
+                postStrings[i] = postString;
+                i++;
+            }
+            postNumbers.add(j);
+        }
+        return postStrings;
+    }
+
+    public ArrayList<String> displayComments(String postTitle) {
+        Post post = sm.findPost(postTitle);
+        ArrayList<String> comments = new ArrayList<>();
+        if (post == null) {
+            return comments;
+        }
+        for (int i = 0; i < post.getComments().size(); i++) {
+            Comment comment = post.getComments().get(i);
+            String commentString = comment.getText() + "`" + comment.getAuthor() + "`" +
+                    comment.getLikes() + "`" + comment.getDislikes();
+            comments.add(commentString);
+        }
+        return comments;
+    }
+
+    public ArrayList<String> displayProfile(String viewerUsername, String profileUsername) {
+        ArrayList<String> profileInfo = new ArrayList<>();
+        User viewerUser = sm.findUser(viewerUsername);
+        User profileUser = sm.findUser(profileUsername);
+        if (viewerUser == null || profileUser == null) {
+            return profileInfo;
+        }
+        if (profileUser.equals(viewerUser)) {
+            profileInfo.add(profileUsername);
+            String friendList = "FRIENDS_LIST`";
+            for (int i = 0; i < profileUser.getFriendsList().size(); i++) {
+                friendList += profileUser.getFriendsList().get(i).getUsername() + "`";
+            }
+            profileInfo.add(friendList.substring(0, friendList.length() - 1));
+
+            String blockList = "BLOCKED_LIST`";
+            for (int i = 0; i < profileUser.getBlockedList().size(); i++) {
+                blockList += profileUser.getBlockedList().get(i).getUsername() + "`";
+            }
+            profileInfo.add(blockList.substring(0, blockList.length() - 1));
+
+            String postList = "POSTS_LIST`";
+            for (int i = 0; i < profileUser.getPosts().size(); i++) {
+                postList += profileUser.getPosts().get(i).getTitle() + "`";
+            }
+            profileInfo.add(postList.substring(0, postList.length() - 1));
+            String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
+            profileInfo.add(aboutme);
+
+        } else {
+            profileInfo.add(profileUsername);
+            String friendList = "FRIENDS_LIST`";
+            for (int i = 0; i < profileUser.getFriendsList().size(); i++) {
+                friendList += profileUser.getFriendsList().get(i).getUsername() + "`";
+            }
+            profileInfo.add(friendList.substring(0, friendList.length() - 1));
+
+            String postList = "POSTS_LIST`";
+            for (int i = 0; i < profileUser.getPosts().size(); i++) {
+                postList += profileUser.getPosts().get(i).getTitle() + "`";
+            }
+            profileInfo.add(postList.substring(0, postList.length() - 1));
+            String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
+            profileInfo.add(aboutme);
+        }
+        return profileInfo;
+    }
+
+    public boolean addFriend(String username, String friendUsername) {
+        User user = sm.findUser(username);
+        User friend = sm.findUser(friendUsername);
+        if (user == null || friend == null) {
+            return false;
+        } else if (user.getFriendsList().contains(friend) || user.equals(friend)) {
+            return false;
+        } else if (user.getBlockedList().contains(friend) || friend.getBlockedList().contains(user)) {
+            return false;
+        } else {
+            user.addFriend(friend);
+            friend.addFriend(user);
+            return true;
+        }
+    }
+
+    public boolean deleteFriend(String username, String friendUsername) {
+        User user = sm.findUser(username);
+        User friend = sm.findUser(friendUsername);
+        if (user == null || friend == null) {
+            return false;
+        } else if (!user.getFriendsList().contains(friend) || !user.equals(friend)) {
+            return false;
+        } else {
+            user.removeFriend(friend);
+            friend.removeFriend(user);
+            return true;
+        }
+    }
+
+    public boolean blockFriend(String username, String blockUsername) {
+        User user = sm.findUser(username);
+        User block = sm.findUser(blockUsername);
+        if (user == null || block == null) {
+            return false;
+        } else if (user.getBlockedList().contains(block) || user.equals(block)) {
+            return false;
+        } else {
+            user.block(block);
+            if (user.getFriendsList().contains(block)) {
+                deleteFriend(username, blockUsername);
+            }
+        }
+    }
+
+
+
+
 
 }
