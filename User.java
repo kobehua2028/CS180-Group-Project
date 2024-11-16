@@ -126,6 +126,14 @@ public class User implements Serializable, UserInterface {
         return blockedList;
     }
 
+    public ArrayList<Post> getPosts() {
+        return posts;
+    }
+
+    public ArrayList<Post> getHiddenPosts() {
+        return hiddenPosts;
+    }
+
     public void hidePost(Post post) {
         if (!hiddenPosts.contains(post)) {
             hiddenPosts.add(post);
