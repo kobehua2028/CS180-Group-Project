@@ -132,5 +132,6 @@ public class User implements Serializable, UserInterface {
         } else {
             throw new IllegalArgumentException("Post already hidden");
         }
+        sm.writeUser(this);
     }
 }
