@@ -14,6 +14,7 @@ public class SocialMediaServer implements Runnable {
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("SOCIAL MEDIA SERVER STARTED");
         while (true) {
             Socket socket = serverSocket.accept();
             SocialMediaServer sm = new SocialMediaServer(socket);
@@ -30,10 +31,14 @@ public class SocialMediaServer implements Runnable {
             String line = br.readLine();
             while (line != null) {
                 String[] command = line.split("`");
+
+                System.out.print("Command received from a client: ");
+                System.out.print(Arrays.toString(command) + "\n");
+
                 boolean success;
                 switch (command[0]) {
                     case "ECHO" -> {
-                        pw.println("SUCCESS\n");
+                        pw.println();
                         pw.flush();
                     }
                     case "LOGIN" -> {
