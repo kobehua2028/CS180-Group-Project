@@ -227,8 +227,8 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(blockList.substring(0, blockList.length() - 1));
 
             String postList = "POSTS_LIST`";
-            for (int i = 0; i < profileUser.getPosts().size(); i++) {
-                postList += profileUser.getPosts().get(i).getTitle() + "`";
+            for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
+                postList += profileUser.getUserPosts().get(i).getTitle() + "`";
             }
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -243,8 +243,8 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(friendList.substring(0, friendList.length() - 1));
 
             String postList = "POSTS_LIST`";
-            for (int i = 0; i < profileUser.getPosts().size(); i++) {
-                postList += profileUser.getPosts().get(i).getTitle() + "`";
+            for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
+                postList += profileUser.getUserPosts().get(i).getTitle() + "`";
             }
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -318,7 +318,7 @@ public class SocialMediaServer implements Runnable {
 
         if (user == null || post == null) {
             return false;
-        } else if (user.getPosts().contains(post) || user.getHiddenPosts().contains(post)) {
+        } else if (user.getUserPosts().contains(post) || user.getHiddenPosts().contains(post)) {
             return false;
         } else {
             user.hidePost(post);
@@ -352,20 +352,20 @@ public class SocialMediaServer implements Runnable {
             return false;
         }
     }
-    
+
     public boolean deletePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (!user.getPosts().contains(post) || !post.getAuthor().equals(user)) {
+        } else if (!user.getUserPosts().contains(post) || !post.getAuthor().equals(user)) {
             return false;
         } else {
             user.deletePost(post);
             return true;
         }
     }
-    
+
     public boolean createComment(String postTitle, String username, String comment) {
         Post post = sm.findPost(postTitle);
         User user = sm.findUser(username);
@@ -376,6 +376,8 @@ public class SocialMediaServer implements Runnable {
             return true;
         }
     }
+
+    
 
 
 
