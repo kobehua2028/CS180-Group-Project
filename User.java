@@ -166,7 +166,24 @@ public class User implements Serializable, UserInterface {
     public ArrayList<User> getBlockedList() {
         return blockedList;
     }
+  
+    public ArrayList<Post> getPosts() {
+        return posts;
+    }
 
+    public ArrayList<Post> getHiddenPosts() {
+        return hiddenPosts;
+    }
+
+    public void hidePost(Post post) {
+        if (!hiddenPosts.contains(post)) {
+            hiddenPosts.add(post);
+        } else {
+            throw new IllegalArgumentException("Post already hidden");
+        }
+        sm.writeUser(this);
+    }
+  
     public ArrayList<Post> getLikedPosts() {
         return likedPosts;
     }
