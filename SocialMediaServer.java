@@ -28,12 +28,17 @@ public class SocialMediaServer implements Runnable {
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(outputStream);
 
-            String[] command = br.readLine().split("`");
-            while (command != null) {
+            String line = br.readLine();
+
+
+            while (line != null) {
+                String[] command = line.split(" ");
                 boolean success;
                 switch (command[0]) {
                     case "ECHO" -> {
-                        pw.println("SUCCESS\n");
+                        pw.println("SUCCESS");
+                        pw.flush();
+                        System.out.println("Server sent SUCCESS");
                     }
                     case "LOGIN" -> {
                         if(command.length != 3) {
@@ -127,7 +132,7 @@ public class SocialMediaServer implements Runnable {
                         return;
                     }
                 }
-                command = br.readLine().split(" ");
+                line = br.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -226,8 +231,8 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(blockList.substring(0, blockList.length() - 1));
 
             String postList = "POSTS_LIST`";
-            for (int i = 0; i < profileUser.getPosts().size(); i++) {
-                postList += profileUser.getPosts().get(i).getTitle() + "`";
+            for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
+                postList += profileUser.getUserPosts().get(i).getTitle() + "`";
             }
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -242,8 +247,8 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(friendList.substring(0, friendList.length() - 1));
 
             String postList = "POSTS_LIST`";
-            for (int i = 0; i < profileUser.getPosts().size(); i++) {
-                postList += profileUser.getPosts().get(i).getTitle() + "`";
+            for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
+                postList += profileUser.getUserPosts().get(i).getTitle() + "`";
             }
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -317,7 +322,7 @@ public class SocialMediaServer implements Runnable {
         
         if (user == null || post == null) {
             return false;
-        } else if (user.getPosts().contains(post) || user.getHiddenPosts().contains(post)) {
+        } else if (user.getUserPosts().contains(post) || user.getHiddenPosts().contains(post)) {
             return false;
         } else {
             user.hidePost(post);
