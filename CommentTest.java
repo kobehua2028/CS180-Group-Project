@@ -27,6 +27,8 @@ class CommentTest {
     public void setUp() {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
         testUser = new User("PurduePete", "password123", "asd", new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         testPost = new Post(testUser, "Test Post", "This is a post", new ArrayList<>(), 4,
                 2, sm);

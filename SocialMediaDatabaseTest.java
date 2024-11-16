@@ -28,7 +28,9 @@ public class SocialMediaDatabaseTest {
     public void setUp() throws Exception {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
         expectedUser = new User("Dunsmore","CS180istheBest",
-                "I teach CS180", new ArrayList<>(), new ArrayList<>(), sm);
+                "I teach CS180", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), sm);
         expectedPost = new Post(expectedUser, "Purdue CS180",
                 "Purdue CS 180 is the best CS class", new ArrayList<Comment>(), 0, 0, sm);
         expected = new ArrayList<User>();
@@ -131,7 +133,9 @@ public class SocialMediaDatabaseTest {
     @Test
     public void testReadUsers() {
         User test = new User("PurduePete", "MyPurdue1234", "Hey guys it's me, Pete from Purdue!",
-                new ArrayList<User>(), new ArrayList<User>(), sm);
+                new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), sm);
         sm.readUsers();
         ArrayList<User> expected = new ArrayList<>();
         expected.add(expectedUser);
@@ -151,7 +155,9 @@ public class SocialMediaDatabaseTest {
     @Test
     public void testWriteUser() {
         User newUser = new User("KrisDreemur" , "DeltaruneRef", "Hey it's me Kris",
-                new ArrayList<User>(), new ArrayList<User>(), sm);
+                new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), sm);
         //Creating a new User object implicitly calls writeUser()
 
         assertEquals(true, sm.getUsers().contains(newUser));

@@ -31,7 +31,9 @@ class PostTest {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
         test = null;
         test = new User("PurduePete","lYER4CAK", "AboutMe", new ArrayList<User>(),
-                new ArrayList<User>(), sm);
+                new ArrayList<User>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), sm);
         testPost = new Post(test, "Test case", "Lorem Ispum", new ArrayList<Comment>(),
                 0, 0, sm);
     }
