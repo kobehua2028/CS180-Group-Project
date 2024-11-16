@@ -14,7 +14,6 @@ public class SocialMediaServer implements Runnable {
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8080);
-
         while (true) {
             Socket socket = serverSocket.accept();
             SocialMediaServer sm = new SocialMediaServer(socket);
@@ -33,6 +32,9 @@ public class SocialMediaServer implements Runnable {
             while (command != null) {
                 boolean success;
                 switch (command[0]) {
+                    case "ECHO" -> {
+                        pw.println("SUCCESS\n");
+                    }
                     case "LOGIN" -> {
                         if(command.length != 3) {
                             pw.write("INVALID_LOGIN_ATTEMPT\n");
@@ -76,6 +78,9 @@ public class SocialMediaServer implements Runnable {
 
                     }
                     case "HIDE_POST" -> {
+
+                    }
+                    case "UNHIDE_POST" -> {
 
                     }
                     case "CREATE_POST" -> {
@@ -277,7 +282,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean blockFriend(String username, String blockUsername) {
+    public boolean blockUser(String username, String blockUsername) {
         User user = sm.findUser(username);
         User block = sm.findUser(blockUsername);
         if (user == null || block == null) {
@@ -289,8 +294,57 @@ public class SocialMediaServer implements Runnable {
             if (user.getFriendsList().contains(block)) {
                 deleteFriend(username, blockUsername);
             }
+            return true;
         }
     }
+    
+    public boolean unblockUser(String username, String blockUsername) {
+        User user = sm.findUser(username);
+        User block = sm.findUser(blockUsername);
+        if (user == null || block == null) {
+            return false;
+        } else if (!user.getBlockedList().contains(block) || !user.equals(block)) {
+            return false;
+        } else {
+            user.unblock(block, sm);
+            return true;
+        }
+    }
+    
+    public boolean hidePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+        
+        if (user == null || post == null) {
+            return false;
+        } else if (user.getPosts().contains(post) || user.getHiddenPosts().contains(post)) {
+            return false;
+        } else {
+            user.hidePost(post);
+            return true;
+        }
+    }
+
+    public boolean unhidePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+
+        if (user == null || post == null) {
+            return false;
+        } else if (!user.getHiddenPosts().contains(post)) {
+            return false;
+        } else {
+            user.hidePost(post);
+            return true;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 
 
 
