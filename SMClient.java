@@ -38,6 +38,24 @@ public class SMClient implements Serializable {
         return false;
     }
 
+    public static boolean login(BufferedReader br, PrintWriter pw, String username, String password) throws IOException {
+        pw.println(String.format("LOGIN,%s,%s", username, password));
+        pw.flush();
+        String line = br.readLine();
+        while (line != null) {
+            if (line.equals("SUCCESS")) {
+                return true;
+            }
+            if (line.equals("FAIL")) {
+                return false;
+            }
+            line = br.readLine();
+        }
+        return false;
+    }
+
+
+
 }
 
 
