@@ -680,7 +680,7 @@ public class SocialMediaServer implements Runnable {
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (!user.getUserPosts().contains(post) || !post.getAuthor().equals(user)) {
+        } else if (!post.getAuthor().equals(user)) {
             return false;
         } else {
             user.deletePost(post);
