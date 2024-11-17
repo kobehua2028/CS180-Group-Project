@@ -111,6 +111,11 @@ public class SocialMediaDatabase implements Serializable {
         }
     }
 
+    public synchronized void deleteUser(User user) {
+        this.users.remove(user);
+        this.updateUsers();
+    }
+
     public synchronized void writeUser(User user) {
         if (!users.contains(user)) {
             users.add(user);
@@ -121,6 +126,10 @@ public class SocialMediaDatabase implements Serializable {
                 }
             }
         }
+        updateUsers();
+    }
+
+    public synchronized void updateUsers() {
         try (FileOutputStream fos = new FileOutputStream(usersIn);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(users);
@@ -128,6 +137,11 @@ public class SocialMediaDatabase implements Serializable {
             e.printStackTrace();
         }
         readUsers();
+    }
+
+    public synchronized void deletePost(Post post) {
+        this.posts.remove(post);
+        this.updatePosts();
     }
 
     public synchronized void writePost(Post post) {
@@ -140,6 +154,10 @@ public class SocialMediaDatabase implements Serializable {
                 }
             }
         }
+        updatePosts();
+    }
+
+    public synchronized void updatePosts() {
         try (FileOutputStream fos = new FileOutputStream(postsIn);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(posts);

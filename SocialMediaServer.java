@@ -151,6 +151,20 @@ public class SocialMediaServer implements Runnable {
                             }
                         }
                     }
+                    case "SEARCH_USER" -> {
+                        if (command.length != 2) {
+                            pw.println("FAIL");
+                        } else {
+                            success = searchUser(command[1]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
+                    }
                     case "ADD_FRIEND" -> {
                         if (command.length != 3) {
                             pw.println("FAIL");
@@ -532,6 +546,13 @@ public class SocialMediaServer implements Runnable {
             profileInfo.add(aboutme);
         }
         return profileInfo;
+    }
+
+    public boolean searchUser(String username) {
+        if (sm.findUser(username) != null) {
+            return true;
+        }
+        return false;
     }
 
     public boolean addFriend(String username, String friendUsername) {
