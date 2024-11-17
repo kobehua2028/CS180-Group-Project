@@ -470,6 +470,11 @@ public class SMClient implements Serializable {
         return false;
     }
 
+    public void logout() throws IOException {
+        pw.println("LOGOUT");
+        pw.flush();
+    }
+
 }
 
 
