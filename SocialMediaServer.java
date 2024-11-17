@@ -15,6 +15,8 @@ public class SocialMediaServer implements Runnable {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8080);
         System.out.println("SOCIAL MEDIA SERVER STARTED");
+//        System.out.println(sm.createUser("Bob", "Password5", "sdgsdg").getUsername());
+
         while (true) {
             Socket socket = serverSocket.accept();
             SocialMediaServer sm = new SocialMediaServer(socket);
@@ -43,13 +45,16 @@ public class SocialMediaServer implements Runnable {
                     }
                     case "LOGIN" -> {
                         if(command.length != 3) {
-                            pw.write("INVALID_LOGIN_ATTEMPT\n");
+                            pw.println("FAIL");
                         } else {
                             success = login(command[1], command[2]);
+                            System.out.println(success + command[1] + command[2]);
                             if (success) {
-                                pw.write("SUCCESS\n");
+                                pw.println("SUCCESS");
+                                pw.flush();
                             } else {
-                                pw.write("FAIL\n");
+                                pw.println("FAIL");
+                                pw.flush();
                             }
                         }
                     }
@@ -182,17 +187,18 @@ public class SocialMediaServer implements Runnable {
         }
         Random random = new Random();
         ArrayList<Integer> postNumbers = new ArrayList<>();
-        for (int i = 0; i < 5;) {
-            int j = random.nextInt(0,sm.getPosts().size() - 1);
-            Post post = sm.getPosts().get(j);
-            if (!user.getHiddenPosts().contains(post) && !postNumbers.contains(j) &&
-                    !user.getBlockedList().contains(post.getAuthor())) {
-                String postString = post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor() + "`" +
+        int postLimit = Integer.min(5, sm.getPosts().size());
+        int i = 0;
+        int postsShown = 0;
+        while (postsShown < postLimit) {
+            Post post = sm.getPosts().get(sm.getPosts().size() - i);
+            if (!user.getHiddenPosts().contains(post) && !user.getBlockedList().contains(post.getAuthor())) {
+                String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor() + "`" +
                         post.getComments().size() + "`" + post.getLikes() + "`" + post.getDislikes();
                 postStrings[i] = postString;
-                i++;
+                postsShown++;
             }
-            postNumbers.add(j);
+            i++;
         }
         return postStrings;
     }
@@ -205,7 +211,7 @@ public class SocialMediaServer implements Runnable {
         }
         for (int i = 0; i < post.getComments().size(); i++) {
             Comment comment = post.getComments().get(i);
-            String commentString = comment.getText() + "`" + comment.getAuthor() + "`" +
+            String commentString = "COMMENT_" + comment.getText() + "`" + comment.getAuthor() + "`" +
                     comment.getLikes() + "`" + comment.getDislikes();
             comments.add(commentString);
         }
@@ -407,22 +413,8 @@ public class SocialMediaServer implements Runnable {
         } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         }
+        return false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

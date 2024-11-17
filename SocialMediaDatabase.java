@@ -43,6 +43,7 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public User findUser(String username) { //validates if there's a user with the same username
+        this.readUsers();
         for (User user : users) {
             if (username.equals(user.getUsername())) {
                 return user;
