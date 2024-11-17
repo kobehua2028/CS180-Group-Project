@@ -65,7 +65,7 @@ public class SMClient implements Serializable {
             System.out.println("Post 2 created successfully");
         }
 
-        System.out.println(client.displayPosts(username));
+        System.out.println(client.displayPosts(username).toString());
 
     }
     // works
@@ -136,13 +136,12 @@ public class SMClient implements Serializable {
         pw.println(String.format("DISPLAY_POSTS`%s", username));
         pw.flush();
         String line = br.readLine();
-        boolean allPostsSent = false;
-        while (!allPostsSent) {
+        while (true) {
             if (line.equals("FAIL")) {
                 return null;
             }
             if (line.equals("ALL_POSTS_SENT")) {
-                allPostsSent = true;
+                break;
             }
             if (line.contains("POST_")) {
                 line = line.substring(line.indexOf("_") + 1);
@@ -154,7 +153,6 @@ public class SMClient implements Serializable {
                 post.add(postFields[3]); // amount of comments
                 post.add(postFields[4]); // likes
                 post.add(postFields[5]); // dislikes
-                System.out.println(post.toString());
                 posts.add(post);
             }
             line = br.readLine();
