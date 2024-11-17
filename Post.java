@@ -64,6 +64,15 @@ public class Post implements Serializable, PostInterface {
         comments.add(comment);
     }
 
+    public boolean deleteComment(User deleter, Comment comment) {
+        if (this.getComments().contains(comment) && (deleter.equals(comment.getAuthor())
+                || deleter.equals(this.getAuthor()))) {
+            this.comments.remove(comment);
+            return true;
+        }
+        return false;
+    }
+
     public String getTitle() {
         return title;
     }

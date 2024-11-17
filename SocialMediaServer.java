@@ -34,6 +34,7 @@ public class SocialMediaServer implements Runnable {
                 switch (command[0]) {
                     case "ECHO" -> {
                         pw.println("SUCCESS\n");
+                        pw.flush();
                     }
                     case "LOGIN" -> {
                         if(command.length != 3) {
@@ -179,7 +180,8 @@ public class SocialMediaServer implements Runnable {
         for (int i = 0; i < 5;) {
             int j = random.nextInt(0,sm.getPosts().size() - 1);
             Post post = sm.getPosts().get(j);
-            if (!user.getHiddenPosts().contains(post) && !postNumbers.contains(j)) {
+            if (!user.getHiddenPosts().contains(post) && !postNumbers.contains(j) &&
+                    !user.getBlockedList().contains(post.getAuthor())) {
                 String postString = post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor() + "`" +
                         post.getComments().size() + "`" + post.getLikes() + "`" + post.getDislikes();
                 postStrings[i] = postString;
@@ -376,6 +378,33 @@ public class SocialMediaServer implements Runnable {
             return true;
         }
     }
+
+    public boolean deleteComment(String postTitle, String deleterUsername, String comment) {
+        Post post = sm.findPost(postTitle);
+        User deleter = sm.findUser(deleterUsername);
+        if (post == null || deleter == null) {
+            return false;
+        }
+        for(int i = 0; i < post.getComments().size(); i++) {
+            if (post.getComments().get(i).getText().equals(comment)) {
+                post.deleteComment(deleter, post.getComments().get(i));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean likePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+        if (user == null || post == null) {
+            return false;
+        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+            return false;
+        }
+    }
+
+
 
     
 
