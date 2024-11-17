@@ -26,9 +26,9 @@ public class UserTest {
     public void setUp() throws Exception {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
         user1 = new User("Alice", "password123", "Hello, I'm Alice!",
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),sm);
+                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),sm);
         user2 = new User("Bob", "securePass456", "Hello, I'm Bob!",
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm);
+                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),sm);
     }
 
     @After
@@ -121,13 +121,13 @@ public class UserTest {
         User user3 = user1;
         assertEquals(true, user1.equals(user3));
         assertEquals(false, user1.equals(new User("BobbyB", "password999",
-                "Hello, I'm Alice!", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),sm)));
+                "Hello, I'm Alice!", new ArrayList<>(),new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),sm)));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEqualsMethod() {
         User duplicateUser1 = new User("Alice", "password123",
-                "Different bio", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),sm);
+                "Different bio", new ArrayList<>(),new ArrayList<>(),new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),sm);
     }
 
     @Test
@@ -170,7 +170,7 @@ public class UserTest {
     @Test
     public void testGetFriendsList() {
         User newUser = new User("Fred", "Friddler", "Me fred", new ArrayList<User>(),
-                new ArrayList<User>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm);
+                new ArrayList<User>(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm);
         user1.addFriend(newUser);
 
         assertEquals(newUser, user1.getFriendsList().get(0));
@@ -179,9 +179,144 @@ public class UserTest {
     @Test
     public void testGetBlockedList() {
         User bleh = new User("Bread", "Breadman", "Bread can't talk, dummy", new ArrayList<User>(),
-                new ArrayList<User>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm);
+                new ArrayList<User>(), new ArrayList<>(),new ArrayList<>(),new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm);
         user1.block(bleh);
 
         assertEquals(bleh, user1.getBlockedList().get(0));
     }
+
+    @Test
+    public void testHidePost() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+
+        user1.hidePost(testPost);
+
+        assertEquals(true, user1.getHiddenPosts().contains(testPost));
+    }
+
+    @Test
+    public void testGetHiddenPost() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+
+        user1.hidePost(testPost);
+
+        assertEquals(testPost, user1.getHiddenPosts().get(0));
+    }
+
+    @Test
+    public void testGetUserPosts() {
+        user2.createPost("Hi", "Bob here");
+        assertEquals(true, user2.getUserPosts().get(0).equals(new Post(user2, "Hi", "Bob here", new ArrayList<>(), 0, 0, sm)));
+    }
+
+    @Test
+    public void testGetLikedPosts() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+
+        user1.addLikedPost(user2.getUserPosts().get(0));
+
+        assertEquals(testPost, user1.getLikedPosts().get(0));
+    }
+
+    @Test
+    public void testGetDislikedPosts() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+
+        user1.addDislikedPost(user2.getUserPosts().get(0));
+
+        assertEquals(testPost, user1.getDislikedPosts().get(0));
+    }
+
+    @Test
+    public void testRemoveDislikedPost() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+
+        user1.addDislikedPost(user2.getUserPosts().get(0));
+        user1.removeDislikedPost(user2.getUserPosts().get(0));
+
+        assertEquals(false, user1.getDislikedPosts().contains(user2.getUserPosts().get(0)));
+    }
+
+    @Test
+    public void testRemoveLikedPost() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+
+        user1.addLikedPost(user2.getUserPosts().get(0));
+        user1.removeLikedPost(user2.getUserPosts().get(0));
+
+        assertEquals(false, user1.getLikedPosts().contains(user2.getUserPosts().get(0)));
+    }
+
+    @Test
+    public void testGetLikedComments() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+        Comment testComment = new Comment(user1, "Oh no!", 0, 0 ,testPost, sm);
+        user2.addLikedComment(testComment);
+
+        assertEquals(testComment, user2.getLikedComments().get(0));
+    }
+
+    @Test
+    public void testGetDislikedComments() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+        Comment testComment = new Comment(user1, "Oh no!", 0, 0 ,testPost, sm);
+        user2.addDislikedComment(testComment);
+
+        assertEquals(testComment, user2.getDislikedComments().get(0));
+    }
+
+    @Test
+    public void testRemoveLikedComments() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+        Comment testComment = new Comment(user1, "Oh no!", 0, 0 ,testPost, sm);
+        user2.addLikedComment(testComment);
+        user2.removeLikedComment(testComment);
+
+        assertEquals(false, user2.getLikedComments().contains(testComment));
+    }
+
+    @Test
+    public void testRemoveDislikedComments() {
+        user2.createPost("Hi", "Bob here");
+
+        Post testPost = user2.getUserPosts().get(0);
+        Comment testComment = new Comment(user1, "Oh no!", 0, 0 ,testPost, sm);
+        user2.addDislikedComment(testComment);
+        user2.removeDislikedComment(testComment);
+
+        assertEquals(false, user2.getDislikedComments().contains(testComment));
+    }
+
+    @Test
+    public void testDeletePost() {
+        user2.createPost("Hi", "Bob here");
+        Post testPost = user2.getUserPosts().get(0);
+        user2.deletePost(testPost);
+
+        assertEquals(false, sm.getPosts().contains(testPost));
+
+    }
+
+
+
+
+
 }
