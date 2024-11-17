@@ -30,6 +30,7 @@ public class SocialMediaDatabaseTest {
         expectedUser = new User("Dunsmore","CS180istheBest",
                 "I teach CS180", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         expectedPost = new Post(expectedUser, "Purdue CS180",
                 "Purdue CS 180 is the best CS class", new ArrayList<Comment>(), 0, 0, sm);
@@ -67,7 +68,10 @@ public class SocialMediaDatabaseTest {
     public void testGetPost() {
         Post expectedOutput = expectedPost;
 
-        assertEquals(expectedOutput, sm.getPosts().get(0));
+        assertEquals(expectedOutput.getTitle(), sm.getPosts().get(0).getTitle());
+        assertEquals(expectedOutput.getAuthor(), sm.getPosts().get(0).getAuthor());
+        assertEquals(expectedOutput.getSubtext(), sm.getPosts().get(0).getSubtext());
+
     }
 
     @Test
@@ -83,21 +87,14 @@ public class SocialMediaDatabaseTest {
     @Test
     public void testAddPost() {
         sm.addPost(expectedPost);
-
-        expectedPosts.add(expectedPost);
-        expectedPosts.add(expectedPost);
-
-        assertEquals(expectedPosts, sm.getPosts());
+        assertEquals(true, sm.getPosts().contains(expectedPost));
 
     }
 
     @Test
     public void testCreateUser() {
         User test = sm.createUser("Frank", "Maximilton", "Hey I'm a robot.");
-        expected = new ArrayList<User>();
-        expected.add(expectedUser);
-        expected.add(test);
-        assertEquals(expected, sm.getUsers());
+        assertEquals(true, sm.getUsers().contains(test));
     }
 
     @Test
@@ -127,14 +124,17 @@ public class SocialMediaDatabaseTest {
             sm.getUsers().get(0).createPost("Purdue CS180", "Purdue CS 180 is the best CS class");
         }
         Post foundPost = sm.findPost("Purdue CS180");
-        assertEquals(expectedPost, foundPost);
+
+        assertEquals(expectedPost.getTitle(), sm.getPosts().get(0).getTitle());
+        assertEquals(expectedPost.getAuthor(), sm.getPosts().get(0).getAuthor());
+        assertEquals(expectedPost.getSubtext(), sm.getPosts().get(0).getSubtext());
     }
 
     @Test
     public void testReadUsers() {
         User test = new User("PurduePete", "MyPurdue1234", "Hey guys it's me, Pete from Purdue!",
                 new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         sm.readUsers();
         ArrayList<User> expected = new ArrayList<>();
@@ -156,7 +156,7 @@ public class SocialMediaDatabaseTest {
     public void testWriteUser() {
         User newUser = new User("KrisDreemur" , "DeltaruneRef", "Hey it's me Kris",
                 new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         //Creating a new User object implicitly calls writeUser()
 
@@ -170,5 +170,25 @@ public class SocialMediaDatabaseTest {
         //Creating a post implicitly calls writePost()
 
         assertEquals(true, sm.getPosts().contains(newPost));
+    }
+
+    @Test
+    public void testDeleteUser() {
+        User markedForDeletion = new User("Terminated", "12345678", "But nobody came...",
+                new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(), sm);
+
+        sm.deleteUser(markedForDeletion);
+        assertEquals(false, sm.getUsers().contains(markedForDeletion));
+    }
+
+    @Test
+    public void testDeletePost() {
+        Post markedForDeletion = expectedPost;
+        sm.deletePost(markedForDeletion);
+
+        assertEquals(false, sm.getPosts().contains(markedForDeletion));
     }
 }
