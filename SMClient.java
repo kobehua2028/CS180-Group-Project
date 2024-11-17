@@ -20,18 +20,38 @@ public class SMClient implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter pw = new PrintWriter(socket.getOutputStream());
 
+        if(echo(br, pw)) {
+            System.out.println("Connected to server");
+        }
+    }
+
+    public static boolean echo(BufferedReader br, PrintWriter pw) throws IOException {
         pw.println("ECHO");
         pw.flush();
-
         String line = br.readLine();
-        while(line != null) {
-            System.out.println(line);
+        while (line != null) {
+            if (line.equals("SUCCESS")) {
+                return true;
+            }
             line = br.readLine();
         }
-
+        return false;
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //    public void displayPosts() {

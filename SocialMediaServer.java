@@ -38,7 +38,7 @@ public class SocialMediaServer implements Runnable {
                 boolean success;
                 switch (command[0]) {
                     case "ECHO" -> {
-                        pw.println();
+                        pw.println("SUCCESS\n");
                         pw.flush();
                     }
                     case "LOGIN" -> {
