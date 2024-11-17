@@ -6,9 +6,10 @@ News feed style application, where users are able to...
 - add/block users.
 - have their comment/post/user data saved to a centralized database
 
-### Vocareum workspace is submmited by ___
 #### Add JUnit 4.13.1 and 5.8.1 and testng to classpath
 #### Compile all classes, run test cases to check functionality
+
+#### Vocareum workspace is submmited by ___
 
 ### Client
 ##### Purpose: 
@@ -26,9 +27,25 @@ The Client class provides methods for:
 - Does not directly interact with SocialMediaDatabase
 
 ##### Testing:
+  
+### Server
+##### Purpose: 
+Serves as the intermediary between the Client and the SocialMediaDatabase. It handles all logic for managing users, posts, comments, and interactions.
+
+##### Functionality:
+The Server class provides methods for:
+- Profile Management: Displaying profiles, adding/removing friends, and blocking/unblocking users.
+- Post Management: Creating, hiding, unhiding, liking, disliking, and deleting posts.
+- Comment Management: Adding, deleting, liking, and disliking comments.
+- Validation: Ensures operations are only performed if valid (e.g., users exist, users aren’t blocked).
+
+##### Relationship to Other Classes:
+- Receives requests from the Client class.
+- Directly interacts with the SocialMediaDatabase to manage data.
+
+##### Testing:
 Verified in SocialMediaServerTest through manual input tests covering:
 - Account creation and login.
 - Interactions such as posting, commenting, liking, and blocking.
 - Invalid commands and error handling.
-### Server
 
