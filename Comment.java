@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * CS180 Group Project
  * A class to handle commenting on posts.
@@ -12,6 +14,8 @@ import java.io.Serializable;
 public class Comment implements Serializable, CommentInterface {
     private final String text;
     private int likes;
+    private ArrayList<User> likers = new ArrayList<>();
+    private ArrayList<User> dislikers = new ArrayList<>();
     private int dislikes;
     private final User author;
     private final Post post; //the post to which this comment belongs
@@ -47,6 +51,14 @@ public class Comment implements Serializable, CommentInterface {
         return post;
     }
 
+    public ArrayList<User> getLikers() {
+        return likers;
+    }
+
+    public ArrayList<User> getDislikers() {
+        return dislikers;
+    }
+
     public void incrementLikes() {
         synchronized (new Object()) {
             likes++;
@@ -78,5 +90,32 @@ public class Comment implements Serializable, CommentInterface {
             }
         }
         sm.writePost(post);
+    }
+
+    public void addLiker(User user) {
+        synchronized (new Object()) {
+            this.likers.add(user);
+        }
+        sm.writePost(post);
+    }
+
+    public void addDisliker(User user) {
+        synchronized (new Object()) {
+            this.dislikers.add(user);
+        }
+        sm.writePost(post);
+    }
+
+    public void removeLiker(User user) {
+        synchronized (new Object()) {
+            this.likers.remove(user);
+        }
+        sm.writePost(post);
+    }
+
+    public void removeDisliker(User user) {
+        synchronized (new Object()) {
+            this.dislikers.remove(user);
+        }
     }
 }

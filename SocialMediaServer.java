@@ -125,9 +125,6 @@ public class SocialMediaServer implements Runnable {
                     case "UNDISLIKE_COMMENT" -> {
 
                     }
-                    case "HIDE_COMMENT" -> {
-
-                    }
                     default -> {
                         // replace with error Message
                         System.out.println("UNKNOWN_COMMAND");
@@ -392,8 +389,7 @@ public class SocialMediaServer implements Runnable {
         }
         for(int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)) {
-                post.deleteComment(deleter, post.getComments().get(i));
-                return true;
+                return post.deleteComment(deleter, post.getComments().get(i));
             }
         }
         return false;
@@ -406,24 +402,121 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
+        } else {
+            post.incrementLikes();
+            user.addLikedPost(post);
+            return true;
         }
     }
 
+    public boolean unlikePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+        if (user == null || post == null) {
+            return false;
+        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+            return false;
+        } else {
+            post.removeLike();
+            user.removeLikedPost(post);
+            return true;
+        }
+    }
 
+    public boolean dislikePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+        if (user == null || post == null) {
+            return false;
+        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+            return false;
+        } else {
+            post.incrementDislikes();
+            user.addDislikedPost(post);
+            return true;
+        }
+    }
 
+    public boolean undislikePost(String username, String postTitle) {
+        User user = sm.findUser(username);
+        Post post = sm.findPost(postTitle);
+        if (user == null || post == null) {
+            return false;
+        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+            return false;
+        } else {
+            post.removeDislike();
+            user.removeDislikedPost(post);
+            return true;
+        }
+    }
 
+    public boolean likeCommemt(String postTitle, String likerUsername, String comment) {
+        Post post = sm.findPost(postTitle);
+        User liker = sm.findUser(likerUsername);
+        if (post == null || liker == null) {
+            return false;
+        }
+        for(int i = 0; i < post.getComments().size(); i++) {
+            if (post.getComments().get(i).getText().equals(comment)
+                    && !post.getComments().get(i).getLikers().contains(liker)) {
+                post.getComments().get(i).incrementLikes();
+                post.getComments().get(i).addLiker(liker);
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean unlikeCommemt(String postTitle, String likerUsername, String comment) {
+        Post post = sm.findPost(postTitle);
+        User liker = sm.findUser(likerUsername);
+        if (post == null || liker == null) {
+            return false;
+        }
+        for(int i = 0; i < post.getComments().size(); i++) {
+            if (post.getComments().get(i).getText().equals(comment) &&
+                    post.getComments().get(i).getLikers().contains(liker)) {
+                post.getComments().get(i).removeLike();
+                post.getComments().get(i).removeLiker(liker);
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean dislikeCommemt(String postTitle, String dislikerUsername, String comment) {
+        Post post = sm.findPost(postTitle);
+        User disliker = sm.findUser(dislikerUsername);
+        if (post == null || disliker == null) {
+            return false;
+        }
+        for(int i = 0; i < post.getComments().size(); i++) {
+            if (post.getComments().get(i).getText().equals(comment)
+                    && !post.getComments().get(i).getDislikers().contains(disliker)) {
+                post.getComments().get(i).incrementDislikes();
+                post.getComments().get(i).addDisliker(disliker);
+                return true;
+            }
+        }
+        return false;
+    }
 
-
-
-
-
-
-
-
-
-
-
+    public boolean undislikeCommemt(String postTitle, String dislikerUsername, String comment) {
+        Post post = sm.findPost(postTitle);
+        User disliker = sm.findUser(dislikerUsername);
+        if (post == null || disliker == null) {
+            return false;
+        }
+        for(int i = 0; i < post.getComments().size(); i++) {
+            if (post.getComments().get(i).getText().equals(comment)
+                    && post.getComments().get(i).getDislikers().contains(disliker)) {
+                post.getComments().get(i).incrementDislikes();
+                post.getComments().get(i).removeDisliker(disliker);
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
