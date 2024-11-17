@@ -17,8 +17,8 @@ public class SMClient implements Serializable {
     public SMClient(Socket socket) {
         this.socket = socket;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter pw = new PrintWriter(socket.getOutputStream());
+            this.br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.pw = new PrintWriter(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class SMClient implements Serializable {
     }
 
     public boolean deleteUser(String username) throws IOException {
-        pw.println(String.format("DELETE_ACCOUNT`%s", username));
+        pw.println(String.format("DELETE_ACCOUNT`%s", this.username, username));
         pw.flush();
         String line = br.readLine();
         while (line != null) {

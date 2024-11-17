@@ -83,11 +83,11 @@ public class SocialMediaServer implements Runnable {
                         socket.close();
                     }
                     case "DELETE_ACCOUNT" -> {
-                        if (command.length != 2) {
+                        if (command.length != 3) {
                             pw.println("FAIL");
                             pw.flush();
                         } else {
-                            success = deleteUser(command[1]);
+                            success = deleteUser(command[1], command[2]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -454,10 +454,11 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public synchronized boolean deleteUser(String username) {
+    public synchronized boolean deleteUser(String username, String deletedUsername) {
         User deleteUser = sm.findUser(username);
-        if (deleteUser != null) {
-            sm.getUsers().remove(deleteUser);
+        User deletedAccount = sm.findUser(deletedUsername);
+        if (deleteUser != null && deletedAccount.equals(deleteUser)) {
+            sm.deleteUser(deleteUser);
             return true;
         } else {
             return false;
