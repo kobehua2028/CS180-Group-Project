@@ -177,4 +177,24 @@ class PostTest {
 
         assertEquals(expectedCommentText, testPost.getComments().get(0).getText());
     }
+
+    @Test
+    public void testDeleteComment() {
+        testPost.createComment(test, "hello");
+        Comment newComment = new Comment(test, "Hi", 0, 0, testPost,sm );
+
+        //checks if it deletes newComment
+        assertEquals(true, testPost.deleteComment(test, newComment));
+        //checks if newcomment is still in comments after its deleted
+        assertEquals(false, testPost.getComments().contains(newComment));
+        //checks that it returns false if comment is already deleted
+        assertEquals(false, testPost.deleteComment(test, newComment));
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals(String.format("%s says...\n%s\n\n%s\n\uD83D\uDC4D%d  \uD83D\uDC4E%d  \uD83D\uDCAC%d",
+                testPost.getAuthor().getUsername(), testPost.getTitle(), testPost.getSubtext(), testPost.getLikes(),
+                testPost.getDislikes(), testPost.getComments().size()),testPost.toString());
+    }
 }
