@@ -10,6 +10,7 @@ News feed style application, where users are able to...
 #### Compile all classes, run test cases to check functionality
 #### vocareum workspace is submitted by __
 
+## Phase 1
 ### Users
 - User class
   - Stores important values like username, password, bio, friends, and blocked.
@@ -51,6 +52,7 @@ News feed style application, where users are able to...
 - Comment test class
   - Ensures that methods such as incrementing likes/dislikes or creating comments is working properly.
     
+## Phase 2
 ### SMClient
 ##### Purpose: 
 Acts as the user interface for the application. It enables users to interact with the social media system by sending requests to the Server class.
