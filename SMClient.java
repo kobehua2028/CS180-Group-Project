@@ -66,7 +66,12 @@ public class SMClient implements Serializable {
         }
 
         System.out.println(client.displayPosts(username).toString());
-
+        ArrayList<String> postInfo = client.displayPosts(username).get(0);
+        if (client.createComment(postInfo.get(0), "Nice Cat")) {
+            System.out.println("Comment created successfully");
+        }
+        client.createComment(postInfo.get(0), "Fat Cat");
+        System.out.println(client.displayComments(postInfo.get(0)).toString());
     }
     // works
     public boolean echo() throws IOException {
@@ -165,9 +170,12 @@ public class SMClient implements Serializable {
         pw.println(String.format("DISPLAY_COMMENTS`%s", postTitle));
         pw.flush();
         String line = br.readLine();
-        while (line != null) {
+        while (true) {
             if (line.equals("FAIL")) {
                 return null;
+            }
+            if (line.equals("ALL_COMMENTS_SENT")) {
+                break;
             }
             if (line.contains("COMMENT_")) {
                 line = line.substring(line.indexOf("_") + 1);
@@ -179,6 +187,7 @@ public class SMClient implements Serializable {
                 comment.add(commentFields[3]); // dislikes
                 comments.add(comment);
             }
+            line = br.readLine();
         }
         return comments;
     }

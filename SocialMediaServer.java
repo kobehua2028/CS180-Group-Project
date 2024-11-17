@@ -127,7 +127,9 @@ public class SocialMediaServer implements Runnable {
                                 pw.println("SUCCESS");
                                 for (String comment : comments) {
                                     pw.println(comment);
+                                    pw.flush();
                                 }
+                                pw.println("ALL_COMMENTS_SENT");
                                 pw.flush();
                             } else {
                                 pw.println("FAIL");
@@ -500,7 +502,7 @@ public class SocialMediaServer implements Runnable {
         }
         for (int i = 0; i < post.getComments().size(); i++) {
             Comment comment = post.getComments().get(i);
-            String commentString = "COMMENT_" + comment.getText() + "`" + comment.getAuthor() + "`" +
+            String commentString = "COMMENT_" + comment.getText() + "`" + comment.getAuthor().getUsername() + "`" +
                     comment.getLikes() + "`" + comment.getDislikes();
             comments.add(commentString);
         }
