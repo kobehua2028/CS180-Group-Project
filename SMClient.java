@@ -470,6 +470,22 @@ public class SMClient implements Serializable {
         return false;
     }
 
+    public boolean searchUser(String username) throws IOException {
+        pw.println(String.format("SEARCH_USER`%s", username));
+        pw.flush();
+        String line = br.readLine();
+        while (line != null) {
+            if (line.equals("FAIL")) {
+                return false;
+            }
+            if (line.equals("SUCCESS")) {
+                return true;
+            }
+            line = br.readLine();
+        }
+        return false;
+    }
+
     public void logout() throws IOException {
         pw.println("LOGOUT");
         pw.flush();
@@ -482,50 +498,3 @@ public class SMClient implements Serializable {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    public void displayPosts() {
-//        String postString = "";
-//        int postCount = 1;
-//
-//        if (sm.getPosts().size() - postsShown < 5) {
-//            for (int i = postsShown; i < sm.getPosts().size(); i++) {
-//                Post displayingPost = sm.getPosts().get(i);
-//                postString += String.format("%d)\n", postCount);
-//                postString += String.format("%s says:\n", displayingPost.getAuthor().getUsername());
-//                postString += String.format("%s\n\n", displayingPost.getTitle());
-//                postString += String.format("%s\n\n", displayingPost.getSubtext());
-//                postString += String.format("Likes: %d    Dislikes: %d    Comments: %d\n",
-//                        displayingPost.getLikes(), displayingPost.getDislikes(), displayingPost.getComments().size());
-//                postString += "__________________________________________\n";
-//                postCount++;
-//            }
-//            postsShown = sm.getPosts().size() - 1;
-//        } else {
-//            for (int i = postsShown; i < postsShown + 5; i++) {
-//                Post displayingPost = sm.getPosts().get(i);
-//                postString += String.format("%d)\n", postCount);
-//                postString += String.format("%s says:\n", displayingPost.getAuthor().getUsername());
-//                postString += String.format("%s\n\n", displayingPost.getTitle());
-//                postString += String.format("%s\n\n", displayingPost.getSubtext());
-//                postString += String.format("Likes: %d    Dislikes: %d    Comments: %d\n",
-//                        displayingPost.getLikes(), displayingPost.getDislikes(), displayingPost.getComments().size());
-//                postString += "__________________________________________\n";
-//                postCount++;
-//            }
-//            postsShown += 5;
-//        }
-//        System.out.print(postString);
-//    }
