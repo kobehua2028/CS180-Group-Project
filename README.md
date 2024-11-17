@@ -8,6 +8,7 @@ News feed style application, where users are able to...
 
 #### Add JUnit 4.13.1 and 5.8.1 and testng to classpath
 #### Compile all classes, run test cases to check functionality
+## vocareum workspace is submitted by __
 
 ### Users
 - User class
@@ -49,3 +50,42 @@ News feed style application, where users are able to...
   - Defines methods for comment class
 - Comment test class
   - Ensures that methods such as incrementing likes/dislikes or creating comments is working properly.
+    
+## SMClient
+##### Purpose: 
+Acts as the user interface for the application. It enables users to interact with the social media system by sending requests to the Server class.
+
+##### Functionality:
+The Client class provides methods for:
+- User login and profile management.
+- Creating, viewing, and interacting with posts and comments.
+- Managing friends and blocking users.
+- Handling user commands and sending appropriate requests to the server.
+
+##### Relationship to Other Classes:
+- Sends requests to the Server class, which processes them and interacts with the SocialMediaDatabase.
+- Does not directly interact with SocialMediaDatabase
+
+##### Testing:
+First run SocialMediaServer to connect the client and server class. Then run the main method in SMClient with the test cases to ensure the functionality of the class.
+
+## SocialMediaServer
+##### Purpose: 
+Serves as the intermediary between the Client and the SocialMediaDatabase. It handles all logic for managing users, posts, comments, and interactions.
+
+##### Functionality:
+The Server class provides methods for:
+- Profile Management: Displaying profiles, adding/removing friends, and blocking/unblocking users.
+- Post Management: Creating, hiding, unhiding, liking, disliking, and deleting posts.
+- Comment Management: Adding, deleting, liking, and disliking comments.
+- Validation: Ensures operations are only performed if valid (e.g., users exist, users aren’t blocked).
+
+##### Relationship to Other Classes:
+- Receives requests from the Client class.
+- Directly interacts with the SocialMediaDatabase to manage data.
+
+##### Testing:
+Verified in SocialMediaServerTest through manual input tests covering:
+- Account creation and login.
+- Interactions such as posting, commenting, liking, and blocking.
+- Invalid commands and error handling.
