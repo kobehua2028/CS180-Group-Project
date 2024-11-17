@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class SMClient implements Serializable {
@@ -72,6 +73,11 @@ public class SMClient implements Serializable {
         }
         client.createComment(postInfo.get(0), "Fat Cat");
         System.out.println(client.displayComments(postInfo.get(0)).toString());
+        ArrayList<String[]> profile = client.displayProfile("Kobe");
+        System.out.println(Arrays.asList(profile.get(0)));
+        System.out.println(Arrays.asList(profile.get(1)));
+        System.out.println(Arrays.asList(profile.get(2)));
+        System.out.println(Arrays.asList(profile.get(3)));
     }
     // works
     public boolean echo() throws IOException {
@@ -209,16 +215,25 @@ public class SMClient implements Serializable {
                 break;
             }
             if (line.contains("FRIENDS_LIST")) {
-                friends = line.substring(line.indexOf("_") + 1).split("`");
+                friends = line.substring(line.indexOf("`") + 1).split("`");
+                if (friends[0].equals("FRIENDS_LIST")) {
+                    friends[0] = null;
+                }
             }
             if (line.contains("BLOCKED_LIST")) {
-                blocks = line.substring(line.indexOf("_") + 1).split("`");
+                blocks = line.substring(line.indexOf("`") + 1).split("`");
+                if (blocks[0].equals("BLOCKED_LIST")) {
+                    blocks[0] = null;
+                }
             }
             if (line.contains("POSTS_LIST")) {
-                posts = line.substring(line.indexOf("_") + 1).split("`");
+                posts = line.substring(line.indexOf("`") + 1).split("`");
+                if (posts[0].equals("POSTS_LIST")) {
+                    posts[0] = null;
+                }
             }
             if (line.contains("ABOUT_ME")) {
-                aboutMe[0] = line.substring(line.indexOf("_") + 1);
+                aboutMe[0] = line.substring(line.indexOf("`") + 1);
             }
             line = br.readLine();
         }
