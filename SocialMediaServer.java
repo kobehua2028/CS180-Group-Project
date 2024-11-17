@@ -44,8 +44,9 @@ public class SocialMediaServer implements Runnable {
                         pw.flush();
                     }
                     case "LOGIN" -> {
-                        if(command.length != 3) {
+                        if (command.length != 3) {
                             pw.println("FAIL");
+                            pw.flush();
                         } else {
                             success = login(command[1], command[2]);
                             System.out.println(success + command[1] + command[2]);
@@ -59,76 +60,348 @@ public class SocialMediaServer implements Runnable {
                         }
                     }
                     case "REGISTER_USER" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                            pw.flush();
+                        } else {
+                            success = createUser(command[1], command[2], command[3]);
+                            System.out.println(success + command[1] + command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "LOGOUT" -> {
-
+                        // might need to be something different
+                        br.close();
+                        pw.close();
+                        socket.close();
                     }
                     case "DELETE_ACCOUNT" -> {
-
+                        if (command.length != 2) {
+                            pw.println("FAIL");
+                            pw.flush();
+                        } else {
+                            success = deleteUser(command[1]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DISPLAY_POSTS" -> {
-
+                        if (command.length != 2) {
+                            pw.println("FAIL");
+                            pw.flush();
+                        } else {
+                            ArrayList<String> posts = displayPosts(command[1]);
+                            success = (!posts.isEmpty());
+                            if (success) {
+                                pw.println("SUCCESS_POST");
+                                for (String post : posts) {
+                                    pw.println(post);
+                                }
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DISPLAY_COMMENTS" -> {
-
+                        if (command.length != 2) {
+                            pw.println("FAIL");
+                        } else {
+                            ArrayList<String> comments = displayComments(command[1]);
+                            success = (!comments.isEmpty());
+                            if (success) {
+                                pw.println("SUCCESS");
+                                for (String comment : comments) {
+                                    pw.println(comment);
+                                }
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DISPLAY_PROFILE" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            ArrayList<String> profileInfo = displayProfile(command[1], command[2]);
+                            success = (!profileInfo.isEmpty());
+                            if (success) {
+                                pw.println("SUCCESS");
+                                for (String info : profileInfo) {
+                                    pw.println(info);
+                                }
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "ADD_FRIEND" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = addFriend(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DELETE_FRIEND" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = deleteFriend(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "BLOCK_USER" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = blockUser(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "UNBLOCK_USER" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = unblockUser(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "HIDE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = hidePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "UNHIDE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = unhidePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "CREATE_POST" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = createPost(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DELETE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = deletePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "CREATE_COMMENT" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = createComment(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DELETE_COMMENT" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = deleteComment(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "LIKE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = likePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "UNLIKE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = unlikePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DISLIKE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = dislikePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "UNDISLIKE_POST" -> {
-
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = undislikePost(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "LIKE_COMMENT" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = likeCommemt(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "UNLIKE_COMMENT" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = unlikeCommemt(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "DISLIKE_COMMENT" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = dislikeCommemt(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     case "UNDISLIKE_COMMENT" -> {
-
+                        if (command.length != 4) {
+                            pw.println("FAIL");
+                        } else {
+                            success = undislikeCommemt(command[1], command[2], command[3]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
                     }
                     default -> {
                         // replace with error Message
@@ -176,14 +449,12 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public String[] displayPosts(String username) {
+    public ArrayList<String> displayPosts(String username) {
         User user = sm.findUser(username);
-        String[] postStrings = new String[5];
+        ArrayList<String> postStrings = new ArrayList<>();
         if (user == null) {
             return postStrings;
         }
-        Random random = new Random();
-        ArrayList<Integer> postNumbers = new ArrayList<>();
         int postLimit = Integer.min(5, sm.getPosts().size());
         int i = 0;
         int postsShown = 0;
@@ -192,7 +463,7 @@ public class SocialMediaServer implements Runnable {
             if (!user.getHiddenPosts().contains(post) && !user.getBlockedList().contains(post.getAuthor())) {
                 String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor() + "`" +
                         post.getComments().size() + "`" + post.getLikes() + "`" + post.getDislikes();
-                postStrings[i] = postString;
+                postStrings.add(postString);
                 postsShown++;
             }
             i++;
@@ -524,5 +795,4 @@ public class SocialMediaServer implements Runnable {
         }
         return false;
     }
-
 }
