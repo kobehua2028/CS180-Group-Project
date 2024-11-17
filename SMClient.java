@@ -201,9 +201,12 @@ public class SMClient implements Serializable {
         String[] blocks = {};
         String[] posts = {};
         String[] aboutMe = new String[1];
-        while (line != null) {
+        while (true) {
             if (line.equals("FAIL")) {
                 return null;
+            }
+            if (line.equals("ALL_PROFILE_INFO_SENT")) {
+                break;
             }
             if (line.contains("FRIENDS_LIST")) {
                 friends = line.substring(line.indexOf("_") + 1).split("`");
@@ -217,6 +220,7 @@ public class SMClient implements Serializable {
             if (line.contains("ABOUT_ME")) {
                 aboutMe[0] = line.substring(line.indexOf("_") + 1);
             }
+            line = br.readLine();
         }
         profile.add(friends); // profile.get(0) = ["bob", "joe", "susan"] (friends)
         profile.add(blocks);

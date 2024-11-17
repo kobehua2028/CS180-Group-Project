@@ -147,7 +147,9 @@ public class SocialMediaServer implements Runnable {
                                 pw.println("SUCCESS");
                                 for (String info : profileInfo) {
                                     pw.println(info);
+                                    pw.flush();
                                 }
+                                pw.println("ALL_PROFILE_INFO_SENT");
                                 pw.flush();
                             } else {
                                 pw.println("FAIL");
