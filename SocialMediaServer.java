@@ -371,7 +371,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = likeCommemt(command[1], command[2], command[3]);
+                            success = likeComment(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -385,7 +385,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = unlikeCommemt(command[1], command[2], command[3]);
+                            success = unlikeComment(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -399,7 +399,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = dislikeCommemt(command[1], command[2], command[3]);
+                            success = dislikeComment(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -413,7 +413,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = undislikeCommemt(command[1], command[2], command[3]);
+                            success = undislikeComment(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -578,6 +578,8 @@ public class SocialMediaServer implements Runnable {
         } else {
             user.addFriend(friend);
             friend.addFriend(user);
+            sm.writeUser(friend);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -587,11 +589,13 @@ public class SocialMediaServer implements Runnable {
         User friend = sm.findUser(friendUsername);
         if (user == null || friend == null) {
             return false;
-        } else if (!user.getFriendsList().contains(friend) || !user.equals(friend)) {
+        } else if (!user.getFriendsList().contains(friend) || user.equals(friend)) {
             return false;
         } else {
             user.removeFriend(friend);
             friend.removeFriend(user);
+            sm.writeUser(friend);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -608,6 +612,7 @@ public class SocialMediaServer implements Runnable {
             if (user.getFriendsList().contains(block)) {
                 deleteFriend(username, blockUsername);
             }
+            sm.writeUser(user);
             return true;
         }
     }
@@ -617,10 +622,11 @@ public class SocialMediaServer implements Runnable {
         User block = sm.findUser(blockUsername);
         if (user == null || block == null) {
             return false;
-        } else if (!user.getBlockedList().contains(block) || !user.equals(block)) {
+        } else if (!user.getBlockedList().contains(block) || user.equals(block)) {
             return false;
         } else {
             user.unblock(block, sm);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -635,6 +641,7 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else {
             user.hidePost(post);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -649,6 +656,7 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else {
             user.hidePost(post);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -660,6 +668,7 @@ public class SocialMediaServer implements Runnable {
                 throw new IllegalArgumentException("No Post Author");
             }
             user.createPost(title, subtext);
+            sm.writeUser(user);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
@@ -675,6 +684,7 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else {
             user.deletePost(post);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -686,6 +696,7 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else {
             post.createComment(user, comment);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -698,7 +709,9 @@ public class SocialMediaServer implements Runnable {
         }
         for(int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)) {
-                return post.deleteComment(deleter, post.getComments().get(i));
+                post.deleteComment(deleter, post.getComments().get(i));
+                sm.writePost(post);
+                return true;
             }
         }
         return false;
@@ -714,6 +727,7 @@ public class SocialMediaServer implements Runnable {
         } else {
             post.incrementLikes();
             user.addLikedPost(post);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -728,6 +742,7 @@ public class SocialMediaServer implements Runnable {
         } else {
             post.removeLike();
             user.removeLikedPost(post);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -742,6 +757,7 @@ public class SocialMediaServer implements Runnable {
         } else {
             post.incrementDislikes();
             user.addDislikedPost(post);
+            sm.writeUser(user);
             return true;
         }
     }
@@ -756,11 +772,12 @@ public class SocialMediaServer implements Runnable {
         } else {
             post.removeDislike();
             user.removeDislikedPost(post);
+            sm.writeUser(user);
             return true;
         }
     }
 
-    public boolean likeCommemt(String postTitle, String likerUsername, String comment) {
+    public boolean likeComment(String postTitle, String likerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User liker = sm.findUser(likerUsername);
         if (post == null || liker == null) {
@@ -771,13 +788,14 @@ public class SocialMediaServer implements Runnable {
                     && !post.getComments().get(i).getLikers().contains(liker)) {
                 post.getComments().get(i).incrementLikes();
                 post.getComments().get(i).addLiker(liker);
+                sm.writePost(post);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean unlikeCommemt(String postTitle, String likerUsername, String comment) {
+    public boolean unlikeComment(String postTitle, String likerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User liker = sm.findUser(likerUsername);
         if (post == null || liker == null) {
@@ -788,13 +806,14 @@ public class SocialMediaServer implements Runnable {
                     post.getComments().get(i).getLikers().contains(liker)) {
                 post.getComments().get(i).removeLike();
                 post.getComments().get(i).removeLiker(liker);
+                sm.writePost(post);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean dislikeCommemt(String postTitle, String dislikerUsername, String comment) {
+    public boolean dislikeComment(String postTitle, String dislikerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User disliker = sm.findUser(dislikerUsername);
         if (post == null || disliker == null) {
@@ -805,13 +824,14 @@ public class SocialMediaServer implements Runnable {
                     && !post.getComments().get(i).getDislikers().contains(disliker)) {
                 post.getComments().get(i).incrementDislikes();
                 post.getComments().get(i).addDisliker(disliker);
+                sm.writePost(post);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean undislikeCommemt(String postTitle, String dislikerUsername, String comment) {
+    public boolean undislikeComment(String postTitle, String dislikerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User disliker = sm.findUser(dislikerUsername);
         if (post == null || disliker == null) {
@@ -822,6 +842,7 @@ public class SocialMediaServer implements Runnable {
                     && post.getComments().get(i).getDislikers().contains(disliker)) {
                 post.getComments().get(i).incrementDislikes();
                 post.getComments().get(i).removeDisliker(disliker);
+                sm.writePost(post);
                 return true;
             }
         }

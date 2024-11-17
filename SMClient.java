@@ -36,48 +36,102 @@ public class SMClient implements Serializable {
         } else {
             System.out.println("Failed to connect to server");
         }
-        //JoeBob7
-        client.createUser("Kobe", "Kobe2", "asd");
-        //Kobe4
+
         System.out.println("What's your usernamae");
         String username = scanner.nextLine();
         System.out.println("What's your password?");
         String password = scanner.nextLine();
 
+        client.createUser(username, password, "aboutMe test");
+
         if(client.login(username, password)){
             System.out.println("Login successful");
         }
 
-        System.out.println("Title of post 1:");
-        String postTitle = scanner.nextLine();
-        System.out.println("Subtext of post 1:");
-        String subText = scanner.nextLine();
-
-        if(client.createPost(postTitle, subText)){
-            System.out.println("Post created successfully");
+        // TEST FRIEND SYSTEM
+        System.out.println("Who do you want to add as a friend: ");
+        while(scanner.hasNextLine()) {
+            String friendToAdd = scanner.nextLine();
+            if (client.addFriend(friendToAdd)) {
+                System.out.println(friendToAdd + " added");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
+                break;
+            } else {
+                System.out.println(friendToAdd + " not added");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
+            }
         }
 
-        System.out.println("Title of post 2:");
-        String postTitle2 = scanner.nextLine();
-        System.out.println("Subtext of post 2:");
-        String subText2 = scanner.nextLine();
-
-        if(client.createPost(postTitle2, subText2)){
-            System.out.println("Post 2 created successfully");
+        System.out.println("Who do you want to remove: ");
+        while(scanner.hasNextLine()) {
+            String friendToRemove = scanner.nextLine();
+            if (client.deleteFriend(friendToRemove)) {
+                System.out.println(friendToRemove + " removed");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
+                break;
+            } else {
+                System.out.println(friendToRemove + " not removed");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
+            }
         }
 
-        System.out.println(client.displayPosts(username).toString());
-        ArrayList<String> postInfo = client.displayPosts(username).get(0);
-        if (client.createComment(postInfo.get(0), "Nice Cat")) {
-            System.out.println("Comment created successfully");
+        System.out.println("Who do you want to block: ");
+        while(scanner.hasNextLine()) {
+            String userToBlock = scanner.nextLine();
+            if (client.blockUser(userToBlock)) {
+                System.out.println(userToBlock + " blocked");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
+                break;
+            } else {
+                System.out.println(userToBlock + " not blocked");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
+            }
         }
-        client.createComment(postInfo.get(0), "Fat Cat");
-        System.out.println(client.displayComments(postInfo.get(0)).toString());
-        ArrayList<String[]> profile = client.displayProfile("Kobe");
-        System.out.println(Arrays.asList(profile.get(0)));
-        System.out.println(Arrays.asList(profile.get(1)));
-        System.out.println(Arrays.asList(profile.get(2)));
-        System.out.println(Arrays.asList(profile.get(3)));
+
+        System.out.println("Who do you want to unblock: ");
+        while(scanner.hasNextLine()) {
+            String userToUnblock = scanner.nextLine();
+            if (client.unblockUser(userToUnblock)) {
+                System.out.println(userToUnblock + " unblocked");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
+                break;
+            } else {
+                System.out.println(userToUnblock + " not unblocked");
+                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
+            }
+        }
+
+        // TEST POST PROFILE COMMENT
+//        System.out.println("Title of post 1:");
+//        String postTitle = scanner.nextLine();
+//        System.out.println("Subtext of post 1:");
+//        String subText = scanner.nextLine();
+//
+//        if(client.createPost(postTitle, subText)){
+//            System.out.println("Post created successfully");
+//        }
+//
+//        System.out.println("Title of post 2:");
+//        String postTitle2 = scanner.nextLine();
+//        System.out.println("Subtext of post 2:");
+//        String subText2 = scanner.nextLine();
+//
+//        if(client.createPost(postTitle2, subText2)){
+//            System.out.println("Post 2 created successfully");
+//        }
+//
+//        System.out.println(client.displayPosts(username).toString());
+//        ArrayList<String> postInfo = client.displayPosts(username).get(0);
+//        if (client.createComment(postInfo.get(0), "Nice Cat")) {
+//            System.out.println("Comment created successfully");
+//        }
+//        client.createComment(postInfo.get(0), "Fat Cat");
+//        System.out.println(client.displayComments(postInfo.get(0)).toString());
+//        ArrayList<String[]> profile = client.displayProfile("Kobe");
+//        System.out.println(Arrays.asList(profile.get(0)));
+//        System.out.println(Arrays.asList(profile.get(1)));
+//        System.out.println(Arrays.asList(profile.get(2)));
+//        System.out.println(Arrays.asList(profile.get(3)));
     }
     // works
     public boolean echo() throws IOException {
@@ -141,7 +195,7 @@ public class SMClient implements Serializable {
         }
         return false;
     }
-
+    // works
     public ArrayList<ArrayList<String>> displayPosts(String username) throws IOException {
         ArrayList<ArrayList<String>> posts = new ArrayList<>();
         pw.println(String.format("DISPLAY_POSTS`%s", username));
@@ -170,7 +224,7 @@ public class SMClient implements Serializable {
         }
         return posts;
     }
-
+    // works
     public ArrayList<ArrayList<String>> displayComments(String postTitle) throws IOException {
         ArrayList<ArrayList<String>> comments = new ArrayList<>();
         pw.println(String.format("DISPLAY_COMMENTS`%s", postTitle));
@@ -197,7 +251,7 @@ public class SMClient implements Serializable {
         }
         return comments;
     }
-
+    // works
     public ArrayList<String[]> displayProfile(String profileUsername) throws IOException {
         ArrayList<String[]> profile = new ArrayList<>();
         pw.println(String.format("DISPLAY_PROFILE`%s`%s", username, profileUsername));

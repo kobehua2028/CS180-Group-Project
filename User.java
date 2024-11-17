@@ -102,7 +102,6 @@ public class User implements Serializable, UserInterface {
             throw new IllegalArgumentException("User is blocked");
         }
         friendsList.add(newFriend);
-
         sm.writeUser(this);
     }
 
