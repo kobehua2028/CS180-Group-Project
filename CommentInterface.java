@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * CS180 Group Project
  * Interface for the Comment Class
@@ -19,4 +21,8 @@ public interface CommentInterface {
     void removeDislike();
     void removeLike();
 
+    ArrayList<User> getLikers();
+    ArrayList<User> getDislikers();
+    void removeLiker(User user);
+    void removeDisliker(User user);
 }
