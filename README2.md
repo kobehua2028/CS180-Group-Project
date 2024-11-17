@@ -11,7 +11,7 @@ News feed style application, where users are able to...
 
 #### Vocareum workspace is submmited by ___
 
-## Client
+## SMClient
 ##### Purpose: 
 Acts as the user interface for the application. It enables users to interact with the social media system by sending requests to the Server class.
 
@@ -27,9 +27,9 @@ The Client class provides methods for:
 - Does not directly interact with SocialMediaDatabase
 
 ##### Testing:
-Manually run and test code to ensure its functionality.
-(include more detailed testing functionality)
-## Server
+First run SocialMediaServer to connect the client and server class. Then run the main method in SMClient with the test cases to ensure the funcitonlaity of the client class.
+
+## SocialMediaServer
 ##### Purpose: 
 Serves as the intermediary between the Client and the SocialMediaDatabase. It handles all logic for managing users, posts, comments, and interactions.
 
