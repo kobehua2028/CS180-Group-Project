@@ -28,6 +28,7 @@ The Client class provides methods for:
 
 ##### Testing:
 Manually run and test code to ensure its functionality.
+(include more detailed testing functionality)
 ### Server
 ##### Purpose: 
 Serves as the intermediary between the Client and the SocialMediaDatabase. It handles all logic for managing users, posts, comments, and interactions.
