@@ -80,7 +80,6 @@ public class SocialMediaServer implements Runnable {
                         // might need to be something different
                         br.close();
                         pw.close();
-                        socket.close();
                     }
                     case "DELETE_ACCOUNT" -> {
                         if (command.length != 3) {
@@ -108,7 +107,9 @@ public class SocialMediaServer implements Runnable {
                                 pw.println("SUCCESS_POST");
                                 for (String post : posts) {
                                     pw.println(post);
+                                    pw.flush();
                                 }
+                                pw.println("ALL_POSTS_SENT");
                                 pw.flush();
                             } else {
                                 pw.println("FAIL");
@@ -424,7 +425,11 @@ public class SocialMediaServer implements Runnable {
                         return;
                     }
                 }
-                line = br.readLine();
+                try {
+                    line = br.readLine();
+                } catch (IOException e) {
+                    break;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -475,9 +480,9 @@ public class SocialMediaServer implements Runnable {
         int i = 0;
         int postsShown = 0;
         while (postsShown < postLimit) {
-            Post post = sm.getPosts().get(sm.getPosts().size() - i);
+            Post post = sm.getPosts().get(sm.getPosts().size() - i - 1);
             if (!user.getHiddenPosts().contains(post) && !user.getBlockedList().contains(post.getAuthor())) {
-                String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor() + "`" +
+                String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor().getUsername() + "`" +
                         post.getComments().size() + "`" + post.getLikes() + "`" + post.getDislikes();
                 postStrings.add(postString);
                 postsShown++;

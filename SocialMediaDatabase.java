@@ -70,10 +70,12 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public ArrayList<User> getUsers() {
+        readUsers();
         return users;
     }
 
     public ArrayList<Post> getPosts() {
+        readPosts();
         return posts;
     }
 

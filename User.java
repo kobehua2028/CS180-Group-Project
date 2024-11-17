@@ -84,6 +84,7 @@ public class User implements Serializable, UserInterface {
     public void createPost(String title, String subtext) {
         Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
         userPosts.add(post);
+        sm.writeUser(this);
     }
 
     public void removeFriend(User formerFriend) {

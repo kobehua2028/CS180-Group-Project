@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SMClient implements Serializable {
 
@@ -28,16 +29,46 @@ public class SMClient implements Serializable {
         // eventually going to be gui
         // maybe just terminal testing for now once server-client setup is done?
         SMClient client = new SMClient(new Socket("localhost", 8080));
-
-
+        Scanner scanner = new Scanner(System.in);
         if (client.echo()) {
             System.out.println("Connected to server");
         } else {
             System.out.println("Failed to connect to server");
         }
+        //JoeBob7
+        client.createUser("Kobe", "Kobe2", "asd");
+        //Kobe4
+        System.out.println("What's your usernamae");
+        String username = scanner.nextLine();
+        System.out.println("What's your password?");
+        String password = scanner.nextLine();
+
+        if(client.login(username, password)){
+            System.out.println("Login successful");
+        }
+
+        System.out.println("Title of post 1:");
+        String postTitle = scanner.nextLine();
+        System.out.println("Subtext of post 1:");
+        String subText = scanner.nextLine();
+
+        if(client.createPost(postTitle, subText)){
+            System.out.println("Post created successfully");
+        }
+
+        System.out.println("Title of post 2:");
+        String postTitle2 = scanner.nextLine();
+        System.out.println("Subtext of post 2:");
+        String subText2 = scanner.nextLine();
+
+        if(client.createPost(postTitle2, subText2)){
+            System.out.println("Post 2 created successfully");
+        }
+
+        System.out.println(client.displayPosts(username));
 
     }
-
+    // works
     public boolean echo() throws IOException {
         pw.println("ECHO");
         pw.flush();
@@ -50,7 +81,7 @@ public class SMClient implements Serializable {
         }
         return false;
     }
-
+    // works
     public boolean login(String username, String password) throws IOException {
         pw.println(String.format("LOGIN`%s`%s", username, password));
         pw.flush();
@@ -67,7 +98,7 @@ public class SMClient implements Serializable {
         }
         return false;
     }
-
+    // works
     public boolean createUser(String username, String password, String aboutMe) throws IOException {
         pw.println(String.format("REGISTER_USER`%s`%s`%s", username, password, aboutMe));
         pw.flush();
@@ -83,9 +114,9 @@ public class SMClient implements Serializable {
         }
         return false;
     }
-
+    //works
     public boolean deleteUser(String username) throws IOException {
-        pw.println(String.format("DELETE_ACCOUNT`%s", this.username, username));
+        pw.println(String.format("DELETE_ACCOUNT`%s`%s", this.username, username));
         pw.flush();
         String line = br.readLine();
         while (line != null) {
@@ -105,10 +136,13 @@ public class SMClient implements Serializable {
         pw.println(String.format("DISPLAY_POSTS`%s", username));
         pw.flush();
         String line = br.readLine();
-        line = br.readLine();
-        while (line != null) {
+        boolean allPostsSent = false;
+        while (!allPostsSent) {
             if (line.equals("FAIL")) {
                 return null;
+            }
+            if (line.equals("ALL_POSTS_SENT")) {
+                allPostsSent = true;
             }
             if (line.contains("POST_")) {
                 line = line.substring(line.indexOf("_") + 1);
@@ -116,12 +150,14 @@ public class SMClient implements Serializable {
                 ArrayList<String> post = new ArrayList<>();
                 post.add(postFields[0]); // title
                 post.add(postFields[1]); // subtext
-                post.add(postFields[2]); // author
+                post.add(postFields[2]); // author name
                 post.add(postFields[3]); // amount of comments
                 post.add(postFields[4]); // likes
                 post.add(postFields[5]); // dislikes
+                System.out.println(post.toString());
                 posts.add(post);
             }
+            line = br.readLine();
         }
         return posts;
     }
@@ -489,6 +525,9 @@ public class SMClient implements Serializable {
     public void logout() throws IOException {
         pw.println("LOGOUT");
         pw.flush();
+        socket.close();
+        br.close();
+        pw.close();
     }
 
 }
