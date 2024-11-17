@@ -27,7 +27,7 @@ The Client class provides methods for:
 - Does not directly interact with SocialMediaDatabase
 
 ##### Testing:
-First run SocialMediaServer to connect the client and server class. Then run the main method in SMClient with the test cases to ensure the funcitonlaity of the client class.
+First run SocialMediaServer to connect the client and server class. Then run the main method in SMClient with the test cases to ensure the functionality of the class.
 
 ## SocialMediaServer
 ##### Purpose: 
