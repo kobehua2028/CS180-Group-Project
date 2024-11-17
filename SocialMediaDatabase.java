@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.io.*;
 import javax.swing.JOptionPane;
@@ -33,9 +34,10 @@ public class SocialMediaDatabase implements Serializable {
             aboutMe = "This is me!";
         }
         try {
-            return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(),
+            User newUser =  new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(),
                     new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(),
                     this);
+            return newUser;
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
@@ -70,12 +72,10 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public ArrayList<User> getUsers() {
-        readUsers();
         return users;
     }
 
     public ArrayList<Post> getPosts() {
-        readPosts();
         return posts;
     }
 
@@ -142,8 +142,13 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public synchronized void deletePost(Post post) {
-        this.posts.remove(post);
-        this.updatePosts();
+        for (int i = 0; i < posts.size(); i++) {
+            if (post.equals(posts.get(i))) {
+                posts.remove(i);
+                this.updatePosts();
+            }
+        }
+
     }
 
     public synchronized void writePost(Post post) {
@@ -169,39 +174,3 @@ public class SocialMediaDatabase implements Serializable {
         readPosts();
     }
 }
-//    public static void main(String[] args) {
-//        SocialMediaDatabase sm = new SocialMediaDatabase("usersIn", "postsIn");
-//        sm.createUser("KOBE", "password", "asjajfs");
-//        sm.createUser("Levin", "password", "akjhsdgjshg");
-//
-//        sm.readUsers();
-//
-//        User kobe = sm.getUsers().get(0);
-//        User levin = sm.getUsers().get(1);
-//        kobe.addFriend(levin);
-//        kobe.createPost("Tiger", "lil dawg");
-//
-//
-//        sm.readUsers();
-//        sm.readPosts();
-//
-//        String username1 = sm.getUsers().get(1).getUsername();
-//        String password1 = sm.getUsers().get(1).getPassword();
-//        String kobeFriendusername = sm.getUsers().get(0).getFriendsList().get(0).getUsername();
-//        String username2 = sm.getUsers().get(0).getUsername();
-//        String password2 = sm.getUsers().get(0).getPassword();
-//
-//        System.out.println(username1);
-//        System.out.println(password1);
-//        System.out.println("KOBES FRIENDS" + kobeFriendusername);
-//        System.out.println(username2);
-//        System.out.println(password2);
-//
-//        String postTitle = sm.getPosts().get(0).getTitle();
-//        System.out.println(postTitle);
-//
-//
-//
-//    }
-//
-//}

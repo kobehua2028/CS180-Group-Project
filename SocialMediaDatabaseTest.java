@@ -28,7 +28,7 @@ public class SocialMediaDatabaseTest {
     public void setUp() throws Exception {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
         expectedUser = new User("Dunsmore","CS180istheBest",
-                "I teach CS180", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                "I teach CS180", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
@@ -134,7 +134,7 @@ public class SocialMediaDatabaseTest {
     public void testReadUsers() {
         User test = new User("PurduePete", "MyPurdue1234", "Hey guys it's me, Pete from Purdue!",
                 new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         sm.readUsers();
         ArrayList<User> expected = new ArrayList<>();
@@ -156,7 +156,7 @@ public class SocialMediaDatabaseTest {
     public void testWriteUser() {
         User newUser = new User("KrisDreemur" , "DeltaruneRef", "Hey it's me Kris",
                 new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         //Creating a new User object implicitly calls writeUser()
 
@@ -176,7 +176,7 @@ public class SocialMediaDatabaseTest {
     public void testDeleteUser() {
         User markedForDeletion = new User("Terminated", "12345678", "But nobody came...",
                 new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(), sm);
 

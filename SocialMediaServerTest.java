@@ -31,7 +31,6 @@ public class SocialMediaServerTest {
         testUser = new User("Dunsmore","CS180istheBest",
                 "I teach CS180", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         testPost = new Post(testUser, "Purdue CS180",
                 "Purdue CS 180 is the best CS class", new ArrayList<Comment>(), 0, 0, sm);
@@ -162,12 +161,128 @@ public class SocialMediaServerTest {
 
     @Test
     public void testCreatePost() {
+        boolean postCreated = testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
 
+        assertTrue(postCreated);
+        assertEquals("Congress Banned the ArrayList!",
+                sm.getPosts().get(sm.getPosts().size() - 1).getTitle());
     }
 
     @Test
     public void testHidePost() {
-        testServer
+        testServer.createUser("Purdue","petyrBaelish"," Ham");
+
+        testServer.createPost("Purdue", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+        Post testPost = sm.getPosts().get(sm.getPosts().size() - 1);
+
+        boolean postHidden = testServer.hidePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postHidden);
+        assertTrue(sm.getUsers().get(0).getHiddenPosts().contains(testPost));
+    }
+
+    @Test
+    public void testUnhidePost() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+        Post testPost = sm.getPosts().get(sm.getPosts().size() - 1);
+
+        testServer.hidePost("Dunsmore", "Congress Banned the ArrayList!");
+        boolean postUnhidden = testServer.unhidePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postUnhidden);
+        assertTrue(!(sm.getUsers().get(0).getHiddenPosts().contains(testPost)));
+    }
+
+    @Test
+    public void testDeletePost() {
+        testServer.createUser("Purdue","petyrBaelish"," Ham");
+
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+
+        for (int i = 0; i < sm.getPosts().size(); i++)
+            System.out.println(sm.getPosts().get(i).getTitle());
+
+
+        boolean postDeleted = testServer.deletePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postDeleted);
+        for (int i = 0; i < sm.getUsers().get(0).getUserPosts().size(); i++)
+            System.out.println(sm.getUsers().get(0).getUserPosts().get(i).getTitle());
+        assertEquals(null, (sm.findPost("Congress Banned the ArrayList!")));
+    }
+
+    @Test
+    public void testCreateComment() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+        boolean commentCreated = testServer.createComment("Congress Banned the ArrayList!",
+                "Dunsmore", "or just break the law lmao");
+
+        assertTrue(commentCreated);
+        assertEquals("or just break the law lmao",
+                sm.getPosts().get(sm.getPosts().size() - 1).getComments().get(0).getText());
+    }
+
+    @Test
+    public void testLikePost() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+
+        boolean postLiked = testServer.likePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        boolean likeTwice = testServer.likePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postLiked);
+        assertEquals(1, sm.getPosts().get(sm.getPosts().size() - 1).getLikes());
+        assertFalse(likeTwice);
+    }
+
+    @Test
+    public void testUnlikePost() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+
+        testServer.likePost("Dunsmore", "Congress Banned the ArrayList!");
+        boolean postUnliked = testServer.unlikePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        boolean unlikedTwice = testServer.unlikePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postUnliked);
+        assertFalse(unlikedTwice);
+        assertEquals(0, sm.getPosts().get(sm.getPosts().size() - 1).getLikes());
+    }
+
+    @Test
+    public void testDislikePost() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+
+        boolean postDisliked = testServer.dislikePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        boolean dislikeTwice = testServer.dislikePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postDisliked);
+        assertEquals(1, sm.getPosts().get(sm.getPosts().size() - 1).getDislikes());
+        assertFalse(dislikeTwice);
+    }
+
+    @Test
+    public void testUndislikePost() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Eh, linked lists are better, anyway...");
+
+        testServer.dislikePost("Dunsmore", "Congress Banned the ArrayList!");
+        boolean postUndisliked = testServer.undislikePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        boolean undislikedTwice = testServer.undislikePost("Dunsmore", "Congress Banned the ArrayList!");
+
+        assertTrue(postUndisliked);
+        assertFalse(undislikedTwice);
+        assertEquals(0, sm.getPosts().get(sm.getPosts().size() - 1).getDislikes());
     }
 
 

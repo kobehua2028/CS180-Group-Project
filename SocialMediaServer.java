@@ -1,3 +1,4 @@
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -127,9 +128,7 @@ public class SocialMediaServer implements Runnable {
                                 pw.println("SUCCESS");
                                 for (String comment : comments) {
                                     pw.println(comment);
-                                    pw.flush();
                                 }
-                                pw.println("ALL_COMMENTS_SENT");
                                 pw.flush();
                             } else {
                                 pw.println("FAIL");
@@ -147,9 +146,7 @@ public class SocialMediaServer implements Runnable {
                                 pw.println("SUCCESS");
                                 for (String info : profileInfo) {
                                     pw.println(info);
-                                    pw.flush();
                                 }
-                                pw.println("ALL_PROFILE_INFO_SENT");
                                 pw.flush();
                             } else {
                                 pw.println("FAIL");
@@ -371,7 +368,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = likeComment(command[1], command[2], command[3]);
+                            success = likeCommemt(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -385,7 +382,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = unlikeComment(command[1], command[2], command[3]);
+                            success = unlikeCommemt(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -399,7 +396,7 @@ public class SocialMediaServer implements Runnable {
                         if (command.length != 4) {
                             pw.println("FAIL");
                         } else {
-                            success = dislikeComment(command[1], command[2], command[3]);
+                            success = dislikeCommemt(command[1], command[2], command[3]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -453,7 +450,8 @@ public class SocialMediaServer implements Runnable {
 
     public synchronized boolean createUser(String username, String password, String aboutMe) {
         try {
-            sm.createUser(username, password, aboutMe);
+            User newUser = sm.createUser(username, password, aboutMe);
+            sm.writeUser(newUser);
             if (sm.findUser(username) != null) {
                 return true;
             }
@@ -466,7 +464,7 @@ public class SocialMediaServer implements Runnable {
     public synchronized boolean deleteUser(String username, String deletedUsername) {
         User deleteUser = sm.findUser(username);
         User deletedAccount = sm.findUser(deletedUsername);
-        if (deleteUser != null && deletedAccount.equals(deleteUser)) {
+        if (deleteUser != null && deletedAccount != null && deletedAccount.equals(deleteUser)) {
             sm.deleteUser(deleteUser);
             return true;
         } else {
@@ -504,7 +502,7 @@ public class SocialMediaServer implements Runnable {
         }
         for (int i = 0; i < post.getComments().size(); i++) {
             Comment comment = post.getComments().get(i);
-            String commentString = "COMMENT_" + comment.getText() + "`" + comment.getAuthor().getUsername() + "`" +
+            String commentString = "COMMENT_" + comment.getText() + "`" + comment.getAuthor() + "`" +
                     comment.getLikes() + "`" + comment.getDislikes();
             comments.add(commentString);
         }
@@ -566,7 +564,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public synchronized boolean addFriend(String username, String friendUsername) {
+    public boolean addFriend(String username, String friendUsername) {
         User user = sm.findUser(username);
         User friend = sm.findUser(friendUsername);
         if (user == null || friend == null) {
@@ -578,13 +576,13 @@ public class SocialMediaServer implements Runnable {
         } else {
             user.addFriend(friend);
             friend.addFriend(user);
-            sm.writeUser(friend);
             sm.writeUser(user);
+            sm.writeUser(friend);
             return true;
         }
     }
 
-    public synchronized boolean deleteFriend(String username, String friendUsername) {
+    public boolean deleteFriend(String username, String friendUsername) {
         User user = sm.findUser(username);
         User friend = sm.findUser(friendUsername);
         if (user == null || friend == null) {
@@ -596,11 +594,12 @@ public class SocialMediaServer implements Runnable {
             friend.removeFriend(user);
             sm.writeUser(friend);
             sm.writeUser(user);
+
             return true;
         }
     }
 
-    public synchronized boolean blockUser(String username, String blockUsername) {
+    public boolean blockUser(String username, String blockUsername) {
         User user = sm.findUser(username);
         User block = sm.findUser(blockUsername);
         if (user == null || block == null) {
@@ -613,11 +612,12 @@ public class SocialMediaServer implements Runnable {
                 deleteFriend(username, blockUsername);
             }
             sm.writeUser(user);
+            sm.writeUser(block);
             return true;
         }
     }
 
-    public synchronized boolean unblockUser(String username, String blockUsername) {
+    public boolean unblockUser(String username, String blockUsername) {
         User user = sm.findUser(username);
         User block = sm.findUser(blockUsername);
         if (user == null || block == null) {
@@ -627,11 +627,12 @@ public class SocialMediaServer implements Runnable {
         } else {
             user.unblock(block, sm);
             sm.writeUser(user);
+            sm.writeUser(block);
             return true;
         }
     }
 
-    public synchronized boolean hidePost(String username, String postTitle) {
+    public boolean hidePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
 
@@ -641,67 +642,72 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else {
             user.hidePost(post);
+            sm.writePost(post);
             sm.writeUser(user);
             return true;
         }
     }
 
-    public synchronized boolean unhidePost(String username, String postTitle) {
+    public boolean unhidePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
 
         if (user == null || post == null) {
             return false;
-        } else if (!user.getHiddenPosts().contains(post)) {
-            return false;
-        } else {
-            user.hidePost(post);
-            sm.writeUser(user);
-            return true;
         }
+
+        for (int i = 0; i < user.getHiddenPosts().size(); i++) {
+            if (user.getHiddenPosts().get(i).equals(post)) {
+                user.hidePost(post);
+                sm.writeUser(user);
+                return true;
+            }
+        }
+        return false;
     }
 
-    public synchronized boolean createPost(String authorUsername, String title, String subtext) {
+    public boolean createPost(String authorUsername, String title, String subtext) {
         try {
             User user = sm.findUser(authorUsername);
             if (user == null) {
                 throw new IllegalArgumentException("No Post Author");
             }
-            user.createPost(title, subtext);
-            sm.writeUser(user);
+            sm.writePost(user.createPost(title, subtext));
             return true;
         } catch (IllegalArgumentException e) {
             return false;
         }
     }
 
-    public synchronized boolean deletePost(String username, String postTitle) {
+    public boolean deletePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
         } else if (!post.getAuthor().equals(user)) {
             return false;
-        } else {
-            user.deletePost(post);
-            sm.writeUser(user);
-            return true;
         }
+        for (int i = 0; i < user.getUserPosts().size(); i++) {
+            if (user.getHiddenPosts().get(i).equals(post)) {
+                user.deletePost(post);
+                return true;
+            }
+        }
+        return false;
     }
 
-    public synchronized boolean createComment(String postTitle, String username, String comment) {
+    public boolean createComment(String postTitle, String username, String comment) {
         Post post = sm.findPost(postTitle);
         User user = sm.findUser(username);
         if (user == null || post == null || comment.isEmpty() || comment == null) {
             return false;
         } else {
             post.createComment(user, comment);
-            sm.writeUser(user);
             return true;
         }
     }
 
-    public synchronized boolean deleteComment(String postTitle, String deleterUsername, String comment) {
+    public boolean deleteComment(String postTitle, String deleterUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User deleter = sm.findUser(deleterUsername);
         if (post == null || deleter == null) {
@@ -709,75 +715,95 @@ public class SocialMediaServer implements Runnable {
         }
         for(int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)) {
-                post.deleteComment(deleter, post.getComments().get(i));
-                sm.writePost(post);
-                return true;
+                return post.deleteComment(deleter, post.getComments().get(i));
             }
         }
         return false;
     }
 
-    public synchronized boolean likePost(String username, String postTitle) {
+    public boolean likePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+        } else if (post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
+            for (int i = 0; i < user.getLikedPosts().size(); i++) {
+                if (post.equals(user.getLikedPosts().get(i)))
+                    return false;
+            }
             post.incrementLikes();
             user.addLikedPost(post);
             sm.writeUser(user);
+            sm.writePost(post);
             return true;
         }
     }
 
-    public synchronized boolean unlikePost(String username, String postTitle) {
+    public boolean unlikePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+        } else if (!user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
-            post.removeLike();
-            user.removeLikedPost(post);
-            sm.writeUser(user);
-            return true;
+            for (int i = 0; i < user.getLikedPosts().size(); i++) {
+                if (post.equals(user.getLikedPosts().get(i))) {
+                    post.removeLike();
+                    user.removeLikedPost(post);
+                    sm.writeUser(user);
+                    sm.writePost(post);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
-    public synchronized boolean dislikePost(String username, String postTitle) {
+    public boolean dislikePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+        } else if (user.getDislikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
+            for (int i = 0; i < user.getDislikedPosts().size(); i++) {
+                if (post.equals(user.getDislikedPosts().get(i)))
+                    return false;
+            }
             post.incrementDislikes();
             user.addDislikedPost(post);
             sm.writeUser(user);
+            sm.writePost(post);
             return true;
         }
     }
 
-    public synchronized boolean undislikePost(String username, String postTitle) {
+    public boolean undislikePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
+        } else if (post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
-            post.removeDislike();
-            user.removeDislikedPost(post);
-            sm.writeUser(user);
-            return true;
+            for (int i = 0; i < user.getDislikedPosts().size(); i++) {
+                if (post.equals(user.getDislikedPosts().get(i))) {
+                    post.removeDislike();
+                    user.removeDislikedPost(post);
+                    sm.writeUser(user);
+                    sm.writePost(post);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
-    public synchronized boolean likeComment(String postTitle, String likerUsername, String comment) {
+    public boolean likeCommemt(String postTitle, String likerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User liker = sm.findUser(likerUsername);
         if (post == null || liker == null) {
@@ -788,14 +814,15 @@ public class SocialMediaServer implements Runnable {
                     && !post.getComments().get(i).getLikers().contains(liker)) {
                 post.getComments().get(i).incrementLikes();
                 post.getComments().get(i).addLiker(liker);
-                sm.writePost(post);
                 return true;
             }
         }
         return false;
+
+
     }
 
-    public synchronized boolean unlikeComment(String postTitle, String likerUsername, String comment) {
+    public boolean unlikeCommemt(String postTitle, String likerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User liker = sm.findUser(likerUsername);
         if (post == null || liker == null) {
@@ -806,14 +833,13 @@ public class SocialMediaServer implements Runnable {
                     post.getComments().get(i).getLikers().contains(liker)) {
                 post.getComments().get(i).removeLike();
                 post.getComments().get(i).removeLiker(liker);
-                sm.writePost(post);
                 return true;
             }
         }
         return false;
     }
 
-    public synchronized boolean dislikeComment(String postTitle, String dislikerUsername, String comment) {
+    public boolean dislikeCommemt(String postTitle, String dislikerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User disliker = sm.findUser(dislikerUsername);
         if (post == null || disliker == null) {
@@ -824,14 +850,13 @@ public class SocialMediaServer implements Runnable {
                     && !post.getComments().get(i).getDislikers().contains(disliker)) {
                 post.getComments().get(i).incrementDislikes();
                 post.getComments().get(i).addDisliker(disliker);
-                sm.writePost(post);
                 return true;
             }
         }
         return false;
     }
 
-    public synchronized boolean undislikeComment(String postTitle, String dislikerUsername, String comment) {
+    public boolean undislikeComment(String postTitle, String dislikerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User disliker = sm.findUser(dislikerUsername);
         if (post == null || disliker == null) {
@@ -842,10 +867,17 @@ public class SocialMediaServer implements Runnable {
                     && post.getComments().get(i).getDislikers().contains(disliker)) {
                 post.getComments().get(i).incrementDislikes();
                 post.getComments().get(i).removeDisliker(disliker);
-                sm.writePost(post);
                 return true;
             }
         }
         return false;
+    }
+
+    public SocialMediaDatabase getSM() {
+        return sm;
+    }
+
+    public void setSM(SocialMediaDatabase sm) {
+        this.sm = sm;
     }
 }
