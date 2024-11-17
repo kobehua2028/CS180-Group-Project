@@ -13,6 +13,7 @@ public interface PostInterface {
     void createComment(User author, String text);
     boolean equals(Post post);
     void addComment(Comment comment);
+    boolean deleteComment(User deleter, Comment comment);
     String getTitle();
     String getSubtext();
     User getAuthor();
@@ -23,4 +24,5 @@ public interface PostInterface {
     void incrementDislikes();
     void removeLike();
     void removeDislike();
+    String toString();
 }
