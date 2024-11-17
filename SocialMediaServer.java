@@ -5,6 +5,7 @@ import java.util.*;
 public class SocialMediaServer implements Runnable {
     private Socket socket;
     private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
+    private static Object lock = new Object();
 
     public SocialMediaServer(Socket socket) {
         this.socket = socket;
@@ -441,7 +442,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public boolean createUser(String username, String password, String aboutMe) {
+    public synchronized boolean createUser(String username, String password, String aboutMe) {
         try {
             sm.createUser(username, password, aboutMe);
             if (sm.findUser(username) != null) {
@@ -453,7 +454,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean deleteUser(String username) {
+    public synchronized boolean deleteUser(String username) {
         User deleteUser = sm.findUser(username);
         if (deleteUser != null) {
             sm.getUsers().remove(deleteUser);

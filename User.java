@@ -125,26 +125,9 @@ public class User implements Serializable, UserInterface {
             if (this.equals(sm.getPosts().get(i))) {
                 synchronized (new Object()) {
                     sm.getPosts().remove(i);
+                    userPosts.remove(post);
                 }
                 return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean deleteComment(Post post, Comment comment) {
-        boolean commentFound;
-        for (int i = 0; i < sm.getPosts().size(); i++) {
-            if (post.equals(sm.getPosts().get(i))) {
-                for (int j = 0; j < post.getComments().size(); j++) {
-                    if (this.equals(post.getComments().get(i).getAuthor())) {
-                        synchronized (new Object()) {
-                            post.getComments().remove(j);
-                        }
-                        return true;
-                    }
-                }
-                return false;
             }
         }
         return false;
