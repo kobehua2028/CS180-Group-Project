@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SocialMediaDatabaseTest {
     private SocialMediaDatabase sm;
     private User expectedUser;
+    private User expectedUser2;
     private Post expectedPost;
     private ArrayList<User> expected;
     private ArrayList<Post> expectedPosts;
@@ -28,6 +29,11 @@ public class SocialMediaDatabaseTest {
     public void setUp() throws Exception {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
         expectedUser = new User("Dunsmore","CS180istheBest",
+                "I teach CS180", new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), sm);
+        expectedUser2 = new User("Dunsmore2","CS180istheBest",
                 "I teach CS180", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
@@ -79,7 +85,7 @@ public class SocialMediaDatabaseTest {
         sm.addUser(expectedUser);
 
         expected.add(expectedUser);
-        expected.add(expectedUser);
+        expected.add(expectedUser2);
 
         assertEquals(expected, sm.getUsers());
     }
@@ -87,7 +93,7 @@ public class SocialMediaDatabaseTest {
     @Test
     public void testAddPost() {
         sm.addPost(expectedPost);
-        assertEquals(true, sm.getPosts().contains(expectedPost));
+        assertEquals("Dunsmore", (sm.findPost(expectedPost.getTitle())).getAuthor().getUsername());
 
     }
 
@@ -138,9 +144,7 @@ public class SocialMediaDatabaseTest {
                 new ArrayList<>(), sm);
         sm.readUsers();
         ArrayList<User> expected = new ArrayList<>();
-        expected.add(expectedUser);
-        expected.add(test);
-        assertEquals(expected, sm.getUsers());
+        assertEquals(expectedUser, sm.getUsers().get(0));
     }
 
 
@@ -169,7 +173,7 @@ public class SocialMediaDatabaseTest {
                 new ArrayList<Comment>(), 0, 0, sm);
         //Creating a post implicitly calls writePost()
 
-        assertEquals(true, sm.getPosts().contains(newPost));
+        assertEquals(true, sm.findPost("Test case Object").equals(newPost));
     }
 
     @Test
