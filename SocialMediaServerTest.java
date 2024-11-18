@@ -179,7 +179,7 @@ public class SocialMediaServerTest {
         boolean postHidden = testServer.hidePost("Dunsmore", "Congress Banned the ArrayList!");
 
         assertTrue(postHidden);
-        assertTrue(sm.getUsers().get(0).getHiddenPosts().contains(testPost));
+        assertTrue(testPost.equals(sm.getUsers().get(0).getHiddenPosts().get(0)));
     }
 
     @Test
