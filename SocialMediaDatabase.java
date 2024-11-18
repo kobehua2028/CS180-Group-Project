@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * @author Kobe
  * @version Nov 03, 2024
  */
-public class SocialMediaDatabase implements Serializable {
+public class SocialMediaDatabase implements Serializable, DatabaseInterface {
     private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
     // (in reverse chronological order?)
     private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform

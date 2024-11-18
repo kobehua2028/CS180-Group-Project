@@ -98,15 +98,6 @@ public class SMClient implements Serializable, SMClientInterface {
             System.out.println("Created post: Post Title 3");
         }
 
-        // Testing liking post functionality
-        System.out.println("\nTesting like post");
-        if (client.likePost("Post Title 1")) {
-            System.out.println("Liked post: Post Title 1 by User1");
-        }
-        if (client.likePost("Post Title 2")) {
-            System.out.println("Liked post: Post Title 2 by User1");
-        }
-
         // Testing the Comment Creation Functionality
         System.out.println("\nTesting Create Comment");
         if (client.createComment("Post Title 1", "Comment1")) {
@@ -117,6 +108,15 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         if (client.createComment("Post Title 1", "Comment3")) {
             System.out.println("Created comment: Comment3 on Post Title 1");
+        }
+
+        // Testing liking post functionality
+        System.out.println("\nTesting like post");
+        if (client.likePost("Post Title 1")) {
+            System.out.println("Liked post: Post Title 1 by User1");
+        }
+        if (client.likePost("Post Title 2")) {
+            System.out.println("Liked post: Post Title 2 by User1");
         }
 
         // Testing the Post Displaying Functionality
@@ -144,7 +144,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
 
         // Testing the Blocking User Functionality
-        System.out.println("\nTesting Add Friends");
+        System.out.println("\nTesting Block Friends");
         for (int i = 4; i <= 5; i++) {
             client.blockUser("User" + i);
             System.out.println("User1 blocked User" + i);
