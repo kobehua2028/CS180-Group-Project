@@ -8,7 +8,7 @@ News feed style application, where users are able to...
 
 #### Add JUnit 4.13.1 and 5.8.1 and testng to classpath
 #### Compile all classes, run test cases to check functionality
-#### vocareum workspace is submitted by __
+#### vocareum workspace is submitted by Levin
 
 ## Phase 1
 ### Users

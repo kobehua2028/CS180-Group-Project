@@ -10,6 +10,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * CS180 Group Project
+ * Client class
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Abdulmajed AlQarni
+ * @author Levin
+ * @author Kobe
+ * @version Nov 17, 2024
+ */
+
 public class SMClient implements Serializable {
 
     private String username;

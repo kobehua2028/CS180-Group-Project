@@ -206,4 +206,12 @@ public class User implements Serializable, UserInterface {
         }
     }
 
+    public void unhidePost(Post post) {
+        for (int i = 0; i < hiddenPosts.size(); i++) {
+            if (post.equals(hiddenPosts.get(i))) {
+                hiddenPosts.remove(i);
+            }
+        }
+    }
+
 }

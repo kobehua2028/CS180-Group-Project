@@ -2,6 +2,18 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * CS180 Group Project
+ * Server class
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Abdulmajed AlQarni
+ * @author Levin
+ * @author Kobe
+ * @version Nov 17, 2024
+ */
+
 public class SocialMediaServer implements Runnable {
     private Socket socket;
     private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
@@ -657,7 +669,7 @@ public class SocialMediaServer implements Runnable {
 
         for (int i = 0; i < user.getHiddenPosts().size(); i++) {
             if (user.getHiddenPosts().get(i).equals(post)) {
-                user.hidePost(post);
+                user.unhidePost(post);
                 sm.writeUser(user);
                 return true;
             }

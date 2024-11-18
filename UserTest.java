@@ -269,8 +269,13 @@ public class UserTest {
 
     }
 
+    @Test
+    public void testUnhidePost() {
+        user2.createPost("Hi", "Bob here");
+        Post testPost = user2.getUserPosts().get(0);
+        user1.hidePost(testPost);
+        assertEquals("Hi", (sm.findUser(user1.getUsername()).getHiddenPosts().get(0).getTitle()));
 
-
-
+    }
 
 }
