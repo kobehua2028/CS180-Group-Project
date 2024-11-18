@@ -53,6 +53,7 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public boolean userExists(String username) {
+        this.readUsers();
         for (User user : users) {
             if (username.equals(user.getUsername())) {
                 return true;
@@ -62,6 +63,7 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public Post findPost(String title) {
+        this.readPosts();
         for (Post post : posts) {
             if (title.equals(post.getTitle()))
                 return post;
@@ -75,7 +77,7 @@ public class SocialMediaDatabase implements Serializable {
     }
 
     public ArrayList<Post> getPosts() {
-        readPosts();
+        this.readPosts();
         return posts;
     }
 
