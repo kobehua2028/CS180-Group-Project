@@ -144,7 +144,6 @@ public class SocialMediaDatabaseTest {
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         sm.readUsers();
-        ArrayList<User> expected = new ArrayList<>();
         assertEquals(expectedUser, sm.getUsers().get(0));
     }
 

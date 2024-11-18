@@ -82,37 +82,37 @@ class CommentTest {
 
     @Test
     void testGetLikers() {
-        Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
-        testComment.addLiker(testUser);
+        Comment testComment1 = new Comment(testUser, "Hi", 0, 0, testPost, sm);
+        testComment1.addLiker(testUser);
 
-        assertTrue(testComment.getLikers().contains(testUser));
+        assertTrue(testComment1.getLikers().contains(testUser));
     }
 
     @Test
     void testGetDislikers() {
-        Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
-        testComment.addDisliker(testUser);
+        Comment testComment1 = new Comment(testUser, "Hi", 0, 0, testPost, sm);
+        testComment1.addDisliker(testUser);
 
-        assertTrue(testComment.getDislikers().contains(testUser));
+        assertTrue(testComment1.getDislikers().contains(testUser));
     }
 
     @Test
     void testRemoveDisliker() {
-        Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
-        testComment.addDisliker(testUser);
-        testComment.removeDisliker(testUser);
+        Comment testComment1 = new Comment(testUser, "Hi", 0, 0, testPost, sm);
+        testComment1.addDisliker(testUser);
+        testComment1.removeDisliker(testUser);
 
-        assertFalse(testComment.getDislikers().contains(testUser));
+        assertFalse(testComment1.getDislikers().contains(testUser));
 
     }
 
     @Test
     void testRemoveLiker() {
-        Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
-        testComment.addLiker(testUser);
-        testComment.removeLiker(testUser);
+        Comment testComment1 = new Comment(testUser, "Hi", 0, 0, testPost, sm);
+        testComment1.addLiker(testUser);
+        testComment1.removeLiker(testUser);
 
-        assertFalse(testComment.getLikers().contains(testUser));
+        assertFalse(testComment1.getLikers().contains(testUser));
 
     }
 
@@ -132,18 +132,18 @@ class CommentTest {
 
     @Test
     void testRemoveLikeWhenZero() {
-        Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
-        int initialLikes = testComment.getLikes();
-        testComment.removeLike();
-        assertEquals(0, testComment.getLikes());
+        Comment testComment1 = new Comment(testUser, "Hi", 0, 0, testPost, sm);
+        int initialLikes = testComment1.getLikes();
+        testComment1.removeLike();
+        assertEquals(0, testComment1.getLikes());
     }
 
     @Test
     void testRemoveDislikeWhenZero() {
-        Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
-        int initialDislikes = testComment.getDislikes();
-        testComment.removeDislike();
-        assertEquals(0, testComment.getDislikes());
+        Comment testComment1 = new Comment(testUser, "Hi", 0, 0, testPost, sm);
+        int initialDislikes = testComment1.getDislikes();
+        testComment1.removeDislike();
+        assertEquals(0, testComment1.getDislikes());
     }
 
 }

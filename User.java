@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * CS180 Group Project
- * Program description here
+ * User class that implements user functionality and fields
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author Kobe
  * @version Nov 03, 2024
  */
+
 public class User implements Serializable, UserInterface {
     private static final long serialVersionUID = 1810526504588534166L;
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
@@ -28,7 +29,8 @@ public class User implements Serializable, UserInterface {
     private boolean isDeleted;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
-                ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts, ArrayList<Post> hiddenPosts, ArrayList<Post> userPosts, SocialMediaDatabase sm) {
+                ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts,
+                ArrayList<Post> hiddenPosts, ArrayList<Post> userPosts, SocialMediaDatabase sm) {
         isDeleted = false;
 
         // check if len(password) > 5 & < 50
@@ -117,11 +119,11 @@ public class User implements Serializable, UserInterface {
         sm.writeUser(this);
     }
 
-    public void unblock(User unblockedUser, SocialMediaDatabase sm) {
+    public void unblock(User unblockedUser, SocialMediaDatabase sm1) {
         if (!blockedList.remove(unblockedUser)) {
             throw new IllegalArgumentException("User is not blocked");
         }
-        sm.writeUser(this);
+        sm1.writeUser(this);
     }
 
     public boolean deletePost(Post post) {

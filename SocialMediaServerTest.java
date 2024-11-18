@@ -8,6 +8,17 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * CS180 Group Project
+ * An test class for the Server
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Levin
+ * @author Abdul
+ * @version Nov 03, 2024
+ */
+
 public class SocialMediaServerTest {
     private SocialMediaDatabase sm;
     private User testUser;
@@ -164,25 +175,25 @@ public class SocialMediaServerTest {
 
         testServer.createPost("Purdue", "Congress Banned the ArrayList!",
                 "Eh, linked lists are better, anyway...");
-        Post testPost = sm.getPosts().get(sm.getPosts().size() - 1);
+        Post testPost1 = sm.getPosts().get(sm.getPosts().size() - 1);
 
         boolean postHidden = testServer.hidePost("Dunsmore", "Congress Banned the ArrayList!");
 
         assertTrue(postHidden);
-        assertTrue(testPost.equals(sm.getUsers().get(0).getHiddenPosts().get(0)));
+        assertTrue(testPost1.equals(sm.getUsers().get(0).getHiddenPosts().get(0)));
     }
 
     @Test
     public void testUnhidePost() {
         testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
                 "Eh, linked lists are better, anyway...");
-        Post testPost = sm.getPosts().get(sm.getPosts().size() - 1);
+        Post testPost1 = sm.getPosts().get(sm.getPosts().size() - 1);
 
         testServer.hidePost("Dunsmore", "Congress Banned the ArrayList!");
         boolean postUnhidden = testServer.unhidePost("Dunsmore", "Congress Banned the ArrayList!");
 
         assertTrue(postUnhidden);
-        assertFalse(sm.getUsers().get(0).getHiddenPosts().contains(testPost));
+        assertFalse(sm.getUsers().get(0).getHiddenPosts().contains(testPost1));
     }
 
     @Test

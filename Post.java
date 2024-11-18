@@ -52,8 +52,8 @@ public class Post implements Serializable, PostInterface {
         sm.writePost(this);
     }
 
-    public void createComment(User author, String text) {
-        Comment comment = new Comment(author, text, 0, 0, this, sm);
+    public void createComment(User author1, String text) {
+        Comment comment = new Comment(author1, text, 0, 0, this, sm);
         sm.writePost(this);
     }
 

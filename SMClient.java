@@ -269,13 +269,13 @@ public class SMClient implements Serializable, SMClientInterface {
     }
 
     // works
-    public boolean login(String username, String password) throws IOException {
-        pw.println(String.format("LOGIN`%s`%s", username, password));
+    public boolean login(String username1, String password) throws IOException {
+        pw.println(String.format("LOGIN`%s`%s", username1, password));
         pw.flush();
         String line = br.readLine();
         while (line != null) {
             if (line.equals("SUCCESS")) {
-                this.username = username;
+                this.username = username1;
                 return true;
             }
             if (line.equals("FAIL")) {
@@ -287,8 +287,8 @@ public class SMClient implements Serializable, SMClientInterface {
     }
 
     // works
-    public boolean createUser(String username, String password, String aboutMe) throws IOException {
-        pw.println(String.format("REGISTER_USER`%s`%s`%s", username, password, aboutMe));
+    public boolean createUser(String username1, String password, String aboutMe) throws IOException {
+        pw.println(String.format("REGISTER_USER`%s`%s`%s", username1, password, aboutMe));
         pw.flush();
         String line = br.readLine();
         while (line != null) {
@@ -304,8 +304,8 @@ public class SMClient implements Serializable, SMClientInterface {
     }
 
     //works
-    public boolean deleteUser(String username) throws IOException {
-        pw.println(String.format("DELETE_ACCOUNT`%s`%s", this.username, username));
+    public boolean deleteUser(String username1) throws IOException {
+        pw.println(String.format("DELETE_ACCOUNT`%s`%s", this.username, username1));
         pw.flush();
         String line = br.readLine();
         while (line != null) {
@@ -713,8 +713,8 @@ public class SMClient implements Serializable, SMClientInterface {
         return false;
     }
 
-    public boolean searchUser(String username) throws IOException {
-        pw.println(String.format("SEARCH_USER`%s", username));
+    public boolean searchUser(String username1) throws IOException {
+        pw.println(String.format("SEARCH_USER`%s", username1));
         pw.flush();
         String line = br.readLine();
         while (line != null) {

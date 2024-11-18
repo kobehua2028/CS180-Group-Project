@@ -1,5 +1,16 @@
 import java.util.ArrayList;
 
+/**
+ * CS180 Group Project
+ * An interface for user class
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Levin
+ * @author Mishal
+ * @version Nov 17, 2024
+ */
+
 public interface UserInterface {
     void setDeleted(Boolean delete);
 

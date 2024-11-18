@@ -19,7 +19,6 @@ import java.util.Arrays;
 public class SocialMediaServer implements Runnable, ServerInterface {
     private final Socket socket;
     private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
-    private static final Object lock = new Object();
 
     public SocialMediaServer(Socket socket) {
         this.socket = socket;
@@ -34,8 +33,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
 
         while (true) {
             Socket socket = serverSocket.accept();
-            SocialMediaServer sm = new SocialMediaServer(socket);
-            new Thread(sm).start();
+            SocialMediaServer sm1 = new SocialMediaServer(socket);
+            new Thread(sm1).start();
         }
     }
 
@@ -495,8 +494,9 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         while (postsShown < postLimit) {
             Post post = sm.getPosts().get(sm.getPosts().size() - i - 1);
             if (!user.getHiddenPosts().contains(post) && !user.getBlockedList().contains(post.getAuthor())) {
-                String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" + post.getAuthor().getUsername() + "`" +
-                        post.getComments().size() + "`" + post.getLikes() + "`" + post.getDislikes();
+                String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" +
+                        post.getAuthor().getUsername() + "`" + post.getComments().size() + "`" +
+                        post.getLikes() + "`" + post.getDislikes();
                 postStrings.add(postString);
                 postsShown++;
             }
@@ -884,7 +884,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         return false;
     }
 
-    public void setSM(SocialMediaDatabase sm) {
-        SocialMediaServer.sm = sm;
+    public void setSM(SocialMediaDatabase sm1) {
+        SocialMediaServer.sm = sm1;
     }
 }
