@@ -7,7 +7,7 @@ public interface SMClientInterface {
     boolean login(String username, String password) throws IOException;
     boolean createUser(String username, String password, String aboutMe) throws IOException;
     boolean deleteUser(String username) throws IOException;
-    ArrayList<ArrayList<String>> displayPosts(String username) throws IOException;
+    ArrayList<ArrayList<String>> displayPosts() throws IOException;
     ArrayList<ArrayList<String>> displayComments(String postTitle) throws IOException;
 
     ArrayList<String[]> displayProfile(String profileUsername) throws IOException;

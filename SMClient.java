@@ -22,7 +22,7 @@ import java.util.Scanner;
  * @version Nov 17, 2024
  */
 
-public class SMClient implements Serializable {
+public class SMClient implements Serializable, SMClientInterface {
 
     private String username;
     private Socket socket;
@@ -96,6 +96,15 @@ public class SMClient implements Serializable {
         }
         if (client.createPost("Post Title 3", "Sub Text 3")) {
             System.out.println("Created post: Post Title 3");
+        }
+
+        // Testing liking post functionality
+        System.out.println("\nTesting like post");
+        if (client.likePost("Post Title 1")) {
+            System.out.println("Liked post: Post Title 1 by User1");
+        }
+        if (client.likePost("Post Title 2")) {
+            System.out.println("Liked post: Post Title 2 by User1");
         }
 
         // Testing the Comment Creation Functionality

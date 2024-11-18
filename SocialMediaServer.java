@@ -14,7 +14,7 @@ import java.util.*;
  * @version Nov 17, 2024
  */
 
-public class SocialMediaServer implements Runnable {
+public class SocialMediaServer implements Runnable, ServerInterface {
     private Socket socket;
     private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
     private static Object lock = new Object();
