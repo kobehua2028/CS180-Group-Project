@@ -566,7 +566,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public boolean addFriend(String username, String friendUsername) {
+    public synchronized boolean addFriend(String username, String friendUsername) {
         User user = sm.findUser(username);
         User friend = sm.findUser(friendUsername);
         if (user == null || friend == null) {
@@ -584,7 +584,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean deleteFriend(String username, String friendUsername) {
+    public synchronized boolean deleteFriend(String username, String friendUsername) {
         User user = sm.findUser(username);
         User friend = sm.findUser(friendUsername);
         if (user == null || friend == null) {
@@ -600,7 +600,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean blockUser(String username, String blockUsername) {
+    public synchronized boolean blockUser(String username, String blockUsername) {
         User user = sm.findUser(username);
         User block = sm.findUser(blockUsername);
         if (user == null || block == null) {
@@ -617,7 +617,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean unblockUser(String username, String blockUsername) {
+    public synchronized boolean unblockUser(String username, String blockUsername) {
         User user = sm.findUser(username);
         User block = sm.findUser(blockUsername);
         if (user == null || block == null) {
@@ -631,7 +631,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean hidePost(String username, String postTitle) {
+    public synchronized boolean hidePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
 
@@ -646,7 +646,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean unhidePost(String username, String postTitle) {
+    public synchronized boolean unhidePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
 
@@ -661,7 +661,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean createPost(String authorUsername, String title, String subtext) {
+    public synchronized boolean createPost(String authorUsername, String title, String subtext) {
         try {
             User user = sm.findUser(authorUsername);
             if (user == null) {
@@ -675,12 +675,12 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean deletePost(String username, String postTitle) {
+    public synchronized boolean deletePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
             return false;
-        } else if (!user.getUserPosts().contains(post) || !post.getAuthor().equals(user)) {
+        } else if (!post.getAuthor().equals(user)) {
             return false;
         } else {
             user.deletePost(post);
@@ -689,7 +689,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean createComment(String postTitle, String username, String comment) {
+    public synchronized boolean createComment(String postTitle, String username, String comment) {
         Post post = sm.findPost(postTitle);
         User user = sm.findUser(username);
         if (user == null || post == null || comment.isEmpty() || comment == null) {
@@ -701,7 +701,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean deleteComment(String postTitle, String deleterUsername, String comment) {
+    public synchronized boolean deleteComment(String postTitle, String deleterUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User deleter = sm.findUser(deleterUsername);
         if (post == null || deleter == null) {
@@ -717,7 +717,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public boolean likePost(String username, String postTitle) {
+    public synchronized boolean likePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
@@ -732,7 +732,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean unlikePost(String username, String postTitle) {
+    public synchronized boolean unlikePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
@@ -747,7 +747,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean dislikePost(String username, String postTitle) {
+    public synchronized boolean dislikePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
@@ -762,7 +762,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean undislikePost(String username, String postTitle) {
+    public synchronized boolean undislikePost(String username, String postTitle) {
         User user = sm.findUser(username);
         Post post = sm.findPost(postTitle);
         if (user == null || post == null) {
@@ -777,7 +777,7 @@ public class SocialMediaServer implements Runnable {
         }
     }
 
-    public boolean likeComment(String postTitle, String likerUsername, String comment) {
+    public synchronized boolean likeComment(String postTitle, String likerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User liker = sm.findUser(likerUsername);
         if (post == null || liker == null) {
@@ -795,7 +795,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public boolean unlikeComment(String postTitle, String likerUsername, String comment) {
+    public synchronized boolean unlikeComment(String postTitle, String likerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User liker = sm.findUser(likerUsername);
         if (post == null || liker == null) {
@@ -813,7 +813,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public boolean dislikeComment(String postTitle, String dislikerUsername, String comment) {
+    public synchronized boolean dislikeComment(String postTitle, String dislikerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User disliker = sm.findUser(dislikerUsername);
         if (post == null || disliker == null) {
@@ -831,7 +831,7 @@ public class SocialMediaServer implements Runnable {
         return false;
     }
 
-    public boolean undislikeComment(String postTitle, String dislikerUsername, String comment) {
+    public synchronized boolean undislikeComment(String postTitle, String dislikerUsername, String comment) {
         Post post = sm.findPost(postTitle);
         User disliker = sm.findUser(dislikerUsername);
         if (post == null || disliker == null) {
