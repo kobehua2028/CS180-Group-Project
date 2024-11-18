@@ -28,7 +28,7 @@ public interface DatabaseInterface {
 
     void readPosts();
     
-    void deleteUser(User user)
+    void deleteUser(User user);
 
     void writeUser(User user);
     
