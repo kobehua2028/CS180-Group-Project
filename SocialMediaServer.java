@@ -840,7 +840,7 @@ public class SocialMediaServer implements Runnable {
         for(int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && post.getComments().get(i).getDislikers().contains(disliker)) {
-                post.getComments().get(i).incrementDislikes();
+                post.getComments().get(i).removeDislike();
                 post.getComments().get(i).removeDisliker(disliker);
                 sm.writePost(post);
                 return true;
