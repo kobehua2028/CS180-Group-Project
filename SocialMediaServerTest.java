@@ -88,13 +88,6 @@ public class SocialMediaServerTest {
         assertFalse(sm.getUsers().contains(testUser));
     }
 
-    //INCOMPLETE
-    @Test
-    public void testDisplayPosts() {
-        ArrayList<String> expectedOutput = new ArrayList<String>();
-
-    }
-
     @Test
     public void testSearchUser() {
         boolean output = testServer.searchUser("Dunsmore");
@@ -357,5 +350,39 @@ public class SocialMediaServerTest {
         assertTrue(commentUndisliked);
         assertFalse(undislikedTwice);
         assertEquals(0, sm.getPosts().get(sm.getPosts().size() - 1).getComments().get(0).getDislikes());
+    }
+
+    @Test
+    public void testDisplayPosts() {
+        testServer.createPost("Dunsmore", "p",
+                "o");
+        ArrayList<String> posts = testServer.displayPosts("Dunsmore");
+        assertEquals("POST_p`o`Dunsmore`0`0`0", posts.get(0));
+    }
+
+    @Test
+    public void testDisplayComments() {
+        testServer.createPost("Dunsmore", "p",
+                "o");
+        testServer.createComment("p", "Dunsmore", "hi");
+        ArrayList<String> comments = testServer.displayComments("p");
+        assertEquals("COMMENT_hi`Dunsmore`0`0", comments.get(0));
+    }
+
+    @Test
+    public void testDisplayProfile() {
+        testServer.createUser("Nicki", "Minaj", "3");
+        testServer.createUser("BlockMe", "blocked123", "4124");
+        testServer.createUser("Bobjoe", "Dunpass", "CS180<3");
+        testServer.createPost("Bobjoe", "hi", "subte");
+        testServer.addFriend("Bobjoe", "Nicki");
+        testServer.blockUser("Bobjoe", "BlockMe");
+        ArrayList<String> profileFields = testServer.displayProfile("Bobjoe", "Bobjoe");
+
+
+        assertEquals("FRIENDS_LIST`Nicki", profileFields.get(1));
+        assertEquals("BLOCKED_LIST`BlockMe", profileFields.get(2));
+        assertEquals("POSTS_LIST`hi", profileFields.get(3));
+        assertEquals("ABOUT_ME`CS180<3", profileFields.get(4));
     }
 }
