@@ -27,8 +27,16 @@ public interface DatabaseInterface {
     void readUsers();
 
     void readPosts();
+    
+    void deleteUser(User user)
 
     void writeUser(User user);
+    
+    void updateUsers();
+
+    void deletePost(Post post);
 
     void writePost(Post post);
+
+    void updatePosts();
 }

@@ -23,4 +23,5 @@ public interface PostInterface {
     void incrementDislikes();
     void removeLike();
     void removeDislike();
+    String toString();
 }
