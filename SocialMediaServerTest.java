@@ -282,4 +282,80 @@ public class SocialMediaServerTest {
         assertFalse(undislikedTwice);
         assertEquals(0, sm.getPosts().get(sm.getPosts().size() - 1).getDislikes());
     }
+
+    @Test
+    public void testLikeComment() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Oh no!");
+
+        testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        boolean commentLiked = testServer.likeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+        boolean likedTwice = testServer.likeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        assertTrue(commentLiked);
+        assertFalse(likedTwice);
+    }
+
+    @Test
+    public void testDislikeComment() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Oh no!");
+
+        testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        boolean commentDisiked = testServer.dislikeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+        boolean dislikedTwice = testServer.dislikeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        assertTrue(commentDisiked);
+        assertFalse(dislikedTwice);
+    }
+
+    @Test
+    public void testUnlikeComment() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Oh no!");
+
+        testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        testServer.likeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        boolean commentUnliked = testServer.unlikeComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+        boolean unlikedTwice = testServer.unlikeComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        assertTrue(commentUnliked);
+        assertFalse(unlikedTwice);
+        assertEquals(0, sm.getPosts().get(sm.getPosts().size() - 1).getComments().get(0).getLikes());
+    }
+
+    @Test
+    public void testUndislikeComment() {
+        testServer.createPost("Dunsmore", "Congress Banned the ArrayList!",
+                "Oh no!");
+
+        testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        testServer.dislikeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        boolean commentUndisliked = testServer.undislikeComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+        boolean undislikedTwice = testServer.undislikeComment("Congress Banned the ArrayList!", "Dunsmore",
+                "I guess I'll stop teaching it...");
+
+        assertTrue(commentUndisliked);
+        assertFalse(undislikedTwice);
+        assertEquals(0, sm.getPosts().get(sm.getPosts().size() - 1).getComments().get(0).getDislikes());
+    }
 }
