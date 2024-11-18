@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NewsFeed implements Serializable {
-    private SocialMediaDatabase sm;
+    private final SocialMediaDatabase sm;
     private User user;
     private int postsShown;
-    private Scanner scan;
+    private final Scanner scan;
 
     public NewsFeed(SocialMediaDatabase sm) {
         postsShown = sm.getPosts().size() - 1;
@@ -23,7 +23,7 @@ public class NewsFeed implements Serializable {
 
             if (username.equals("-1"))
                 return;
-            else if  ((username.toLowerCase().equals("[deleted]"))) {
+            else if ((username.equalsIgnoreCase("[deleted]"))) {
                 System.out.println("Invalid username.\nPlease check your spelling.\n");
                 username = "";
                 continue;
@@ -113,7 +113,6 @@ public class NewsFeed implements Serializable {
     public void createPost() {
         if (user == null) {
             System.out.println("You must log in or create an account to post.");
-            return;
         } else {
             String title = "";
             do {
@@ -138,13 +137,13 @@ public class NewsFeed implements Serializable {
                                     System.out.println("Do you want to publish this post?\n(type \"yes\" or \"no\"): ");
                                     confirm = scan.nextLine();
 
-                                    if (confirm.toLowerCase().equals("yes")) {
+                                    if (confirm.equalsIgnoreCase("yes")) {
                                         new Post(user, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
                                         return;
                                     } else {
                                         return;
                                     }
-                                } while (!confirm.toLowerCase().equals("yes") && !confirm.toLowerCase().equals("no"));
+                                } while (!confirm.equalsIgnoreCase("yes") && !confirm.equalsIgnoreCase("no"));
                             } else {
                                 subtext += inputString + "\n";
                             }
@@ -166,7 +165,7 @@ public class NewsFeed implements Serializable {
                 System.out.println("Are you sure you want to delete your account?\n(type \"yes\" or \"no\"): ");
                 confirm = scan.nextLine();
 
-                if (confirm.toLowerCase().equals("yes")) {
+                if (confirm.equalsIgnoreCase("yes")) {
                     sm.getUsers().remove(user);
                     for (int i = 0; i < sm.getPosts().size(); i++) {
                         if (user.equals(sm.getPosts().get(i).getAuthor())) {
@@ -180,7 +179,7 @@ public class NewsFeed implements Serializable {
                     }
                     user = null;
                 }
-            } while (!confirm.toLowerCase().equals("yes") && !confirm.toLowerCase().equals("no"));
+            } while (!confirm.equalsIgnoreCase("yes") && !confirm.equalsIgnoreCase("no"));
         }
     }
 

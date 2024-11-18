@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * CS180 Group Project
@@ -163,10 +163,10 @@ class PostTest {
     @Test
     public void testEquals() {
 
-        assertEquals(true, testPost.equals(new Post(test, "Test case",
+        assertTrue(testPost.equals(new Post(test, "Test case",
                 "Lorem Ispum", new ArrayList<Comment>(),
                 0, 1, sm)));
-        assertEquals(false, testPost.equals(new Post(test, "Test casen't",
+        assertFalse(testPost.equals(new Post(test, "Test casen't",
                 "Ispum Lor", new ArrayList<Comment>(), 0, 1, sm)));
     }
 

@@ -1,13 +1,7 @@
-import org.w3c.dom.ls.LSOutput;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.net.*;
 import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -25,7 +19,7 @@ import java.util.Scanner;
 public class SMClient implements Serializable, SMClientInterface {
 
     private String username;
-    private Socket socket;
+    private final Socket socket;
     private BufferedReader br;
     private PrintWriter pw;
     // [["author","text","subtext","likes","dislikes"],        ,       ,      ,       ]
@@ -259,6 +253,7 @@ public class SMClient implements Serializable, SMClientInterface {
 //        System.out.println(Arrays.asList(profile.get(2)));
 //        System.out.println(Arrays.asList(profile.get(3)));
     }
+
     // works
     public boolean echo() throws IOException {
         pw.println("ECHO");
@@ -272,6 +267,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         return false;
     }
+
     // works
     public boolean login(String username, String password) throws IOException {
         pw.println(String.format("LOGIN`%s`%s", username, password));
@@ -289,6 +285,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         return false;
     }
+
     // works
     public boolean createUser(String username, String password, String aboutMe) throws IOException {
         pw.println(String.format("REGISTER_USER`%s`%s`%s", username, password, aboutMe));
@@ -305,6 +302,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         return false;
     }
+
     //works
     public boolean deleteUser(String username) throws IOException {
         pw.println(String.format("DELETE_ACCOUNT`%s`%s", this.username, username));
@@ -321,6 +319,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         return false;
     }
+
     // works
     public ArrayList<ArrayList<String>> displayPosts() throws IOException {
         ArrayList<ArrayList<String>> posts = new ArrayList<>();
@@ -350,6 +349,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         return posts;
     }
+
     // works
     public ArrayList<ArrayList<String>> displayComments(String postTitle) throws IOException {
         ArrayList<ArrayList<String>> comments = new ArrayList<>();
@@ -377,6 +377,7 @@ public class SMClient implements Serializable, SMClientInterface {
         }
         return comments;
     }
+
     // works
     public ArrayList<String[]> displayProfile(String profileUsername) throws IOException {
         ArrayList<String[]> profile = new ArrayList<>();

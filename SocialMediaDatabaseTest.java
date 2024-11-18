@@ -1,13 +1,13 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * CS180 Group Project
  * Program description here
@@ -25,15 +25,16 @@ public class SocialMediaDatabaseTest {
     private Post expectedPost;
     private ArrayList<User> expected;
     private ArrayList<Post> expectedPosts;
+
     @Before
     public void setUp() throws Exception {
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
-        expectedUser = new User("Dunsmore","CS180istheBest",
+        expectedUser = new User("Dunsmore", "CS180istheBest",
                 "I teach CS180", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
-        expectedUser2 = new User("Dunsmore2","CS180istheBest",
+        expectedUser2 = new User("Dunsmore2", "CS180istheBest",
                 "I teach CS180", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
@@ -100,13 +101,13 @@ public class SocialMediaDatabaseTest {
     @Test
     public void testCreateUser() {
         User test = sm.createUser("Frank", "Maximilton", "Hey I'm a robot.");
-        assertEquals(true, sm.getUsers().contains(test));
+        assertTrue(sm.getUsers().contains(test));
     }
 
     @Test
     public void testFindUser() {
         if (!sm.getUsers().contains(expectedUser)) {
-            sm.createUser("Dunsmore","CS180istheBest", "I teach CS180");
+            sm.createUser("Dunsmore", "CS180istheBest", "I teach CS180");
         }
         User foundUser = sm.findUser("Dunsmore");
         assertEquals(expectedUser, foundUser);
@@ -115,7 +116,7 @@ public class SocialMediaDatabaseTest {
     @Test
     public void testUserExists() {
         if (!sm.getUsers().contains(expectedUser)) {
-            sm.createUser("Dunsmore","CS180istheBest", "I teach CS180");
+            sm.createUser("Dunsmore", "CS180istheBest", "I teach CS180");
         }
         boolean exists = sm.userExists("Dunsmore");
         assertTrue(exists);
@@ -125,7 +126,7 @@ public class SocialMediaDatabaseTest {
     public void testFindPost() {
         if (!sm.getPosts().contains(expectedPost)) {
             if (!sm.getUsers().contains(expectedUser)) {
-                sm.createUser("Dunsmore","CS180istheBest", "I teach CS180");
+                sm.createUser("Dunsmore", "CS180istheBest", "I teach CS180");
             }
             sm.getUsers().get(0).createPost("Purdue CS180", "Purdue CS 180 is the best CS class");
         }
@@ -153,18 +154,18 @@ public class SocialMediaDatabaseTest {
         sm.readPosts();
         expectedPosts.add(expectedPost);
 
-        assertEquals(true, expectedPosts.get(0).equals(sm.getPosts().get(0)));
+        assertTrue(expectedPosts.get(0).equals(sm.getPosts().get(0)));
     }
 
     @Test
     public void testWriteUser() {
-        User newUser = new User("KrisDreemur" , "DeltaruneRef", "Hey it's me Kris",
+        User newUser = new User("KrisDreemur", "DeltaruneRef", "Hey it's me Kris",
                 new ArrayList<User>(), new ArrayList<User>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
         //Creating a new User object implicitly calls writeUser()
 
-        assertEquals(true, sm.getUsers().contains(newUser));
+        assertTrue(sm.getUsers().contains(newUser));
     }
 
     @Test
@@ -173,7 +174,7 @@ public class SocialMediaDatabaseTest {
                 new ArrayList<Comment>(), 0, 0, sm);
         //Creating a post implicitly calls writePost()
 
-        assertEquals(true, sm.findPost("Test case Object").equals(newPost));
+        assertTrue(sm.findPost("Test case Object").equals(newPost));
     }
 
     @Test
@@ -185,7 +186,7 @@ public class SocialMediaDatabaseTest {
                 new ArrayList<>(), sm);
 
         sm.deleteUser(markedForDeletion);
-        assertEquals(false, sm.getUsers().contains(markedForDeletion));
+        assertFalse(sm.getUsers().contains(markedForDeletion));
     }
 
     @Test
@@ -193,6 +194,6 @@ public class SocialMediaDatabaseTest {
         Post markedForDeletion = expectedPost;
         sm.deletePost(markedForDeletion);
 
-        assertEquals(false, sm.getPosts().contains(markedForDeletion));
+        assertFalse(sm.getPosts().contains(markedForDeletion));
     }
 }

@@ -2,7 +2,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.Socket;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class SocialMediaServerTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        testUser = new User("Dunsmore","CS180istheBest",
+        testUser = new User("Dunsmore", "CS180istheBest",
                 "I teach CS180", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), sm);
@@ -35,9 +34,8 @@ public class SocialMediaServerTest {
                 "Purdue CS 180 is the best CS class", new ArrayList<Comment>(), 0, 0, sm);
 
 
-
-
     }
+
     @After
     public void clearFile() throws IOException {
         File userFile = new File("users.dat");
@@ -99,7 +97,7 @@ public class SocialMediaServerTest {
 
     @Test
     public void testAddFriend() {
-        testServer.createUser("Purdue","petyrBaelish"," Ham");
+        testServer.createUser("Purdue", "petyrBaelish", " Ham");
 
         boolean addingNullFriend = testServer.addFriend("Dunsmore", "Nobody");
         boolean addingFriendSuccess = testServer.addFriend("Dunsmore", "Purdue");
@@ -110,7 +108,6 @@ public class SocialMediaServerTest {
         //one for adding a non-friend
 
 
-
         assertFalse(addingNullFriend);
         assertTrue(addingFriendSuccess);
         assertFalse(alreadyFriend);
@@ -118,11 +115,11 @@ public class SocialMediaServerTest {
 
     @Test
     public void testDeleteFriend() {
-        testServer.createUser("Purdue","petyrBaelish"," Ham");
+        testServer.createUser("Purdue", "petyrBaelish", " Ham");
 
         testServer.addFriend("Dunsmore", "Purdue");
         boolean removed = testServer.deleteFriend("Dunsmore", "Purdue");
-        boolean removeNonFriend=  testServer.deleteFriend("Dunsmore", "Sandwich");
+        boolean removeNonFriend = testServer.deleteFriend("Dunsmore", "Sandwich");
 
         assertTrue(removed);
         assertFalse(removeNonFriend);
@@ -130,7 +127,7 @@ public class SocialMediaServerTest {
 
     @Test
     public void testBlockUser() {
-        testServer.createUser("Purdue","petyrBaelish"," Ham");
+        testServer.createUser("Purdue", "petyrBaelish", " Ham");
 
         boolean blocked = testServer.blockUser("Dunsmore", "Purdue");
         boolean blockedNonExistent = testServer.blockUser("Dunsmore", "Beef");
@@ -141,7 +138,7 @@ public class SocialMediaServerTest {
 
     @Test
     public void testUnblockUser() {
-        testServer.createUser("Purdue","petyrBaelish"," Ham");
+        testServer.createUser("Purdue", "petyrBaelish", " Ham");
 
         testServer.blockUser("Dunsmore", "Purdue");
         boolean unblocked = testServer.unblockUser("Dunsmore", "Purdue");
@@ -163,7 +160,7 @@ public class SocialMediaServerTest {
 
     @Test
     public void testHidePost() {
-        testServer.createUser("Purdue","petyrBaelish"," Ham");
+        testServer.createUser("Purdue", "petyrBaelish", " Ham");
 
         testServer.createPost("Purdue", "Congress Banned the ArrayList!",
                 "Eh, linked lists are better, anyway...");
@@ -185,12 +182,12 @@ public class SocialMediaServerTest {
         boolean postUnhidden = testServer.unhidePost("Dunsmore", "Congress Banned the ArrayList!");
 
         assertTrue(postUnhidden);
-        assertTrue(!(sm.getUsers().get(0).getHiddenPosts().contains(testPost)));
+        assertFalse(sm.getUsers().get(0).getHiddenPosts().contains(testPost));
     }
 
     @Test
     public void testDeletePost() {
-        testServer.createUser("Purdue","petyrBaelish"," Ham");
+        testServer.createUser("Purdue", "petyrBaelish", " Ham");
 
         for (int i = 0; i < sm.getPosts().size(); i++)
             System.out.println(sm.getPosts().get(i).getTitle());
@@ -203,7 +200,7 @@ public class SocialMediaServerTest {
 
         assertTrue(postDeleted);
 
-        assertEquals(null, (sm.findPost("Congress Banned the ArrayList!")));
+        assertNull((sm.findPost("Congress Banned the ArrayList!")));
     }
 
     @Test

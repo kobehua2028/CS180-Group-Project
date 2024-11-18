@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 /**
  * CS180 Group Project
  * An interface for SocialMediaDatabase
@@ -27,11 +28,11 @@ public interface DatabaseInterface {
     void readUsers();
 
     void readPosts();
-    
+
     void deleteUser(User user);
 
     void writeUser(User user);
-    
+
     void updateUsers();
 
     void deletePost(Post post);

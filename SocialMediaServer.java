@@ -1,6 +1,8 @@
-import java.net.*;
 import java.io.*;
-import java.util.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * CS180 Group Project
@@ -15,9 +17,9 @@ import java.util.*;
  */
 
 public class SocialMediaServer implements Runnable, ServerInterface {
-    private Socket socket;
+    private final Socket socket;
     private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
-    private static Object lock = new Object();
+    private static final Object lock = new Object();
 
     public SocialMediaServer(Socket socket) {
         this.socket = socket;
@@ -456,9 +458,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         sm.readUsers();
         User loginUser = sm.findUser(username);
         if (loginUser != null) {
-            if (loginUser.getPassword().equals(password)) {
-                return true;
-            }
+            return loginUser.getPassword().equals(password);
         }
         return false;
     }
@@ -466,10 +466,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
     public synchronized boolean createUser(String username, String password, String aboutMe) {
         try {
             sm.createUser(username, password, aboutMe);
-            if (sm.findUser(username) != null) {
-                return true;
-            }
-            return false;
+            return sm.findUser(username) != null;
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -478,7 +475,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
     public synchronized boolean deleteUser(String username, String deletedUsername) {
         User deleteUser = sm.findUser(username);
         User deletedAccount = sm.findUser(deletedUsername);
-        if (deleteUser != null && deletedAccount != null &&deletedAccount.equals(deleteUser)) {
+        if (deletedAccount != null && deletedAccount.equals(deleteUser)) {
             sm.deleteUser(deleteUser);
             return true;
         } else {
@@ -572,10 +569,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
     }
 
     public boolean searchUser(String username) {
-        if (sm.findUser(username) != null) {
-            return true;
-        }
-        return false;
+        return sm.findUser(username) != null;
     }
 
     public synchronized boolean addFriend(String username, String friendUsername) {
@@ -724,7 +718,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         if (post == null || deleter == null) {
             return false;
         }
-        for(int i = 0; i < post.getComments().size(); i++) {
+        for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)) {
                 post.deleteComment(deleter, post.getComments().get(i));
                 sm.writePost(post);
@@ -785,7 +779,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             return false;
         } else {
             for (int i = 0; i < user.getDislikedPosts().size(); i++) {
-                if (post.equals(user.getDislikedPosts().get(i))){
+                if (post.equals(user.getDislikedPosts().get(i))) {
                     return false;
                 }
             }
@@ -806,7 +800,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             return false;
         } else {
             for (int i = 0; i < user.getDislikedPosts().size(); i++) {
-                if (post.equals(user.getDislikedPosts().get(i))){
+                if (post.equals(user.getDislikedPosts().get(i))) {
                     post.removeDislike();
                     user.removeDislikedPost(post);
                     sm.writeUser(user);
@@ -824,7 +818,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         if (post == null || liker == null) {
             return false;
         }
-        for(int i = 0; i < post.getComments().size(); i++) {
+        for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && !post.getComments().get(i).getLikers().contains(liker)) {
                 post.getComments().get(i).incrementLikes();
@@ -842,7 +836,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         if (post == null || liker == null) {
             return false;
         }
-        for(int i = 0; i < post.getComments().size(); i++) {
+        for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment) &&
                     post.getComments().get(i).getLikers().contains(liker)) {
                 post.getComments().get(i).removeLike();
@@ -860,7 +854,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         if (post == null || disliker == null) {
             return false;
         }
-        for(int i = 0; i < post.getComments().size(); i++) {
+        for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && !post.getComments().get(i).getDislikers().contains(disliker)) {
                 post.getComments().get(i).incrementDislikes();
@@ -878,7 +872,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         if (post == null || disliker == null) {
             return false;
         }
-        for(int i = 0; i < post.getComments().size(); i++) {
+        for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && post.getComments().get(i).getDislikers().contains(disliker)) {
                 post.getComments().get(i).removeDislike();
@@ -890,7 +884,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         return false;
     }
 
-    public void setSM(SocialMediaDatabase sm){
-        this.sm = sm;
+    public void setSM(SocialMediaDatabase sm) {
+        SocialMediaServer.sm = sm;
     }
 }

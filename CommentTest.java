@@ -1,12 +1,13 @@
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * CS180 Group Project
  * A class for testing the functionaly of the Comment class
@@ -84,7 +85,7 @@ class CommentTest {
         Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
         testComment.addLiker(testUser);
 
-        assertEquals(true, testComment.getLikers().contains(testUser));
+        assertTrue(testComment.getLikers().contains(testUser));
     }
 
     @Test
@@ -92,7 +93,7 @@ class CommentTest {
         Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);
         testComment.addDisliker(testUser);
 
-        assertEquals(true, testComment.getDislikers().contains(testUser));
+        assertTrue(testComment.getDislikers().contains(testUser));
     }
 
     @Test
@@ -101,7 +102,7 @@ class CommentTest {
         testComment.addDisliker(testUser);
         testComment.removeDisliker(testUser);
 
-        assertEquals(false, testComment.getDislikers().contains(testUser));
+        assertFalse(testComment.getDislikers().contains(testUser));
 
     }
 
@@ -111,7 +112,7 @@ class CommentTest {
         testComment.addLiker(testUser);
         testComment.removeLiker(testUser);
 
-        assertEquals(false, testComment.getLikers().contains(testUser));
+        assertFalse(testComment.getLikers().contains(testUser));
 
     }
 
@@ -119,13 +120,14 @@ class CommentTest {
     void testRemoveLike() {
         int initialLikes = testComment.getLikes();
         testComment.removeLike();
-        assertEquals(initialLikes -1, testComment.getLikes());
+        assertEquals(initialLikes - 1, testComment.getLikes());
     }
+
     @Test
     void testRemoveDislike() {
         int initialDislikes = testComment.getDislikes();
         testComment.removeDislike();
-        assertEquals(initialDislikes -1, testComment.getDislikes());
+        assertEquals(initialDislikes - 1, testComment.getDislikes());
     }
 
     @Test
@@ -135,6 +137,7 @@ class CommentTest {
         testComment.removeLike();
         assertEquals(0, testComment.getLikes());
     }
+
     @Test
     void testRemoveDislikeWhenZero() {
         Comment testComment = new Comment(testUser, "Hi", 0, 0, testPost, sm);

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class Comment implements Serializable, CommentInterface {
     private final String text;
     private int likes;
-    private ArrayList<User> likers = new ArrayList<>();
-    private ArrayList<User> dislikers = new ArrayList<>();
+    private final ArrayList<User> likers = new ArrayList<>();
+    private final ArrayList<User> dislikers = new ArrayList<>();
     private int dislikes;
     private final User author;
     private final Post post; //the post to which this comment belongs

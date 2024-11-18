@@ -12,18 +12,32 @@ import java.util.ArrayList;
  */
 public interface CommentInterface {
     String getText();
+
     int getLikes();
+
     int getDislikes();
+
     User getAuthor();
+
     Post getPost();
+
     ArrayList<User> getLikers();
+
     ArrayList<User> getDislikers();
+
     void incrementLikes();
+
     void incrementDislikes();
+
     void removeLike();
+
     void removeDislike();
+
     void addLiker(User user);
+
     void addDisliker(User user);
+
     void removeLiker(User user);
+
     void removeDisliker(User user);
 }

@@ -1,6 +1,7 @@
-import java.util.ArrayList;
+import javax.swing.*;
 import java.io.*;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
+
 /**
  * CS180 Group Project
  * Program description here

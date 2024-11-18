@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+
 /**
  * CS180 Group Project
  * Program description here
@@ -63,6 +64,7 @@ public class User implements Serializable, UserInterface {
         this.sm = sm;
         sm.writeUser(this);
     }
+
     public void setDeleted(Boolean delete) {
         isDeleted = delete;
     }
@@ -70,6 +72,7 @@ public class User implements Serializable, UserInterface {
     public Boolean isDeleted() {
         return isDeleted;
     }
+
     public void changeAboutMe(String newAboutMe) {
         this.aboutMe = newAboutMe;
     }
@@ -156,7 +159,7 @@ public class User implements Serializable, UserInterface {
     public ArrayList<User> getBlockedList() {
         return blockedList;
     }
-  
+
     public ArrayList<Post> getUserPosts() {
         return userPosts;
     }
@@ -173,7 +176,7 @@ public class User implements Serializable, UserInterface {
         }
         sm.writeUser(this);
     }
-  
+
     public ArrayList<Post> getLikedPosts() {
         return likedPosts;
     }
