@@ -291,9 +291,9 @@ public class SocialMediaServerTest {
         testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
-        boolean commentLiked = testServer.likeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+        boolean commentLiked = testServer.likeComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
-        boolean likedTwice = testServer.likeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+        boolean likedTwice = testServer.likeComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
         assertTrue(commentLiked);
@@ -308,9 +308,9 @@ public class SocialMediaServerTest {
         testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
-        boolean commentDisiked = testServer.dislikeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+        boolean commentDisiked = testServer.dislikeComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
-        boolean dislikedTwice = testServer.dislikeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+        boolean dislikedTwice = testServer.dislikeComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
         assertTrue(commentDisiked);
@@ -346,7 +346,7 @@ public class SocialMediaServerTest {
         testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
-        testServer.dislikeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+        testServer.dislikeComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
         boolean commentUndisliked = testServer.undislikeComment("Congress Banned the ArrayList!", "Dunsmore",
