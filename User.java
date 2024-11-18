@@ -24,7 +24,7 @@ public class User implements Serializable, UserInterface {
     private final String password; //the password to this account
     private String aboutMe; //The "about me" section
     private final SocialMediaDatabase sm;
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
                 ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts, ArrayList<Post> hiddenPosts, ArrayList<Post> userPosts, SocialMediaDatabase sm) {
@@ -81,10 +81,11 @@ public class User implements Serializable, UserInterface {
         return false;
     }
 
-    public void createPost(String title, String subtext) {
+    public Post createPost(String title, String subtext) {
         Post post = new Post(this, title, subtext, new ArrayList<Comment>(), 0, 0, sm);
         userPosts.add(post);
         sm.writeUser(this);
+        return post;
     }
 
     public void removeFriend(User formerFriend) {
@@ -138,10 +139,9 @@ public class User implements Serializable, UserInterface {
     }
 
     public String getUsername() {
-        if (isDeleted == null)
-            isDeleted = false;
-        else if (isDeleted)
+        if (isDeleted) {
             return "[Deleted]";
+        }
         return username;
     }
 

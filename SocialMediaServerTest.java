@@ -21,7 +21,6 @@ public class SocialMediaServerTest {
 
         sm = new SocialMediaDatabase("users.dat", "posts.dat");
 
-
         try {
             testServer = new SocialMediaServer(null);
             testServer.setSM(sm);

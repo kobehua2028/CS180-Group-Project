@@ -848,4 +848,8 @@ public class SocialMediaServer implements Runnable {
         }
         return false;
     }
+
+    public void setSM(SocialMediaDatabase sm){
+        this.sm = sm;
+    }
 }
