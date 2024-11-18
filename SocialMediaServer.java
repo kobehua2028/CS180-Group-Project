@@ -466,7 +466,7 @@ public class SocialMediaServer implements Runnable {
     public synchronized boolean deleteUser(String username, String deletedUsername) {
         User deleteUser = sm.findUser(username);
         User deletedAccount = sm.findUser(deletedUsername);
-        if (deleteUser != null && deletedAccount.equals(deleteUser)) {
+        if (deleteUser != null && deletedAccount != null &&deletedAccount.equals(deleteUser)) {
             sm.deleteUser(deleteUser);
             return true;
         } else {
@@ -641,6 +641,7 @@ public class SocialMediaServer implements Runnable {
             return false;
         } else {
             user.hidePost(post);
+            sm.writePost(post);
             sm.writeUser(user);
             return true;
         }
@@ -652,13 +653,16 @@ public class SocialMediaServer implements Runnable {
 
         if (user == null || post == null) {
             return false;
-        } else if (!user.getHiddenPosts().contains(post)) {
-            return false;
-        } else {
-            user.hidePost(post);
-            sm.writeUser(user);
-            return true;
         }
+
+        for (int i = 0; i < user.getHiddenPosts().size(); i++) {
+            if (user.getHiddenPosts().get(i).equals(post)) {
+                user.hidePost(post);
+                sm.writeUser(user);
+                return true;
+            }
+        }
+        return false;
     }
 
     public synchronized boolean createPost(String authorUsername, String title, String subtext) {
@@ -685,6 +689,7 @@ public class SocialMediaServer implements Runnable {
         } else {
             user.deletePost(post);
             sm.writeUser(user);
+            sm.deletePost(post);
             return true;
         }
     }
@@ -725,9 +730,15 @@ public class SocialMediaServer implements Runnable {
         } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
+            for (int i = 0; i < user.getLikedPosts().size(); i++) {
+                if (user.getLikedPosts().get(i).equals(post)) {
+                    return false;
+                }
+            }
             post.incrementLikes();
             user.addLikedPost(post);
             sm.writeUser(user);
+            sm.writePost(post);
             return true;
         }
     }
@@ -740,10 +751,16 @@ public class SocialMediaServer implements Runnable {
         } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
-            post.removeLike();
-            user.removeLikedPost(post);
-            sm.writeUser(user);
-            return true;
+            for (int i = 0; i < user.getLikedPosts().size(); i++) {
+                if (user.getLikedPosts().get(i).equals(post)) {
+                    post.removeLike();
+                    user.removeLikedPost(post);
+                    sm.writeUser(user);
+                    sm.writePost(post);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -755,9 +772,15 @@ public class SocialMediaServer implements Runnable {
         } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
+            for (int i = 0; i < user.getDislikedPosts().size(); i++) {
+                if (post.equals(user.getDislikedPosts().get(i))){
+                    return false;
+                }
+            }
             post.incrementDislikes();
             user.addDislikedPost(post);
             sm.writeUser(user);
+            sm.writePost(post);
             return true;
         }
     }
@@ -770,10 +793,16 @@ public class SocialMediaServer implements Runnable {
         } else if (user.getLikedPosts().contains(post) && post.getAuthor().getBlockedList().contains(user)) {
             return false;
         } else {
-            post.removeDislike();
-            user.removeDislikedPost(post);
-            sm.writeUser(user);
-            return true;
+            for (int i = 0; i < user.getDislikedPosts().size(); i++) {
+                if (post.equals(user.getDislikedPosts().get(i))){
+                    post.removeDislike();
+                    user.removeDislikedPost(post);
+                    sm.writeUser(user);
+                    sm.writePost(post);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

@@ -187,7 +187,11 @@ public class User implements Serializable, UserInterface {
     }
 
     public void removeLikedPost(Post post) {
-        likedPosts.remove(post);
+        for (int i = 0; i < likedPosts.size(); i++) {
+            if (likedPosts.get(i).equals(post)) {
+                likedPosts.remove(i);
+            }
+        }
     }
 
     public void addDislikedPost(Post post) {
@@ -195,7 +199,11 @@ public class User implements Serializable, UserInterface {
     }
 
     public void removeDislikedPost(Post post) {
-        dislikedPosts.remove(post);
+        for (int i = 0; i < dislikedPosts.size(); i++) {
+            if (post.equals(dislikedPosts.get(i))) {
+                dislikedPosts.remove(i);
+            }
+        }
     }
 
 }

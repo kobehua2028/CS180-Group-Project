@@ -325,7 +325,7 @@ public class SocialMediaServerTest {
         testServer.createComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
-        testServer.likeCommemt("Congress Banned the ArrayList!", "Dunsmore",
+        testServer.likeComment("Congress Banned the ArrayList!", "Dunsmore",
                 "I guess I'll stop teaching it...");
 
         boolean commentUnliked = testServer.unlikeComment("Congress Banned the ArrayList!", "Dunsmore",
