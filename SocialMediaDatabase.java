@@ -122,7 +122,7 @@ public class SocialMediaDatabase implements Serializable, DatabaseInterface {
     }
 
     public synchronized void writeUser(User user) {
-        if (!users.contains(user)) {
+        if (this.findUser(user.getUsername()) == null) {
             users.add(user);
         } else {
             for (User compareUser : users) {
@@ -150,7 +150,7 @@ public class SocialMediaDatabase implements Serializable, DatabaseInterface {
     }
 
     public synchronized void writePost(Post post) {
-        if (!posts.contains(post)) {
+        if (this.findPost(post.getTitle()) == null) {
             posts.add(post);
         } else {
             for (Post comparePost : posts) {
