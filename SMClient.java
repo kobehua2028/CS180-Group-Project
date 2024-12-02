@@ -1,8 +1,9 @@
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * CS180 Group Project
@@ -16,12 +17,13 @@ import java.util.Scanner;
  * @version Nov 17, 2024
  */
 
-public class SMClient implements Serializable, SMClientInterface {
+public class SMClient extends JComponent implements Runnable, Serializable, SMClientInterface {
 
     private String username;
     private final Socket socket;
     private BufferedReader br;
     private PrintWriter pw;
+    private SMClient client;
     // [["author","text","subtext","likes","dislikes"],        ,       ,      ,       ]
 
     public SMClient(Socket socket) {
@@ -34,224 +36,21 @@ public class SMClient implements Serializable, SMClientInterface {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        // eventually going to be gui
-        // maybe just terminal testing for now once server-client setup is done?
-        SMClient client = new SMClient(new Socket("localhost", 8080));
-        Scanner scanner = new Scanner(System.in);
+    ActionListener actionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {}
+    };
 
-        // Testing Network IO Connection
-        System.out.println("Testing for connection");
-        if (client.echo()) {
-            System.out.println("Connected to server");
-        } else {
-            System.out.println("Failed to connect to server");
-        }
+    public void run() {
+        JFrame frame = new JFrame("Social Media Name");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 600);
+        client = new SMClient(socket);
 
-        // Testing the createUser Functionality
-        System.out.println("\nTesting Create User");
-        if (client.createUser("User1", "password1", "aboutme1")) {
-            System.out.println("Created user: User1");
-        }
-        if (client.createUser("User2", "password2", "aboutme2")) {
-            System.out.println("Created user: User2");
-        }
-        if (client.createUser("User3", "password3", "aboutme3")) {
-            System.out.println("Created user: User3");
-        }
-        if (client.createUser("User4", "password4", "aboutme4")) {
-            System.out.println("Created user: User4");
-        }
-        if (client.createUser("User5", "password5", "aboutme5")) {
-            System.out.println("Created user: User5");
-        }
+        JPanel loginPanel = new JPanel();
+        JPanel commentPanel = new JPanel();
 
-        // Testing the logIn Functionality
-        System.out.println("\nTesting Log In");
-        if (!client.login("User6", "password6")) {
-            // Since this is not a createdUser
-            System.out.println("Failed to login");
-        }
-        if (!client.login("User5", "password4")) {
-            // Since this is not the correct password
-            System.out.println("Failed to login");
-        }
-        if (client.login("User1", "password1")) {
-            System.out.println("Successful login as " + client.username);
-        }
-
-        // Testing the Post Creation Functionality
-        System.out.println("\nTesting Create Post");
-        if (client.createPost("Post Title 1", "Sub Text 1")) {
-            System.out.println("Created post: Post Title 1");
-        }
-        if (client.createPost("Post Title 2", "Sub Text 2")) {
-            System.out.println("Created post: Post Title 2");
-        }
-        if (client.createPost("Post Title 3", "Sub Text 3")) {
-            System.out.println("Created post: Post Title 3");
-        }
-
-        // Testing the Comment Creation Functionality
-        System.out.println("\nTesting Create Comment");
-        if (client.createComment("Post Title 1", "Comment1")) {
-            System.out.println("Created comment: Comment1 on Post Title 1");
-        }
-        if (client.createComment("Post Title 1", "Comment2")) {
-            System.out.println("Created comment: Comment2 on Post Title 1");
-        }
-        if (client.createComment("Post Title 1", "Comment3")) {
-            System.out.println("Created comment: Comment3 on Post Title 1");
-        }
-
-        // Testing liking post functionality
-        System.out.println("\nTesting like post");
-        if (client.likePost("Post Title 1")) {
-            System.out.println("Liked post: Post Title 1 by User1");
-        }
-        if (client.likePost("Post Title 2")) {
-            System.out.println("Liked post: Post Title 2 by User1");
-        }
-
-        // Testing the Post Displaying Functionality
-        System.out.println("\nTesting Display Post");
-        int times = client.displayPosts().size();
-        ArrayList<ArrayList<String>> posts = client.displayPosts();
-        for (int i = 0; i < times; i++) {
-            System.out.println(posts.get(i));
-        }
-
-        // Testing the Comment Displaying Functionality
-        ArrayList<String> postInfo = client.displayPosts().get(2);
-        System.out.println("\nTesting Display Comment");
-        times = client.displayComments(postInfo.get(0)).size();
-        ArrayList<ArrayList<String>> comments = client.displayComments(postInfo.get(0));
-        for (int i = 0; i < times; i++) {
-            System.out.println(comments.get(i).toString());
-        }
-
-        // Testing the Adding Friends Functionality
-        System.out.println("\nTesting Add Friends");
-        for (int i = 2; i <= 3; i++) {
-            client.addFriend("User" + i);
-            System.out.println("User1 added User" + i);
-        }
-
-        // Testing the Blocking User Functionality
-        System.out.println("\nTesting Block Friends");
-        for (int i = 4; i <= 5; i++) {
-            client.blockUser("User" + i);
-            System.out.println("User1 blocked User" + i);
-        }
-
-        // Testing the Profile Displaying Functionality
-        System.out.println("\nTesting Display Profile");
-        for (int i = 1; i <= 3; i++) {
-            String profileInfo = "";
-            times = client.displayProfile("User" + i).size();
-            ArrayList<String[]> profile = client.displayProfile("User" + i);
-            for (int j = 0; j < times; j++) {
-                profileInfo += Arrays.asList(profile.get(j)).toString();
-            }
-            System.out.println("User" + i + ": " + profileInfo);
-        }
-
-
-//        System.out.println("What's your usernamae");
-//        String username = scanner.nextLine();
-//        System.out.println("What's your password?");
-//        String password = scanner.nextLine();
-//
-//        client.createUser(username, password, "aboutMe test");
-//
-//        if(client.login(username, password)){
-//            System.out.println("Login successful");
-//        }
-//
-//        // TEST FRIEND SYSTEM
-//        System.out.println("Who do you want to add as a friend: ");
-//        while(scanner.hasNextLine()) {
-//            String friendToAdd = scanner.nextLine();
-//            if (client.addFriend(friendToAdd)) {
-//                System.out.println(friendToAdd + " added");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
-//                break;
-//            } else {
-//                System.out.println(friendToAdd + " not added");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
-//            }
-//        }
-//
-//        System.out.println("Who do you want to remove: ");
-//        while(scanner.hasNextLine()) {
-//            String friendToRemove = scanner.nextLine();
-//            if (client.deleteFriend(friendToRemove)) {
-//                System.out.println(friendToRemove + " removed");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
-//                break;
-//            } else {
-//                System.out.println(friendToRemove + " not removed");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(0)));
-//            }
-//        }
-//
-//        System.out.println("Who do you want to block: ");
-//        while(scanner.hasNextLine()) {
-//            String userToBlock = scanner.nextLine();
-//            if (client.blockUser(userToBlock)) {
-//                System.out.println(userToBlock + " blocked");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
-//                break;
-//            } else {
-//                System.out.println(userToBlock + " not blocked");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
-//            }
-//        }
-//
-//        System.out.println("Who do you want to unblock: ");
-//        while(scanner.hasNextLine()) {
-//            String userToUnblock = scanner.nextLine();
-//            if (client.unblockUser(userToUnblock)) {
-//                System.out.println(userToUnblock + " unblocked");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
-//                break;
-//            } else {
-//                System.out.println(userToUnblock + " not unblocked");
-//                System.out.println(Arrays.asList(client.displayProfile(username).get(1)));
-//            }
-//        }
-
-        // TEST POST PROFILE COMMENT
-//        System.out.println("Title of post 1:");
-//        String postTitle = scanner.nextLine();
-//        System.out.println("Subtext of post 1:");
-//        String subText = scanner.nextLine();
-//
-//        if(client.createPost(postTitle, subText)){
-//            System.out.println("Post created successfully");
-//        }
-//
-//        System.out.println("Title of post 2:");
-//        String postTitle2 = scanner.nextLine();
-//        System.out.println("Subtext of post 2:");
-//        String subText2 = scanner.nextLine();
-//
-//        if(client.createPost(postTitle2, subText2)){
-//            System.out.println("Post 2 created successfully");
-//        }
-//
-//        System.out.println(client.displayPosts(username).toString());
-//        ArrayList<String> postInfo = client.displayPosts(username).get(0);
-//        if (client.createComment(postInfo.get(0), "Nice Cat")) {
-//            System.out.println("Comment created successfully");
-//        }
-//        client.createComment(postInfo.get(0), "Fat Cat");
-//        System.out.println(client.displayComments(postInfo.get(0)).toString());
-//        ArrayList<String[]> profile = client.displayProfile("Kobe");
-//        System.out.println(Arrays.asList(profile.get(0)));
-//        System.out.println(Arrays.asList(profile.get(1)));
-//        System.out.println(Arrays.asList(profile.get(2)));
-//        System.out.println(Arrays.asList(profile.get(3)));
+        JPanel feedPanel = new JPanel();
+        JPanel searchPanel = new JPanel();
     }
 
     // works
@@ -737,6 +536,10 @@ public class SMClient implements Serializable, SMClientInterface {
         pw.close();
     }
 
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket("localhost", 8080);
+        SwingUtilities.invokeLater(new SMClient(socket));
+    }
 }
 
 
