@@ -42,15 +42,36 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
 
     public void run() {
         JFrame frame = new JFrame("Social Media Name");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(1000, 600);
+        frame.setLocationRelativeTo(null);
         client = new SMClient(socket);
+
+        CardLayout cardLayout = new CardLayout();
+        JPanel mainPanel = new JPanel(cardLayout);
 
         JPanel loginPanel = new JPanel();
         JPanel commentPanel = new JPanel();
-
         JPanel feedPanel = new JPanel();
         JPanel searchPanel = new JPanel();
+        mainPanel.add(loginPanel);
+
+        // Login Stuff
+        JLabel userNameLabel = new JLabel("Username:");
+        userNameLabel.setBounds(300, 250, 300, 40);
+        loginPanel.add(userNameLabel);
+
+//        JButton loginButton = new JButton("Log In");
+//        JButton signUpButton = new JButton("Sign Up");
+//        JPanel optionPanel = new JPanel();
+//        optionPanel.setSize(500, 300);
+//        optionPanel.setLayout(new BorderLayout());
+//        optionPanel.add(loginButton, BorderLayout.WEST);
+//        optionPanel.add(signUpButton, BorderLayout.EAST);
+//        loginPanel.add(optionPanel, BorderLayout.CENTER);
+
+        frame.add(mainPanel);
+        frame.setVisible(true);
     }
 
     // works
@@ -534,6 +555,22 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         socket.close();
         br.close();
         pw.close();
+    }
+
+    public boolean changeAboutMe(String username, String aboutMe) throws IOException {
+        pw.println(String.format("CHANGE_ABOUT_ME`%s`%s", username, aboutMe));
+        pw.flush();
+        String line = br.readLine();
+        while (line != null) {
+            if (line.equals("FAIL")) {
+                return false;
+            }
+            if (line.equals("SUCCESS")) {
+                return true;
+            }
+            line = br.readLine();
+        }
+        return false;
     }
 
     public static void main(String[] args) throws IOException {

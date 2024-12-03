@@ -436,6 +436,20 @@ public class SocialMediaServer implements Runnable, ServerInterface {
                             }
                         }
                     }
+                    case "CHANGE_ABOUT_ME" -> {
+                        if (command.length != 3) {
+                            pw.println("FAIL");
+                        } else {
+                            success = changeAboutMe(command[1], command[2]);
+                            if (success) {
+                                pw.println("SUCCESS");
+                                pw.flush();
+                            } else {
+                                pw.println("FAIL");
+                                pw.flush();
+                            }
+                        }
+                    }
                     default -> {
                         // replace with error Message
                         System.out.println("UNKNOWN_COMMAND");
@@ -884,6 +898,15 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         return false;
     }
 
+    public boolean changeAboutMe(String username, String aboutMe) {
+        User user = sm.findUser(username);
+        if (user == null) {
+            return false;
+        }
+        user.changeAboutMe(aboutMe);
+        sm.writeUser(user);
+        return true;
+    }
     public void setSM(SocialMediaDatabase sm1) {
         SocialMediaServer.sm = sm1;
     }
