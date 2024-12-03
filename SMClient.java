@@ -575,7 +575,8 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 8080);
-        SwingUtilities.invokeLater(new SMClient(socket));
+        SMClient client = new SMClient(socket);
+        SwingUtilities.invokeLater(new LoginFrame(client));
     }
 }
 
