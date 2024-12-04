@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,9 +58,13 @@ public class FeedFrame extends JComponent implements Runnable {
                     for (JPanel p : posts) {
                         if (buttonClicked.getParent().getParent().getName().equals(p.getName())) {
                             try {
-                                if (buttonClicked.getName().equals("nothidden") && client.hidePost(p.getName())) {
+                                if (buttonClicked.getName().equals("nothidden")) {
                                     buttonClicked.getParent().getParent().setVisible(false);
-                                    buttonClicked.setName("hidden");
+                                    System.out.println("1");
+                                    if (client.hidePost(p.getName())) {
+                                        buttonClicked.setName("hidden");
+                                        System.out.println("2");
+                                    }
                                 }
                             } catch (IOException e1) {
                                 e1.printStackTrace();
@@ -86,10 +91,6 @@ public class FeedFrame extends JComponent implements Runnable {
         feedFrame.setSize(1280, 720);
         feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         feedFrame.setLocationRelativeTo(null);
-        feedFrame.setForeground(new Color(171,171,171));
-        feedFrame.setBackground(new Color(23,23,23));
-        feedFrame.setResizable(false);
-
 
         // Top panel with buttons
         JPanel topPanel = new JPanel();
@@ -113,7 +114,7 @@ public class FeedFrame extends JComponent implements Runnable {
         }
         JScrollPane scrollPane = new JScrollPane(feed);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         // Add components to frame
         feedFrame.add(topPanel, BorderLayout.NORTH);
         feedFrame.add(scrollPane, BorderLayout.CENTER);
@@ -128,18 +129,18 @@ public class FeedFrame extends JComponent implements Runnable {
                 JPanel postPanel = new JPanel();
                 postPanel.setLayout(new BorderLayout());
                 postPanel.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(new Color(0,0,0,10), 2),
+                        BorderFactory.createLineBorder(Color.GRAY, 1),
                         BorderFactory.createEmptyBorder(10, 10, 10, 10)
                 ));
-                postPanel.setBackground(new Color(33,33,33));
+                postPanel.setBackground(Color.WHITE);
                 postPanel.setName(post.get(0));
 
                 // Top: Title and Author
                 JPanel topPanel = new JPanel(new BorderLayout());
                 topPanel.setOpaque(false);
                 JLabel titleLabel = new JLabel(post.get(0));
-                titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
-                JButton authorButton = new JButton("- " + post.get(2));
+                titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+                JButton authorButton = new JButton("By " + post.get(2));
                 authorButton.setFont(new Font("Arial", Font.PLAIN, 12));
                 authorButton.setOpaque(false);
                 authorButton.setContentAreaFilled(false);
@@ -183,5 +184,19 @@ public class FeedFrame extends JComponent implements Runnable {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(feedFrame, "No posts to show", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public static void enableDarkMode() {
+        UIManager.put("Panel.background", new ColorUIResource(43, 43, 43)); // Dark gray
+        UIManager.put("Panel.foreground", new ColorUIResource(187, 187, 187)); // Light gray
+        UIManager.put("Label.foreground", new ColorUIResource(187, 187, 187)); // Light gray
+        UIManager.put("Button.background", new ColorUIResource(60, 63, 65)); // Darker gray for buttons
+        UIManager.put("Button.foreground", new ColorUIResource(187, 187, 187)); // Light gray
+        UIManager.put("TextArea.background", new ColorUIResource(43, 43, 43)); // Dark gray for text area
+        UIManager.put("TextArea.foreground", new ColorUIResource(187, 187, 187)); // Light gray for text
+        UIManager.put("ScrollPane.background", new ColorUIResource(43, 43, 43)); // Dark gray for scroll pane
+        UIManager.put("ScrollBar.thumb", new ColorUIResource(60, 63, 65)); // Scrollbar thumb
+        UIManager.put("ScrollBar.background", new ColorUIResource(43, 43, 43)); // Scrollbar track
+        UIManager.put("BorderFactory.lineBorder", new ColorUIResource(60, 63, 65)); // Borders
     }
 }

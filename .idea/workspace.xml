@@ -7,17 +7,12 @@
     <list default="true" id="c4cccef1-58c5-40eb-af69-b5336ba7d7c5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FeedFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FeedFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SMClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/SMClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SocialMediaServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/SocialMediaServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SMClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SMClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SocialMediaServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SocialMediaServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/posts.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/users.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.dat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
