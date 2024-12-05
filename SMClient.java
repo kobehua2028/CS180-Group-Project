@@ -574,17 +574,12 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
     }
 
     public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 8080);
+        Socket socket = new Socket("localhost", 1111);
 
         SMClient client1 = new SMClient(socket);
         client1.createUser("Bob", "Bob123123", "IM BOB YO");
         client1.login("Bob", "Bob123123");
         client1.createPost("HI im bob!", "thisi ssubtext");
-        client1.createPost("HI im bob! 2", "thisi ssubtext");
-        client1.createPost("HI im bob 3!", "thisi ssubtext");
-        client1.createPost("HI im bob! 4", "thisi ssubtext");
-        client1.createPost("HI im bob! 5", "thisi ssubtext");
-        client1.createPost("HI im bob! 10", "thisi ssubtext");
 
         SMClient client2 = new SMClient(socket);
         client2.createUser("Jimmy", "Yo123123", "its jimmerson");
