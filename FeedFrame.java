@@ -36,20 +36,30 @@ public class FeedFrame extends JComponent implements Runnable {
                 System.out.println(buttonClicked.getParent().getParent().getName());
                 System.out.println(buttonClicked.getParent().getName());
                 System.out.println(buttonClicked.getName());
-                String [] postInfo = buttonClicked.getParent().getParent().getName().split("`");
+                String [] componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                 String holder;
                 if (buttonClicked.getText().contains("\uD83D\uDC4D")) {
                     try {
-                        if (buttonClicked.getName().equals("notliked") && client.likePost(postInfo[0])) {
-                            buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(postInfo[4]) + 1));
-                            holder = postInfo[4];
-                            postInfo[4] = String.valueOf(Integer.parseInt(holder) + 1);
+                        if (buttonClicked.getName().equals("notliked") && client.likePost(componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(componentInfo[4]) + 1));
+                            holder = componentInfo[4];
+                            componentInfo[4] = String.valueOf(Integer.parseInt(holder) + 1);
                             buttonClicked.setName("liked");
-                        } else if (buttonClicked.getName().equals("liked") && client.unlikePost(postInfo[0])) {
-                            buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(postInfo[4]) - 1));
-                            holder = postInfo[4];
-                            postInfo[4] = String.valueOf(Integer.parseInt(holder) - 1);
+                        } else if (buttonClicked.getName().equals("liked") && client.unlikePost(componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(componentInfo[4]) - 1));
+                            holder = componentInfo[4];
+                            componentInfo[4] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("notliked");
+                        } else if (buttonClicked.getName().equals("commentnotliked") && client.likeComment(title, componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(componentInfo[2]) + 1));
+                            holder = componentInfo[2];
+                            componentInfo[2] = String.valueOf(Integer.parseInt(holder) + 1);
+                            buttonClicked.setName("commentliked");
+                        } else if (buttonClicked.getName().equals("commentliked") && client.unlikeComment(title, componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(componentInfo[2]) - 1));
+                            holder = componentInfo[2];
+                            componentInfo[2] = String.valueOf(Integer.parseInt(holder) - 1);
+                            buttonClicked.setName("commentnotliked");
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -57,16 +67,26 @@ public class FeedFrame extends JComponent implements Runnable {
                 }
                 if (buttonClicked.getText().contains("\uD83D\uDC4E")) {
                     try {
-                        if (buttonClicked.getName().equals("notdisliked") && client.dislikePost(postInfo[0])) {
-                            buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(postInfo[5]) + 1));
-                            holder = postInfo[5];
-                            postInfo[5] = String.valueOf(Integer.parseInt(holder) + 1);
+                        if (buttonClicked.getName().equals("notdisliked") && client.dislikePost(componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(componentInfo[5]) + 1));
+                            holder = componentInfo[5];
+                            componentInfo[5] = String.valueOf(Integer.parseInt(holder) + 1);
                             buttonClicked.setName("disliked");
-                        } else if (buttonClicked.getName().equals("disliked") && client.undislikePost(postInfo[0])) {
-                            buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(postInfo[5]) - 1));
-                            holder = postInfo[5];
-                            postInfo[5] = String.valueOf(Integer.parseInt(holder) - 1);
+                        } else if (buttonClicked.getName().equals("disliked") && client.undislikePost(componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(componentInfo[5]) - 1));
+                            holder = componentInfo[5];
+                            componentInfo[5] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("notdisliked");
+                        } else if(buttonClicked.getName().equals("commentnotdisliked") && client.dislikeComment(title, componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(componentInfo[3]) + 1));
+                            holder = componentInfo[3];
+                            componentInfo[3] = String.valueOf(Integer.parseInt(holder) + 1);
+                            buttonClicked.setName("commentdisliked");
+                        } else if (buttonClicked.getName().equals("commmentdisliked") && client.undislikeComment(title, componentInfo[0])) {
+                            buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(componentInfo[3]) - 1));
+                            holder = componentInfo[3];
+                            componentInfo[3] = String.valueOf(Integer.parseInt(holder) - 1);
+                            buttonClicked.setName("commentnotdisliked");
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -74,11 +94,11 @@ public class FeedFrame extends JComponent implements Runnable {
                 }
                 if (buttonClicked.getText().contains("\uD83D\uDDD1")) {
                     try {
-                        if (buttonClicked.getName().equals("nothidden") && client.hidePost(postInfo[0])) {
+                        if (buttonClicked.getName().equals("nothidden") && client.hidePost(componentInfo[0])) {
                             buttonClicked.getParent().getParent().setVisible(false);
                             try {
                                 Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2); // EAST region is index 2 in BorderLayout
-                                if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(postInfo[0])) {
+                                if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(componentInfo[0])) {
                                     existingCommentsPanel.setVisible(false);
                                 }
                             } catch (IndexOutOfBoundsException e3) {
@@ -90,12 +110,12 @@ public class FeedFrame extends JComponent implements Runnable {
                     }
                 }
                 if (buttonClicked.getText().contains("\uD83D\uDCAC")) {
-                    title = postInfo[0];
-                    subtext = postInfo[1];
-                    author = postInfo[2];
-                    numberOfComments = Integer.parseInt(postInfo[3]);
-                    likes = Integer.parseInt(postInfo[4]);
-                    dislikes = Integer.parseInt(postInfo[5]);
+                    title = componentInfo[0];
+                    subtext = componentInfo[1];
+                    author = componentInfo[2];
+                    numberOfComments = Integer.parseInt(componentInfo[3]);
+                    likes = Integer.parseInt(componentInfo[4]);
+                    dislikes = Integer.parseInt(componentInfo[5]);
 
                     // Remove the existing comment section (if any)
                     try {
@@ -113,7 +133,14 @@ public class FeedFrame extends JComponent implements Runnable {
                     feedFrame.repaint();
                     buttonClicked.setName("commentclicked");
                 }
-                buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s", postInfo[0], postInfo[1], postInfo[2], postInfo[3], postInfo[4], postInfo[5]));
+                if (buttonClicked.getText().equals("Create Post")) {
+                    SwingUtilities.invokeLater(new CreatePostFrame(client));
+                }
+                String newName = "";
+                for (String info : componentInfo) {
+                    newName += info + "`";
+                }
+                buttonClicked.getParent().getParent().setName(newName.substring(0, newName.length() - 1));
             }
         }
     };
@@ -137,7 +164,7 @@ public class FeedFrame extends JComponent implements Runnable {
         searchText.setPreferredSize(new Dimension(150, 30));
         searchButton.setMaximumSize(new Dimension(150, 30));
         JButton profileButton = new JButton("Profile");
-        JButton createPostButton = new JButton("Create post");
+        JButton createPostButton = new JButton("Create Post");
         topPanel.add(searchText);
         topPanel.add(searchButton);
         topPanel.add(profileButton);
@@ -335,10 +362,9 @@ public class FeedFrame extends JComponent implements Runnable {
                 JPanel buttonPanel = new JPanel();
                 buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
                 JButton commentLikesButton = new JButton("\uD83D\uDC4D" + commentLikes);
-                commentLikesButton.setName("commentLikes");
-                commentLikesButton.setName("notliked");
+                commentLikesButton.setName("commentnotliked");
                 JButton commentDislikesButton = new JButton("\uD83D\uDC4E" + commentDislikes);
-                commentDislikesButton.setName("notdisliked");
+                commentDislikesButton.setName("commentnotdisliked");
                 buttonPanel.add(commentLikesButton);
                 buttonPanel.add(commentDislikesButton);
                 if (client.getUsername().equals(commentAuthor)) {
