@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c4cccef1-58c5-40eb-af69-b5336ba7d7c5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/CS180-Group-Project35.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/FeedFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FeedFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project20/FeedFrame.class" beforeDir="false" />
@@ -33,6 +34,18 @@
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/User.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/UserInterface.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/UserTest.class" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/FeedFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FeedFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsFeed.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/SMClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/NewsFeed.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SMClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SMClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/users.dat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/users.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.dat" beforeDir="false" />
+>>>>>>> 3732f3f7acaa92a834cd7623bfad11f94461d57f
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +105,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+<<<<<<< HEAD
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="CS180-Group-Project20" />
@@ -191,6 +205,8 @@
       <method v="2" />
     </configuration>
   </component>
+=======
+>>>>>>> 3732f3f7acaa92a834cd7623bfad11f94461d57f
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
