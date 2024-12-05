@@ -82,7 +82,7 @@ public class FeedFrame extends JComponent implements Runnable {
                             holder = componentInfo[3];
                             componentInfo[3] = String.valueOf(Integer.parseInt(holder) + 1);
                             buttonClicked.setName("commentdisliked");
-                        } else if (buttonClicked.getName().equals("commmentdisliked") && client.undislikeComment(title, componentInfo[0])) {
+                        } else if (buttonClicked.getName().equals("commentdisliked") && client.undislikeComment(title, componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(componentInfo[3]) - 1));
                             holder = componentInfo[3];
                             componentInfo[3] = String.valueOf(Integer.parseInt(holder) - 1);
