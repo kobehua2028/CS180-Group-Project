@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -124,8 +125,6 @@ public class FeedFrame extends JComponent implements Runnable {
         feedFrame.setSize(1280, 720);
         feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         feedFrame.setLocationRelativeTo(null);
-        feedFrame.setForeground(new Color(171,171,171));
-        feedFrame.setBackground(new Color(23,23,23));
         feedFrame.setResizable(false);
 
 
@@ -147,6 +146,8 @@ public class FeedFrame extends JComponent implements Runnable {
         // Scrollable feed panel
         JPanel feed = new JPanel();
         feed.setLayout(new BoxLayout(feed, BoxLayout.Y_AXIS));
+        feed.setPreferredSize(new Dimension(640, 720));
+        feed.setPreferredSize(new Dimension(640, 720));
         loadPosts();
         for (JPanel panel : posts) {
             feed.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between posts
@@ -174,7 +175,6 @@ public class FeedFrame extends JComponent implements Runnable {
                         BorderFactory.createLineBorder(new Color(0,0,0,10), 2),
                         BorderFactory.createEmptyBorder(10, 10, 10, 10)
                 ));
-                postPanel.setBackground(new Color(33,33,33));
 
                 // Top: Title and Author
                 JPanel topPanel = new JPanel(new BorderLayout());
@@ -232,7 +232,8 @@ public class FeedFrame extends JComponent implements Runnable {
         JPanel postFrame = new JPanel();
         postFrame.setName(title);
         postFrame.setLayout(new BorderLayout());
-        postFrame.setSize(600, 800);
+        postFrame.setPreferredSize(new Dimension(600, 720));
+        postFrame.setMaximumSize(new Dimension(600, 720));
 
         // Top panel
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -270,7 +271,9 @@ public class FeedFrame extends JComponent implements Runnable {
         commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
         loadComments();
         for (JPanel comment : comments) {
-            comment.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            comment.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            comment.setBackground(Color.WHITE);
             commentsPanel.add(comment);
             commentsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
         }
@@ -325,13 +328,16 @@ public class FeedFrame extends JComponent implements Runnable {
                 subtextArea.setWrapStyleWord(true);
                 subtextArea.setEditable(false);
                 subtextArea.setBackground(Color.WHITE);
+                subtextArea.setPreferredSize(new Dimension(400, 200));
+                subtextArea.setMaximumSize(new Dimension(400, 200));
                 subtextArea.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
                 JPanel buttonPanel = new JPanel();
                 buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-                JButton commentLikesButton = new JButton("\uD83E\uDC45 " + commentLikes);
+                JButton commentLikesButton = new JButton("\uD83D\uDC4D" + commentLikes);
+                commentLikesButton.setName("commentLikes");
                 commentLikesButton.setName("notliked");
-                JButton commentDislikesButton = new JButton("\uD83E\uDC47 " + commentDislikes);
+                JButton commentDislikesButton = new JButton("\uD83D\uDC4E" + commentDislikes);
                 commentDislikesButton.setName("notdisliked");
                 buttonPanel.add(commentLikesButton);
                 buttonPanel.add(commentDislikesButton);

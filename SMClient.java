@@ -587,6 +587,7 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         client2.createPost("Bob sucks", "<html>I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob I hate bob fuck bob fuck bob i hate bob fuck bob </html>");
         client2.likePost("HI im bob!");
         client2.createComment("HI im bob!", "fuck you bob");
+        client2.createComment("HI im bob!", "fuck you bob22");
 
         SMClient client = new SMClient(socket);
         client.createUser("Levin", "Levin2020", "Aboot");
