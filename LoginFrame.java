@@ -64,6 +64,7 @@ public class LoginFrame implements Runnable {
         frame.setSize(600, 300);
         Container frameContentPane = frame.getContentPane();
         frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         usernameLabel = new JLabel("Username");
         passwordLabel = new JLabel("Password");
         usernameField = new JTextField();

@@ -503,19 +503,24 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             return postStrings;
         }
         int postLimit = Integer.min(5, sm.getPosts().size());
-        int i = 0;
+        int i = user.i;
         int postsShown = 0;
+        System.out.println("Post limit: " + postLimit);
+        System.out.println("Size: " + sm.getPosts().size());
         while (postsShown < postLimit) {
             Post post = sm.getPosts().get(sm.getPosts().size() - i - 1);
-            if (!user.getHiddenPosts().contains(post) && !user.getBlockedList().contains(post.getAuthor())) {
+            if (!user.searchHiddenPosts(post) && !user.searhBlockedList(post.getAuthor())) {
                 String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" +
                         post.getAuthor().getUsername() + "`" + post.getComments().size() + "`" +
                         post.getLikes() + "`" + post.getDislikes();
                 postStrings.add(postString);
                 postsShown++;
+            } else if (postLimit < 5) {
+                postLimit--;
             }
             i++;
         }
+        user.i = i;
         return postStrings;
     }
 

@@ -27,6 +27,7 @@ public class User implements Serializable, UserInterface {
     private String aboutMe; //The "about me" section
     private final SocialMediaDatabase sm;
     private boolean isDeleted;
+    public int i = 0;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
                 ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts,
@@ -219,4 +220,23 @@ public class User implements Serializable, UserInterface {
         }
     }
 
+    public boolean searchHiddenPosts(Post post) {
+        for (int i = 0; i < hiddenPosts.size(); i++) {
+            if (post.getTitle().equals(hiddenPosts.get(i).getTitle()) &&
+                post.getSubtext().equals(hiddenPosts.get(i).getSubtext()) &&
+                post.getAuthor().getUsername().equals(hiddenPosts.get(i).getAuthor().getUsername())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean searhBlockedList(User author) {
+        for (int i = 0; i < blockedList.size(); i++) {
+            if (blockedList.get(i).getUsername().equals(author.getUsername())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
