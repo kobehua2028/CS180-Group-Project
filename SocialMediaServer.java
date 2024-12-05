@@ -478,8 +478,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
 
     public synchronized boolean createUser(String username, String password, String aboutMe) {
         try {
-            sm.createUser(username, password, aboutMe);
-            return sm.findUser(username) != null;
+            return sm.createUser(username, password, aboutMe) != null;
         } catch (IllegalArgumentException e) {
             return false;
         }

@@ -113,9 +113,11 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         String line = br.readLine();
         while (line != null) {
             if (line.equals("SUCCESS")) {
+                this.username = username1;
                 return true;
             }
             if (line.equals("FAIL")) {
+                System.out.println("got here");
                 return false;
             }
             line = br.readLine();

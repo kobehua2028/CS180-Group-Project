@@ -33,6 +33,9 @@ public class SocialMediaDatabase implements Serializable, DatabaseInterface {
         if (aboutMe == null) {
             aboutMe = "This is me!";
         }
+        if (this.findUser(username) != null) {
+            return null;
+        }
         try {
             return new User(username, password, aboutMe, new ArrayList<User>(), new ArrayList<User>(),
                     new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(), new ArrayList<Post>(),
