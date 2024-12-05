@@ -7,17 +7,14 @@
     <list default="true" id="c4cccef1-58c5-40eb-af69-b5336ba7d7c5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FeedFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FeedFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SMClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/SMClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SocialMediaServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/SocialMediaServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/FeedFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/LoginFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SMClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SMClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SocialMediaServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/SocialMediaServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS180-Group-Project35/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/posts.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS180-Group-Project35/users.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.dat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,9 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
     &quot;Application.SMClient.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
     &quot;Application.SocialMediaServer.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
@@ -77,6 +76,26 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager" selected="Application.Client">
+    <configuration name="Client" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="SMClient" />
+      <module name="CS180-Group-Project35" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="SocialMediaServer" />
+      <module name="CS180-Group-Project35" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.Client" />
+    </list>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -96,10 +115,26 @@
       <workItem from="1732932126865" duration="9850000" />
       <workItem from="1733093154429" duration="3192000" />
       <workItem from="1733158858454" duration="8970000" />
+      <workItem from="1733284302251" duration="7554000" />
+      <workItem from="1733333438066" duration="2874000" />
+      <workItem from="1733349256765" duration="2108000" />
+      <workItem from="1733351394101" duration="4858000" />
+      <workItem from="1733358476997" duration="16478000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/SocialMediaServer.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

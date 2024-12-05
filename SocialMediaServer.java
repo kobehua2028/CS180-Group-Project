@@ -27,7 +27,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8080);
+        ServerSocket serverSocket = new ServerSocket(1111);
         System.out.println("SOCIAL MEDIA SERVER STARTED");
 //        System.out.println(sm.createUser("Bob", "Password5", "sdgsdg").getUsername());
 

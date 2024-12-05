@@ -574,7 +574,7 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
     }
 
     public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 8080);
+        Socket socket = new Socket("localhost", 1111);
 
         SMClient client1 = new SMClient(socket);
         client1.createUser("Bob", "Bob123123", "IM BOB YO");
@@ -591,6 +591,10 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         SMClient client = new SMClient(socket);
         client.createUser("Levin", "Levin2020", "Aboot");
         SwingUtilities.invokeLater(new LoginFrame(client));
+    }
+
+    public String getUsername() throws IOException {
+        return this.username;
     }
 }
 
