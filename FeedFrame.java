@@ -145,6 +145,10 @@ public class FeedFrame extends JComponent implements Runnable {
         }
     };
 
+//    contains -> notauthor:
+//    split by ":" and take everything after the : (thats the username of profile)
+//    invoke ProfileFrame(client, profileUsername)
+
     @Override
     public void run() {
         feedFrame = new JFrame("Feed");
@@ -374,7 +378,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     deleteComment.addActionListener(actionListener);
                 } else {
                     JButton authorButton = new JButton(commentAuthor);
-                    authorButton.setName("notauthor");
+                    authorButton.setName("notauthor:" + commentAuthor);
                     buttonPanel.add(authorButton);
                     authorButton.addActionListener(actionListener);
                 }
