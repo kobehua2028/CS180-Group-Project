@@ -141,6 +141,10 @@ public class FeedFrame extends JComponent implements Runnable {
                     newName += info + "`";
                 }
                 buttonClicked.getParent().getParent().setName(newName.substring(0, newName.length() - 1));
+                if (buttonClicked.getText().equals("Profile")) {
+                    System.out.println("Profile clicked");
+                    SwingUtilities.invokeLater(new OwnProfileFrame(client));
+                }
             }
         }
     };
@@ -168,11 +172,16 @@ public class FeedFrame extends JComponent implements Runnable {
         searchText.setPreferredSize(new Dimension(150, 30));
         searchButton.setMaximumSize(new Dimension(150, 30));
         JButton profileButton = new JButton("Profile");
+        profileButton.setName("Profile");
         JButton createPostButton = new JButton("Create Post");
         topPanel.add(searchText);
         topPanel.add(searchButton);
         topPanel.add(profileButton);
         topPanel.add(createPostButton);
+
+        // ACtion listenr
+        profileButton.addActionListener(actionListener);
+        createPostButton.addActionListener(actionListener);
 
         // Scrollable feed panel
         JPanel feed = new JPanel();

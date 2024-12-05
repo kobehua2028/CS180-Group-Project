@@ -3,9 +3,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class ProfileFrame extends JComponent implements Runnable {
+public class OtherProfileFrame extends JComponent implements Runnable {
 
     SMClient client;
     String name = "No user";
@@ -17,7 +16,7 @@ public class ProfileFrame extends JComponent implements Runnable {
     boolean friendsWith = false;
     boolean blocked = false;
 
-    public ProfileFrame(SMClient client, String profileUsername) {
+    public OtherProfileFrame(SMClient client, String profileUsername) {
         this.client = client;
         this.name = profileUsername;
         ArrayList<String[]> profile = new ArrayList<>();
