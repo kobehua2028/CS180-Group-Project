@@ -22,6 +22,7 @@ public class FeedFrame extends JComponent implements Runnable {
     private int likes;
     private int dislikes;
 
+    private JTextField commentTextField;
 
     FeedFrame(SMClient client) {
         this.client = client;
@@ -36,9 +37,10 @@ public class FeedFrame extends JComponent implements Runnable {
                 System.out.println(buttonClicked.getParent().getParent().getName());
                 System.out.println(buttonClicked.getParent().getName());
                 System.out.println(buttonClicked.getName());
-                String [] componentInfo = buttonClicked.getParent().getParent().getName().split("`");
+                String [] componentInfo;
                 String holder;
                 if (buttonClicked.getText().contains("\uD83D\uDC4D")) {
+                    componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     try {
                         if (buttonClicked.getName().equals("notliked") && client.likePost(componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4D" + String.valueOf(Integer.parseInt(componentInfo[4]) + 1));
@@ -71,6 +73,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     }
                 }
                 if (buttonClicked.getText().contains("\uD83D\uDC4E")) {
+                    componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     try {
                         if (buttonClicked.getName().equals("notdisliked") && client.dislikePost(componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4E" + String.valueOf(Integer.parseInt(componentInfo[5]) + 1));
@@ -103,6 +106,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     }
                 }
                 if (buttonClicked.getText().contains("\uD83D\uDDD1")) {
+                    componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     try {
                         if (buttonClicked.getName().equals("nothidden") && client.hidePost(componentInfo[0])) {
                             buttonClicked.getParent().getParent().setVisible(false);
@@ -120,6 +124,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     }
                 }
                 if (buttonClicked.getText().contains("\uD83D\uDCAC")) {
+                    componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     title = componentInfo[0];
                     subtext = componentInfo[1];
                     author = componentInfo[2];
@@ -151,6 +156,18 @@ public class FeedFrame extends JComponent implements Runnable {
                     System.out.println("Profile clicked");
                     SwingUtilities.invokeLater(new OwnProfileFrame(client));
                 }
+                if (buttonClicked.getName().equals("CREATE_NEW_COMMENT")) {
+                    String commentText = commentTextField.getText();
+                    try {
+                        if (client.createComment(title, commentText)) {
+                            FeedFrame.this.displayComments();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Issue with Creating New Comment", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         }
     };
@@ -172,7 +189,7 @@ public class FeedFrame extends JComponent implements Runnable {
             feedFrame.setResizable(false);
 
             // Add top panel and feed (initial setup)
-            feedFrame.add(createTopPanel(), BorderLayout.NORTH);
+            feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);
             feedFrame.add(createFeedPanel(), BorderLayout.WEST);
 
             feedFrame.setVisible(true);
@@ -180,7 +197,7 @@ public class FeedFrame extends JComponent implements Runnable {
             System.out.println("GOT RAN AND GOT RAN");
             // Refresh the feed
             feedFrame.getContentPane().removeAll(); // Clear existing content
-            feedFrame.add(createTopPanel(), BorderLayout.NORTH);
+            feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);
             feedFrame.add(createFeedPanel(), BorderLayout.WEST);
             feedFrame.revalidate(); // Refresh UI
             feedFrame.repaint();
@@ -203,7 +220,7 @@ public class FeedFrame extends JComponent implements Runnable {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         return scrollPane;
     }
-    private JPanel createTopPanel() {
+    private JPanel createTopFeedPanel() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JButton searchButton = new JButton("Search");
@@ -289,14 +306,38 @@ public class FeedFrame extends JComponent implements Runnable {
         }
     }
 
-    public JPanel displayComments () {
+    private JPanel postFrame; // Declare postFrame as a class-level variable
+
+    public JPanel displayComments() {
+        // Check if postFrame is already initialized
+        if (postFrame != null) {
+            postFrame.removeAll(); // Clear all existing components
+            postFrame.add(createTopPanel(), BorderLayout.NORTH);
+            postFrame.add(createSubtextArea(), BorderLayout.CENTER);
+            postFrame.add(createCommentSection(), BorderLayout.SOUTH);
+            postFrame.revalidate(); // Refresh UI
+            postFrame.repaint();
+            postFrame.setVisible(true);
+        } else {
+            postFrame = createPostFrame(); // Initialize postFrame for the first time
+            postFrame.add(createTopPanel(), BorderLayout.NORTH);
+            postFrame.add(createSubtextArea(), BorderLayout.CENTER);
+            postFrame.add(createCommentSection(), BorderLayout.SOUTH);
+            postFrame.setVisible(true);
+        }
+        return postFrame;
+    }
+
+    private JPanel createPostFrame() {
         JPanel postFrame = new JPanel();
         postFrame.setName(title);
         postFrame.setLayout(new BorderLayout());
         postFrame.setPreferredSize(new Dimension(600, 720));
         postFrame.setMaximumSize(new Dimension(600, 720));
+        return postFrame;
+    }
 
-        // Top panel
+    private JPanel createTopPanel() {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(new Color(240, 240, 240));
@@ -311,9 +352,12 @@ public class FeedFrame extends JComponent implements Runnable {
         authorLabel.setFont(new Font("Arial", Font.ITALIC, 16));
         titleAuthorPanel.add(titleLabel);
         titleAuthorPanel.add(authorLabel);
-        topPanel.add(titleAuthorPanel, BorderLayout.CENTER);
 
-        // Subtext area
+        topPanel.add(titleAuthorPanel, BorderLayout.CENTER);
+        return topPanel;
+    }
+
+    private JTextArea createSubtextArea() {
         JTextArea subtextArea = new JTextArea(subtext);
         subtextArea.setFont(new Font("Arial", Font.PLAIN, 14));
         subtextArea.setLineWrap(true);
@@ -321,49 +365,59 @@ public class FeedFrame extends JComponent implements Runnable {
         subtextArea.setEditable(false);
         subtextArea.setBackground(Color.WHITE);
         subtextArea.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        return subtextArea;
+    }
 
-        // Holds both the comments and the createComment panel
+    private JPanel createCommentSection() {
         JPanel commentSection = new JPanel(new BorderLayout());
         commentSection.setPreferredSize(new Dimension(600, 350));
         commentSection.setMaximumSize(new Dimension(600, 350));
 
-        // Comments panel
+        JScrollPane scrollPane = createCommentsPanel();
+        commentSection.add(scrollPane, BorderLayout.CENTER); // Add scroll pane in the center
+
+        JPanel makeComment = createMakeCommentPanel();
+        commentSection.add(makeComment, BorderLayout.SOUTH); // Add makeComment panel at the bottom
+
+        return commentSection;
+    }
+
+    private JScrollPane createCommentsPanel() {
         JPanel commentsPanel = new JPanel();
         commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
-        loadComments();
+        loadComments(); // Load comments into the `comments` list
+
         for (JPanel comment : comments) {
-            comment.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY),
-                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            comment.setBorder(new CompoundBorder(
+                    BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            ));
             comment.setBackground(Color.WHITE);
             commentsPanel.add(comment);
             commentsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
         }
 
-        // Scroll pane for comments
         JScrollPane scrollPane = new JScrollPane(commentsPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        commentSection.add(scrollPane, BorderLayout.CENTER); // Set scroll pane in the center
+        return scrollPane;
+    }
 
-        // Create Comment Panel
+    private JPanel createMakeCommentPanel() {
         JPanel makeComment = new JPanel();
         makeComment.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        JTextField commentTextField = new JTextField();
+        commentTextField = new JTextField();
         commentTextField.setPreferredSize(new Dimension(400, 30));
         JButton commentButton = new JButton("Comment");
-        makeComment.add(commentTextField);
-        makeComment.add(commentButton);
-        commentSection.add(makeComment, BorderLayout.SOUTH); // Set makeComment panel at the bottom
+        commentButton.setName("CREATE_NEW_COMMENT");
 
         commentButton.addActionListener(actionListener);
+        makeComment.add(commentTextField);
+        makeComment.add(commentButton);
 
-        // Add components to the frame
-        postFrame.add(topPanel, BorderLayout.NORTH);
-        postFrame.add(subtextArea, BorderLayout.CENTER);
-        postFrame.add(commentSection, BorderLayout.SOUTH);
-        postFrame.setVisible(true);
-        return postFrame;
+        return makeComment;
     }
+
 
     public void loadComments() {
         try {
