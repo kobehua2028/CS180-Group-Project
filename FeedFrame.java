@@ -22,7 +22,9 @@ public class FeedFrame extends JComponent implements Runnable {
     private int likes;
     private int dislikes;
 
+    private JButton commentSectionButton;
     private JTextField commentTextField;
+    private JTextField searchText;
 
     FeedFrame(SMClient client) {
         this.client = client;
@@ -71,8 +73,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                }
-                if (buttonClicked.getText().contains("\uD83D\uDC4E")) {
+                } else if (buttonClicked.getText().contains("\uD83D\uDC4E")) {
                     componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     try {
                         if (buttonClicked.getName().equals("notdisliked") && client.dislikePost(componentInfo[0])) {
@@ -104,8 +105,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                }
-                if (buttonClicked.getText().contains("\uD83D\uDDD1")) {
+                } else if (buttonClicked.getText().contains("\uD83D\uDDD1")) {
                     componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     try {
                         if (buttonClicked.getName().equals("nothidden") && client.hidePost(componentInfo[0])) {
@@ -122,8 +122,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                }
-                if (buttonClicked.getText().contains("\uD83D\uDCAC")) {
+                } else if (buttonClicked.getText().contains("\uD83D\uDCAC")) {
                     componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     title = componentInfo[0];
                     subtext = componentInfo[1];
@@ -131,6 +130,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     numberOfComments = Integer.parseInt(componentInfo[3]);
                     likes = Integer.parseInt(componentInfo[4]);
                     dislikes = Integer.parseInt(componentInfo[5]);
+                    commentSectionButton = buttonClicked;
 
                     // Remove the existing comment section (if any)
                     try {
@@ -147,8 +147,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     feedFrame.revalidate();
                     feedFrame.repaint();
                     buttonClicked.setName("commentclicked");
-                }
-                if (buttonClicked.getText().equals("Create Post")) {
+                } else if (buttonClicked.getName().equals("CREATE_NEW_POST")) {
                     SwingUtilities.invokeLater(new CreatePostFrame(client,FeedFrame.this));
 //                    FeedFrame.this.run();
                 }
@@ -160,6 +159,8 @@ public class FeedFrame extends JComponent implements Runnable {
                     String commentText = commentTextField.getText();
                     try {
                         if (client.createComment(title, commentText)) {
+                            numberOfComments += 1;
+                            commentSectionButton.setText("\uD83D\uDCAC " + numberOfComments);
                             FeedFrame.this.displayComments();
                         } else {
                             JOptionPane.showMessageDialog(null, "Issue with Creating New Comment", "Error", JOptionPane.ERROR_MESSAGE);
@@ -167,6 +168,18 @@ public class FeedFrame extends JComponent implements Runnable {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+                } else if (buttonClicked.getName().equals("SEARCH_USER")) {
+                    String searchUsername = searchText.getText();
+                    try {
+                        if (client.searchUser(searchUsername)) {
+                            SwingUtilities.invokeLater(new OtherProfileFrame(client, searchUsername));
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No User Found With the Given Username", "No User Found", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } catch (IOException e4) {
+                        e4.printStackTrace();
+                    }
+                    searchText.setText("");
                 }
             }
         }
@@ -224,12 +237,15 @@ public class FeedFrame extends JComponent implements Runnable {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JButton searchButton = new JButton("Search");
-        JTextField searchText = new JTextField();
+        searchButton.setName("SEARCH_USER");
+        searchText = new JTextField();
         searchText.setPreferredSize(new Dimension(150, 30));
         searchButton.setMaximumSize(new Dimension(150, 30));
         JButton profileButton = new JButton("Profile");
         profileButton.setName("Profile");
+        profileButton.setName("VIEW_OWN_PROFILE");
         JButton createPostButton = new JButton("Create Post");
+        createPostButton.setName("CREATE_NEW_POST");
 
         topPanel.add(searchText);
         topPanel.add(searchButton);
@@ -312,7 +328,7 @@ public class FeedFrame extends JComponent implements Runnable {
         // Check if postFrame is already initialized
         if (postFrame != null) {
             postFrame.removeAll(); // Clear all existing components
-            postFrame.add(createTopPanel(), BorderLayout.NORTH);
+            postFrame.add(createCommentTopPanel(), BorderLayout.NORTH);
             postFrame.add(createSubtextArea(), BorderLayout.CENTER);
             postFrame.add(createCommentSection(), BorderLayout.SOUTH);
             postFrame.revalidate(); // Refresh UI
@@ -320,7 +336,7 @@ public class FeedFrame extends JComponent implements Runnable {
             postFrame.setVisible(true);
         } else {
             postFrame = createPostFrame(); // Initialize postFrame for the first time
-            postFrame.add(createTopPanel(), BorderLayout.NORTH);
+            postFrame.add(createCommentTopPanel(), BorderLayout.NORTH);
             postFrame.add(createSubtextArea(), BorderLayout.CENTER);
             postFrame.add(createCommentSection(), BorderLayout.SOUTH);
             postFrame.setVisible(true);
@@ -337,7 +353,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return postFrame;
     }
 
-    private JPanel createTopPanel() {
+    private JPanel createCommentTopPanel() {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(new Color(240, 240, 240));
