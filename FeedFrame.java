@@ -61,6 +61,11 @@ public class FeedFrame extends JComponent implements Runnable {
                             componentInfo[2] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("commentnotliked");
                         }
+                        if (buttonClicked.getName().contains("comment")) {
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3]));
+                        } else {
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3], componentInfo[4], componentInfo[5]));
+                        }
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -87,6 +92,11 @@ public class FeedFrame extends JComponent implements Runnable {
                             holder = componentInfo[3];
                             componentInfo[3] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("commentnotdisliked");
+                        }
+                        if (buttonClicked.getName().contains("comment")) {
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3]));
+                        } else {
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3], componentInfo[4], componentInfo[5]));
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -134,13 +144,9 @@ public class FeedFrame extends JComponent implements Runnable {
                     buttonClicked.setName("commentclicked");
                 }
                 if (buttonClicked.getText().equals("Create Post")) {
-                    SwingUtilities.invokeLater(new CreatePostFrame(client));
+                    SwingUtilities.invokeLater(new CreatePostFrame(client,FeedFrame.this));
+//                    FeedFrame.this.run();
                 }
-                String newName = "";
-                for (String info : componentInfo) {
-                    newName += info + "`";
-                }
-                buttonClicked.getParent().getParent().setName(newName.substring(0, newName.length() - 1));
                 if (buttonClicked.getText().equals("Profile")) {
                     System.out.println("Profile clicked");
                     SwingUtilities.invokeLater(new OwnProfileFrame(client));
@@ -155,53 +161,68 @@ public class FeedFrame extends JComponent implements Runnable {
 
     @Override
     public void run() {
-        feedFrame = new JFrame("Feed");
-        feedFrame.setLayout(new BorderLayout());
-        feedFrame.setSize(1280, 720);
-        feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        feedFrame.setLocationRelativeTo(null);
-        feedFrame.setResizable(false);
+        if (feedFrame == null) {
+            System.out.println("RAN GOT AND RAN GOT");
+            // Create the frame only once
+            feedFrame = new JFrame("Feed");
+            feedFrame.setLayout(new BorderLayout());
+            feedFrame.setSize(1280, 720);
+            feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            feedFrame.setLocationRelativeTo(null);
+            feedFrame.setResizable(false);
 
+            // Add top panel and feed (initial setup)
+            feedFrame.add(createTopPanel(), BorderLayout.NORTH);
+            feedFrame.add(createFeedPanel(), BorderLayout.WEST);
 
-        // Top panel with buttons
+            feedFrame.setVisible(true);
+        } else {
+            System.out.println("GOT RAN AND GOT RAN");
+            // Refresh the feed
+            feedFrame.getContentPane().removeAll(); // Clear existing content
+            feedFrame.add(createTopPanel(), BorderLayout.NORTH);
+            feedFrame.add(createFeedPanel(), BorderLayout.WEST);
+            feedFrame.revalidate(); // Refresh UI
+            feedFrame.repaint();
+            feedFrame.setVisible(true);
+        }
+    }
+    private JScrollPane createFeedPanel() {
+        JPanel feed = new JPanel();
+        feed.setLayout(new BoxLayout(feed, BoxLayout.Y_AXIS));
+        feed.setPreferredSize(new Dimension(640, 720));
+        feed.setPreferredSize(new Dimension(640, 720));
+        loadPosts(); // Reload posts from the client
+        for (JPanel panel : posts) {
+            feed.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
+            panel.setPreferredSize(new Dimension(500, 300));
+            panel.setMaximumSize(new Dimension(500, 300));
+            feed.add(panel);
+        }
+        JScrollPane scrollPane = new JScrollPane(feed);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        return scrollPane;
+    }
+    private JPanel createTopPanel() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JButton searchButton = new JButton("Search");
         JTextField searchText = new JTextField();
-        searchText.setSize(new Dimension(150, 30));
         searchText.setPreferredSize(new Dimension(150, 30));
         searchButton.setMaximumSize(new Dimension(150, 30));
         JButton profileButton = new JButton("Profile");
         profileButton.setName("Profile");
         JButton createPostButton = new JButton("Create Post");
+
         topPanel.add(searchText);
         topPanel.add(searchButton);
         topPanel.add(profileButton);
         topPanel.add(createPostButton);
 
-        // ACtion listenr
         profileButton.addActionListener(actionListener);
         createPostButton.addActionListener(actionListener);
 
-        // Scrollable feed panel
-        JPanel feed = new JPanel();
-        feed.setLayout(new BoxLayout(feed, BoxLayout.Y_AXIS));
-        feed.setPreferredSize(new Dimension(640, 720));
-        feed.setPreferredSize(new Dimension(640, 720));
-        loadPosts();
-        for (JPanel panel : posts) {
-            feed.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between posts
-            panel.setPreferredSize(new Dimension(500,300));
-            panel.setMaximumSize(new Dimension(500,300));
-            feed.add(panel);
-        }
-        JScrollPane scrollPane = new JScrollPane(feed);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        // Add components to frame
-        feedFrame.add(topPanel, BorderLayout.NORTH);
-        feedFrame.add(scrollPane, BorderLayout.WEST);
-        feedFrame.setVisible(true);
+        return topPanel;
     }
 
     public void loadPosts() {
@@ -221,7 +242,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 topPanel.setOpaque(false);
                 JLabel titleLabel = new JLabel(post.get(0));
                 titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
-                JButton authorButton = new JButton("- " + post.get(2));
+                JButton authorButton = new JButton(post.get(2));
                 authorButton.setFont(new Font("Arial", Font.PLAIN, 12));
                 authorButton.setOpaque(false);
                 authorButton.setContentAreaFilled(false);
