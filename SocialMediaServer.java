@@ -919,6 +919,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         sm.writeUser(user);
         return true;
     }
+
     public void setSM(SocialMediaDatabase sm1) {
         SocialMediaServer.sm = sm1;
     }

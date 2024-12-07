@@ -91,6 +91,7 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             blockButton.setText("Unblock");
                             profileFrame.dispose();
                             SwingUtilities.invokeLater(new OtherProfileFrame(client, name));
+                            feedFrame.run();
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to block user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }

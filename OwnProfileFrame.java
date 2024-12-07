@@ -75,6 +75,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                 }
                 if (buttonClicked.getText().equals("Unhide selected posts")) {
                     //
+                    feed
                 }
             }
         }
