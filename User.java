@@ -116,6 +116,11 @@ public class User implements Serializable, UserInterface {
         if (blockedList.contains(blockedUser)) {
             throw new IllegalArgumentException("User is already blocked");
         }
+        for (User friend : friendsList) {
+            if (friend.equals(blockedUser)) {
+                friendsList.remove(friend);
+            }
+        }
         blockedList.add(blockedUser);
         sm.writeUser(this);
     }
