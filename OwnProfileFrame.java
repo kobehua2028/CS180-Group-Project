@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OwnProfileFrame extends JComponent implements Runnable {
 
@@ -33,6 +34,11 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         this.friends = profile.get(0);
         this.blocks = profile.get(1);
         this.hiddenPosts = profile.get(4);
+
+        System.out.println(profile.toString());
+        System.out.println(Arrays.asList(friends).toString());
+        System.out.println(Arrays.asList(blocks).toString());
+        System.out.println(Arrays.asList(hiddenPosts).toString());
     }
 
     private ActionListener actionListener = new ActionListener() {
