@@ -15,7 +15,7 @@ import java.io.IOException;
  * @version Dec 07, 2024
  */
 
-public class CreatePostFrame extends JComponent implements Runnable {
+public class CreatePostFrame extends JComponent implements Runnable, CreatePostFrameInterface {
     JFrame createPostFrame;
     private SMClient client;
     private FeedFrame feedFrame;
