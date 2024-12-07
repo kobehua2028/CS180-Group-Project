@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @version Dec 07, 2024
  */
 
-public class FeedFrame extends JComponent implements Runnable {
+public class FeedFrame extends JComponent, FeedFrameInterface implements Runnable {
     private SMClient client;
     private JFrame feedFrame;
     private JButton dislikesButton;
