@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class OtherProfileFrame extends JComponent implements Runnable {
 
     SMClient client;
+    FeedFrame feedFrame;
     String name = "No user";
     String aboutMe = "No about me";
     String[] friends;
@@ -21,7 +22,8 @@ public class OtherProfileFrame extends JComponent implements Runnable {
     JButton blockButton = new JButton("");
 
 
-    public OtherProfileFrame(SMClient client, String profileUsername) {
+    public OtherProfileFrame(FeedFrame feedFrame, SMClient client, String profileUsername) {
+        this.feedFrame = feedFrame;
         this.client = client;
         this.name = profileUsername;
         ArrayList<String[]> profile = new ArrayList<>();
@@ -100,6 +102,7 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("Remove Friend");
                             friendButton.setVisible(true);
                             blockButton.setText("Block");
+                            feedFrame.run();
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
@@ -111,6 +114,7 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("Remove Friend");
                             friendButton.setVisible(true);
                             blockButton.setText("Block");
+                            feedFrame.run();
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
