@@ -214,6 +214,14 @@ public class FeedFrame extends JComponent implements Runnable {
                         JOptionPane.showMessageDialog(null, "No Username to Search", "Search Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
+                if (buttonClicked.getText().equals("LOG_OUT")) {
+                    try {
+                        client.logout();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    feedFrame.dispose();
+                }
             }
         }
     };
