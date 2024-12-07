@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,6 +32,10 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         this.friends = profile.get(0);
         this.blocks = profile.get(1);
         this.hiddenPosts = profile.get(3);
+    }
+
+    private ActionListener actionListener = new ActionListener() {
+
     }
 
     @Override
@@ -91,6 +96,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         DefaultTableModel friendModel = new DefaultTableModel();
         friendModel.addColumn("Name", friends);
         JTable friendsTable = new JTable(friendModel);
+        friendsTable.setDefaultEditor(Object.class, null);
         JScrollPane friendsScrollPane = new JScrollPane(friendsTable);
         friendsScrollPane.setPreferredSize(new Dimension(400, 200));
         friendsScrollPane.setMaximumSize(new Dimension(400, 200));
@@ -104,6 +110,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         DefaultTableModel blockModel = new DefaultTableModel();
         blockModel.addColumn("Name", blocks);
         JTable blocksTable = new JTable(blockModel);
+        blocksTable.setDefaultEditor(Object.class, null);
         JScrollPane blocksScrollPane = new JScrollPane(blocksTable);
         friendsScrollPane.setPreferredSize(new Dimension(400, 200));
         friendsScrollPane.setMaximumSize(new Dimension(400, 200));
