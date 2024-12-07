@@ -38,6 +38,8 @@ public class LoginFrame implements Runnable {
                     if (client.login(username, password)) {
                         // invoke newsfeed
                         client.createComment("HI im bob!", "yo im levin yo 19231239");
+                        client.addFriend("Bob");
+                        client.blockUser("Jimmy");
                         SwingUtilities.invokeLater(new FeedFrame(client));
                         frame.dispose();
                     } else {

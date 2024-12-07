@@ -27,10 +27,10 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.aboutMe = profile.get(4)[0];
+        this.aboutMe = profile.get(3)[0];
         this.friends = profile.get(0);
         this.blocks = profile.get(1);
-        this.hiddenPosts = profile.get(3);
+        this.hiddenPosts = profile.get(4);
     }
 
     @Override
@@ -108,6 +108,19 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         friendsScrollPane.setPreferredSize(new Dimension(400, 200));
         friendsScrollPane.setMaximumSize(new Dimension(400, 200));
 
+        JLabel hiddenPostsLabel = new JLabel("Hidden Posts");
+        hiddenPostsLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        hiddenPostsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        hiddenPostsLabel.setPreferredSize(new Dimension(400, 30));
+        hiddenPostsLabel.setMaximumSize(new Dimension(400, 30));
+
+        DefaultTableModel hiddenModel = new DefaultTableModel();
+        hiddenModel.addColumn("Title", hiddenPosts);
+        JTable hiddenTable = new JTable(hiddenModel);
+        JScrollPane hiddenScrollPane = new JScrollPane(hiddenTable);
+        hiddenScrollPane.setPreferredSize(new Dimension(400, 200));
+        hiddenScrollPane.setMaximumSize(new Dimension(400, 200));
+
         friendsBlocksPanel.add(friendsLabel);
         friendsBlocksPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing
         friendsBlocksPanel.add(friendsScrollPane);
@@ -115,6 +128,10 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         friendsBlocksPanel.add(blocksLabel);
         friendsBlocksPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         friendsBlocksPanel.add(blocksScrollPane);
+
+        friendsBlocksPanel.add(hiddenPostsLabel);
+        friendsBlocksPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing
+        friendsBlocksPanel.add(hiddenScrollPane);
 
         profileFrame.add(topProfilePanel, BorderLayout.NORTH);
         profileFrame.add(friendsBlocksPanel, BorderLayout.CENTER);

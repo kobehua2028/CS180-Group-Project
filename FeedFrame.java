@@ -184,13 +184,16 @@ public class FeedFrame extends JComponent implements Runnable {
                         JOptionPane.showMessageDialog(null, "No Username to Search", "Search Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                if (buttonClicked.getText().equals("LOG_OUT")) {
+                if (buttonClicked.getName().equals("LOG_OUT")) {
                     try {
                         client.logout();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                     feedFrame.dispose();
+                }
+                if (buttonClicked.getName().contains("AuthorButton")) {
+                    SwingUtilities.invokeLater(new OtherProfileFrame(client, buttonClicked.getName().split(":")[1]));
                 }
             }
         }
@@ -303,6 +306,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 JLabel titleLabel = new JLabel(post.get(0));
                 titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
                 JButton authorButton = new JButton(post.get(2));
+                authorButton.setName("postAuthorButton:" + post.get(2));
                 authorButton.setFont(new Font("Arial", Font.PLAIN, 12));
                 authorButton.setOpaque(false);
                 authorButton.setContentAreaFilled(false);
@@ -332,6 +336,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 dislikesButton.addActionListener(actionListener);
                 commentsButton.addActionListener(actionListener);
                 hidePostButton.addActionListener(actionListener);
+                authorButton.addActionListener(actionListener);
                 bottomPanel.add(likesButton);
                 bottomPanel.add(dislikesButton);
                 bottomPanel.add(commentsButton);
@@ -505,7 +510,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     deleteComment.addActionListener(actionListener);
                 } else {
                     JButton authorButton = new JButton(commentAuthor);
-                    authorButton.setName("notauthor:" + commentAuthor);
+                    authorButton.setName("commentAuthorButton:" + commentAuthor);
                     buttonPanel.add(authorButton);
                     authorButton.addActionListener(actionListener);
                 }
