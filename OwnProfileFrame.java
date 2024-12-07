@@ -35,8 +35,8 @@ public class OwnProfileFrame extends JComponent implements Runnable {
     }
 
     private ActionListener actionListener = new ActionListener() {
-
-    }
+        //
+    };
 
     @Override
     public void run() {
