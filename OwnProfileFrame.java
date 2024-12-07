@@ -70,6 +70,29 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                 if (buttonClicked.getText().equals("Unhide selected posts")) {
                     //
                 }
+                if (buttonClicked.getText().equals("Delete profile")) {
+                    int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete your account? This is permanent and cannot be undone.","Warning", JOptionPane.YES_NO_OPTION);
+                    if(dialogResult == JOptionPane.YES_OPTION){
+                        String name = JOptionPane.showInputDialog(profileFrame, "Type your username to delete your account: ");
+                        try {
+                            if (name.equals(client.getUsername())) {
+                                if (client.deleteUser(client.getUsername())) {
+                                    Frame[] frames = Frame.getFrames();
+                                    for (Frame frame : frames) {
+                                        frame.dispose();
+                                    }
+                                    SwingUtilities.invokeLater(new LoginFrame(client));
+                                } else {
+                                    JOptionPane.showMessageDialog(profileFrame, "Failed to delete user", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(profileFrame, "Wrong username", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(profileFrame, "Failed to delete your account", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
             }
         }
         //
@@ -79,7 +102,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
     public void run() {
         profileFrame = new JFrame("Profile Preview");
         profileFrame.setLayout(new BorderLayout());
-        profileFrame.setSize(800, 600);
+        profileFrame.setSize(1000, 600);
         profileFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         profileFrame.setLocationRelativeTo(null);
         profileFrame.setResizable(false);
@@ -111,6 +134,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         JButton removeSelectedFriendsButton = new JButton("Remove selected friends");
         JButton unblockSelectedBlocksButton = new JButton("Unblock selected users");
         JButton unhideSelectedPostsButton = new JButton("Unhide selected posts");
+        JButton deleteProfileButton = new JButton("Delete profile");
 
         // TODO: ADD FUNCTIONALITY FOR THESE BUTTONS ABOVE
 
@@ -118,12 +142,15 @@ public class OwnProfileFrame extends JComponent implements Runnable {
 
         profileButtonPanel.add(removeSelectedFriendsButton);
         profileButtonPanel.add(unblockSelectedBlocksButton);
+        profileButtonPanel.add(unhideSelectedPostsButton);
         profileButtonPanel.add(changeAboutMeButton);
+        profileButtonPanel.add(deleteProfileButton);
 
         removeSelectedFriendsButton.addActionListener(actionListener);
         unblockSelectedBlocksButton.addActionListener(actionListener);
         unhideSelectedPostsButton.addActionListener(actionListener);
         changeAboutMeButton.addActionListener(actionListener);
+        deleteProfileButton.addActionListener(actionListener);
 
         topProfilePanel.add(nameLabel);
         topProfilePanel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing

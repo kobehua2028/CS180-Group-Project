@@ -74,8 +74,6 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("Add Friend");
                             friendButton.setVisible(true);
                             blockButton.setText("Block");
-                            profileFrame.dispose();
-                            SwingUtilities.invokeLater(new OtherProfileFrame(client, name));
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to unblock user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
@@ -87,8 +85,6 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("");
                             friendButton.setVisible(false);
                             blockButton.setText("Unblock");
-                            profileFrame.dispose();
-                            SwingUtilities.invokeLater(new OtherProfileFrame(client, name));
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to block user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
@@ -104,8 +100,6 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("Remove Friend");
                             friendButton.setVisible(true);
                             blockButton.setText("Block");
-                            profileFrame.dispose();
-                            SwingUtilities.invokeLater(new OtherProfileFrame(client, name));
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
@@ -117,8 +111,6 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("Remove Friend");
                             friendButton.setVisible(true);
                             blockButton.setText("Block");
-                            profileFrame.dispose();
-                            SwingUtilities.invokeLater(new OtherProfileFrame(client, name));
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
