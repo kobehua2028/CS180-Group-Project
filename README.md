@@ -129,19 +129,19 @@ Verified in SocialMediaServerTest through manual input tests covering:
  - Allows users to log in or register for a new account.
  - Provides feedback to the user (e.g., "Invalid credentials").
  -  Once logged in, transitions to the FeedFrame.
-
-### CreatePostFrame
-##### CreatePostFrame is used to create new posts. It provides a text area for entering the title and content of a post, which can then be submitted to the server.
-#### Key Features:
- - Allows users to create posts by providing a title and content.
- - Submits the new post to the server for processing.
-
+   
 ### FeedFrame
 ##### FeedFrame displays the user's feed, showing a list of posts. It allows users to interact with posts by liking, disliking, commenting, and hiding them.
 #### Key Features:
   - Displays a list of posts from the user’s feed.
   - Provides buttons to like, dislike, comment, and hide posts.
   - Updates the feed in real-time based on user actions.
+    
+### CreatePostFrame
+##### CreatePostFrame is used to create new posts. It provides a text area for entering the title and content of a post, which can then be submitted to the server.
+#### Key Features:
+ - Allows users to create posts by providing a title and content.
+ - Submits the new post to the server for processing.
 
 ### OwnProfileFrame
 ##### OwnProfileFrame is the profile screen for the logged-in user. It displays the user’s profile information, including the "About Me" section, friends list, and blocked users. Users can edit their profile, remove friends, and delete their account.
