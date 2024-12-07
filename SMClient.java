@@ -560,7 +560,6 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
 
     public void logout() throws IOException {
         username = null;
-        SwingUtilities.invokeLater(new LoginFrame(this));
     }
 
     public boolean changeAboutMe(String username, String aboutMe) throws IOException {

@@ -384,7 +384,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 posts.add(postPanel);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(feedFrame, "No posts to show", "Error", JOptionPane.ERROR_MESSAGE);
+            //
         }
     }
 
