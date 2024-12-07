@@ -551,11 +551,8 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
     }
 
     public void logout() throws IOException {
-        pw.println("LOGOUT");
-        pw.flush();
-        socket.close();
-        br.close();
-        pw.close();
+        username = null;
+        SwingUtilities.invokeLater(new LoginFrame(this));
     }
 
     public boolean changeAboutMe(String username, String aboutMe) throws IOException {

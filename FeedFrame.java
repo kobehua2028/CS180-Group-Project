@@ -180,6 +180,14 @@ public class FeedFrame extends JComponent implements Runnable {
                     }
                     searchText.setText("");
                 }
+                if (buttonClicked.getText().equals("LOG_OUT")) {
+                    try {
+                        client.logout();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    feedFrame.dispose();
+                }
             }
         }
     };
