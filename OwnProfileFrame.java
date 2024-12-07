@@ -68,14 +68,43 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     buttonClicked.setText("Edit About Me");
                 }
                 if (buttonClicked.getText().equals("Remove selected friends")) {
-                    //
+                    int[] friendsIndexArray = friendsList.getSelectedIndices();
+                    List<String> friendsArray = friendsList.getSelectedValuesList();
+                    for (int i = 0; i < friendsIndexArray.length; i++) {
+                        try {
+                            if(client.deleteFriend(friendsArray.get(i))) {
+                                friendsArray.remove(friendsIndexArray[i]);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
                 }
                 if (buttonClicked.getText().equals("Unblock selected users")) {
-                    //
+                    int[] blockIndexArray = blocksList.getSelectedIndices();
+                    List<String> blockArray = blocksList.getSelectedValuesList();
+                    for (int i = 0; i < blockIndexArray.length; i++) {
+                        try {
+                            if(client.unblockUser(blockArray.get(i))) {
+                                blockArray.remove(blockIndexArray[i]);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
                 }
                 if (buttonClicked.getText().equals("Unhide selected posts")) {
-                    //
-                    feed
+                    int[] hiddenIndexArray = hiddenList.getSelectedIndices();
+                    List<String> hiddenArray = hiddenList.getSelectedValuesList();
+                    for (int i = 0; i < hiddenIndexArray.length; i++) {
+                        try {
+                            if(client.unhidePost(hiddenArray.get(i))) {
+                                hiddenArray.remove(hiddenIndexArray[i]);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
                 }
                 if (buttonClicked.getText().equals("Delete profile")) {
                     int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete your account? This is permanent and cannot be undone.","Warning", JOptionPane.YES_NO_OPTION);
