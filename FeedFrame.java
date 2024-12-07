@@ -15,7 +15,8 @@ import java.util.ArrayList;
  *
  * <p>Purdue University -- CS18000 -- Fall 2024</p>
  *
- * @author Kobe Huang, Levin Cozza
+ * @author Kobe Huang
+ * @author Levin Cozza
  * @version Dec 07, 2024
  */
 
