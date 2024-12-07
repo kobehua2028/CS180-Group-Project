@@ -180,7 +180,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 }
                 if (buttonClicked.getText().equals("Profile")) {
                     System.out.println("Profile clicked");
-                    SwingUtilities.invokeLater(new OwnProfileFrame(client));
+                    SwingUtilities.invokeLater(new OwnProfileFrame(client, FeedFrame.this));
                 }
                 if (buttonClicked.getName().equals("CREATE_NEW_COMMENT")) {
                     String commentText = commentTextField.getText();
@@ -200,7 +200,7 @@ public class FeedFrame extends JComponent implements Runnable {
                         String searchUsername = searchText.getText();
                         try {
                             if (client.getUsername().equals(searchUsername)) {
-                                SwingUtilities.invokeLater(new OwnProfileFrame(client));
+                                SwingUtilities.invokeLater(new OwnProfileFrame(client, FeedFrame.this));
                             } else if (client.searchUser(searchUsername)) {
                                 SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client, searchUsername));
                             } else {
@@ -216,11 +216,15 @@ public class FeedFrame extends JComponent implements Runnable {
                 }
                 if (buttonClicked.getName().equals("LOG_OUT")) {
                     try {
+                        Frame[] frames = Frame.getFrames();
+                        for (Frame frame : frames) {
+                            frame.dispose();
+                        }
                         client.logout();
+                        SwingUtilities.invokeLater(new LoginFrame(client));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    feedFrame.dispose();
                 }
                 if (buttonClicked.getName().contains("AuthorButton")) {
                     SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client, buttonClicked.getName().split(":")[1]));
@@ -380,7 +384,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 posts.add(postPanel);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(feedFrame, "No posts to show", "Error", JOptionPane.ERROR_MESSAGE);
+            //
         }
     }
 
