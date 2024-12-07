@@ -59,4 +59,10 @@ public interface UserInterface {
     void addDislikedPost(Post post);
 
     void removeDislikedPost(Post post);
+
+    void unhidePost(Post post);
+
+    boolean searchHiddenPosts(Post post);
+
+    boolean searhBlockedList(User author);
 }
