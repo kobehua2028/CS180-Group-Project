@@ -108,16 +108,44 @@ public class FeedFrame extends JComponent implements Runnable {
                 } else if (buttonClicked.getText().contains("\uD83D\uDDD1")) {
                     componentInfo = buttonClicked.getParent().getParent().getName().split("`");
                     try {
-                        if (buttonClicked.getName().equals("nothidden") && client.hidePost(componentInfo[0])) {
-                            buttonClicked.getParent().getParent().setVisible(false);
-                            try {
-                                Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2); // EAST region is index 2 in BorderLayout
-                                if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(componentInfo[0])) {
-                                    existingCommentsPanel.setVisible(false);
-                                }
-                            } catch (IndexOutOfBoundsException e3) {
+                        if (buttonClicked.getName().equals("nothidden")) {
+                            boolean success;
+                            boolean delete = false;
+                            if (client.getUsername().equals(componentInfo[2])){
+                                delete = true;
+                                success = client.deletePost(componentInfo[0]);
+                            } else {
+                                success = client.hidePost(componentInfo[0]);
                             }
-                            buttonClicked.setName("hidden");
+                            if (success) {
+                                buttonClicked.getParent().getParent().setVisible(false);
+                                try {
+                                    Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2); // EAST region is index 2 in BorderLayout
+                                    if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(componentInfo[0])) {
+                                        existingCommentsPanel.setVisible(false);
+                                    }
+                                } catch (IndexOutOfBoundsException e3) {
+                                }
+                                buttonClicked.setName("hidden");
+                            } else if (delete) {
+                                JOptionPane.showMessageDialog(null, "Issue with Deleting Post", "Error", JOptionPane.ERROR_MESSAGE);
+                            } else if (!delete) {
+                                JOptionPane.showMessageDialog(null, "Issue with Hiding Post", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else if (buttonClicked.getName().equals("commentnotdeleted")) {
+                            if (client.deleteComment(title, componentInfo[0])) {
+                                buttonClicked.getParent().getParent().setVisible(false);
+                                try {
+                                    Component existingCommentsPanel = feedFrame.getContentPane().getComponent(4); // EAST region is index 2 in BorderLayout
+                                    if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(componentInfo[0])) {
+                                        existingCommentsPanel.setVisible(false);
+                                    }
+                                } catch (IndexOutOfBoundsException e3) {
+                                }
+                                buttonClicked.setName("commentdeleted");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Issue with Deleting Comment", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -171,7 +199,9 @@ public class FeedFrame extends JComponent implements Runnable {
                     if (!searchText.getText().isEmpty()) {
                         String searchUsername = searchText.getText();
                         try {
-                            if (client.searchUser(searchUsername)) {
+                            if (client.getUsername().equals(searchUsername)) {
+                                SwingUtilities.invokeLater(new OwnProfileFrame(client));
+                            } else if (client.searchUser(searchUsername)) {
                                 SwingUtilities.invokeLater(new OtherProfileFrame(client, searchUsername));
                             } else {
                                 JOptionPane.showMessageDialog(null, "No User Found With the Given Username", "No User Found", JOptionPane.INFORMATION_MESSAGE);
@@ -492,7 +522,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 buttonPanel.add(commentDislikesButton);
                 if (client.getUsername().equals(commentAuthor)) {
                     JButton deleteComment = new JButton("\uD83D\uDDD1");
-                    deleteComment.setName("notdeleted");
+                    deleteComment.setName("commentnotdeleted");
                     buttonPanel.add(deleteComment);
                     deleteComment.addActionListener(actionListener);
                 } else {
