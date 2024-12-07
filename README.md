@@ -120,3 +120,59 @@ Verified in SocialMediaServerTest through manual input tests covering:
 - Account creation and login.
 - Interactions such as posting, commenting, liking, and blocking.
 - Invalid commands and error handling.
+
+## Phase 3
+
+### LoginFrame
+##### LoginFrame is the first screen a user interacts with. It handles user login and registration, including input validation and error handling.
+#### Key Features:
+ - Allows users to log in or register for a new account.
+ - Provides feedback to the user (e.g., "Invalid credentials").
+ -  Once logged in, transitions to the FeedFrame.
+   
+### FeedFrame
+##### FeedFrame displays the user's feed, showing a list of posts. It allows users to interact with posts by liking, disliking, commenting, and hiding them.
+#### Key Features:
+  - Displays a list of posts from the user’s feed.
+  - Provides buttons to like, dislike, comment, and hide posts.
+  - Updates the feed in real-time based on user actions.
+    
+### CreatePostFrame
+##### CreatePostFrame is used to create new posts. It provides a text area for entering the title and content of a post, which can then be submitted to the server.
+#### Key Features:
+ - Allows users to create posts by providing a title and content.
+ - Submits the new post to the server for processing.
+
+### OwnProfileFrame
+##### OwnProfileFrame is the profile screen for the logged-in user. It displays the user’s profile information, including the "About Me" section, friends list, and blocked users. Users can edit their profile, remove friends, and delete their account.
+#### Key Features:
+  - Displays the user's profile details, including their "About Me" section and friends list.
+  - Allows the user to edit their profile, including updating the "About Me" section.
+  - Users can remove friends and block/unblock other users from this frame.
+  - Supports deleting the profile.
+
+### OtherProfileFrame
+##### OtherProfileFrame is a GUI class that displays another user's profile. It allows the logged-in user to interact with the profile by adding or removing friends, blocking or unblocking the user, and viewing their posts and "About Me" section.
+#### Key Features:
+ - Displays the user's profile, including the "About Me" section and friends list.
+ - Allows actions like blocking, unblocking, adding, or removing friends.
+ - Dynamically updates the UI based on the user’s actions.
+ - Integrates with FeedFrame to reflect changes in the feed.
+
+### How to Use
+
+#### Run the Application:
+  - Run the Server class to start the server and then run the main() method in SMClient to start the application and open the login window.
+
+#### Create an Account or Log In:
+  - If you don't have an account, click the register button and create one.
+  - If you have an account, log in with your credentials.
+
+#### Navigate the Feed:
+  - Once logged in, you will be taken to the FeedFrame where you can interact with posts (like, dislike, comment, hide posts, etc.).
+
+#### Manage Your Profile:
+  - From the OwnProfileFrame, you can edit your "About Me" section, view your friends, hide and block users, and delete your account.
+
+#### Interact with Other Users:
+  - Use the OtherProfileFrame to search for other users, add/remove friends, and manage your interactions with them.
