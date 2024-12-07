@@ -128,6 +128,7 @@ Verified in SocialMediaServerTest through manual input tests covering:
 #### Key Features:
  - Allows users to log in or register for a new account.
  - Provides feedback to the user (e.g., "Invalid credentials").
+ - Runs operations through interacting with SMClient
  -  Once logged in, transitions to the FeedFrame.
    
 ### FeedFrame
@@ -135,6 +136,7 @@ Verified in SocialMediaServerTest through manual input tests covering:
 #### Key Features:
   - Displays a list of posts from the user’s feed.
   - Provides buttons to like, dislike, comment, and hide posts.
+  - Runs operations through interacting with SMClient
   - Updates the feed in real-time based on user actions.
     
 ### CreatePostFrame
@@ -142,6 +144,7 @@ Verified in SocialMediaServerTest through manual input tests covering:
 #### Key Features:
  - Allows users to create posts by providing a title and content.
  - Submits the new post to the server for processing.
+ - Runs operations through interacting with SMClient
 
 ### OwnProfileFrame
 ##### OwnProfileFrame is the profile screen for the logged-in user. It displays the user’s profile information, including the "About Me" section, friends list, and blocked users. Users can edit their profile, remove friends, and delete their account.
@@ -150,6 +153,7 @@ Verified in SocialMediaServerTest through manual input tests covering:
   - Allows the user to edit their profile, including updating the "About Me" section.
   - Users can remove friends and block/unblock other users from this frame.
   - Supports deleting the profile.
+  - Runs operations through interacting with SMClient
 
 ### OtherProfileFrame
 ##### OtherProfileFrame is a GUI class that displays another user's profile. It allows the logged-in user to interact with the profile by adding or removing friends, blocking or unblocking the user, and viewing their posts and "About Me" section.
@@ -158,7 +162,8 @@ Verified in SocialMediaServerTest through manual input tests covering:
  - Allows actions like blocking, unblocking, adding, or removing friends.
  - Dynamically updates the UI based on the user’s actions.
  - Integrates with FeedFrame to reflect changes in the feed.
-
+ - Runs operations through interacting with SMClient
+   
 ### How to Use
 
 #### Run the Application:
