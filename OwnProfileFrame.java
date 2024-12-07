@@ -22,6 +22,9 @@ public class OwnProfileFrame extends JComponent implements Runnable {
     JList<String> friendsList = new JList<>();
     JList<String> blocksList = new JList<>();
     JList<String> hiddenList = new JList<>();
+    DefaultListModel<String> friendModel = new DefaultListModel<>();
+    DefaultListModel<String> blockModel = new DefaultListModel<>();
+    DefaultListModel<String> hiddenModel = new DefaultListModel<>();
 
 
     public OwnProfileFrame(SMClient client) {
@@ -73,7 +76,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     for (int i = 0; i < friendsIndexArray.length; i++) {
                         try {
                             if(client.deleteFriend(friendsArray.get(i))) {
-                                friendsArray.remove(friendsIndexArray[i]);
+                                friendModel.remove(friendsIndexArray[i]);
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -86,7 +89,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     for (int i = 0; i < blockIndexArray.length; i++) {
                         try {
                             if(client.unblockUser(blockArray.get(i))) {
-                                blockArray.remove(blockIndexArray[i]);
+                                blockModel.remove(blockIndexArray[i]);
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -99,7 +102,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     for (int i = 0; i < hiddenIndexArray.length; i++) {
                         try {
                             if(client.unhidePost(hiddenArray.get(i))) {
-                                hiddenArray.remove(hiddenIndexArray[i]);
+                                hiddenModel.remove(hiddenIndexArray[i]);
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -204,7 +207,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         friendsLabel.setPreferredSize(new Dimension(400, 30));
         friendsLabel.setMaximumSize(new Dimension(400, 30));
 
-        DefaultListModel<String> friendModel = new DefaultListModel<>();
+        friendModel = new DefaultListModel<>();
         for (String friend : friends) {
             friendModel.addElement(friend);
         }
@@ -225,7 +228,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         blocksLabel.setPreferredSize(new Dimension(400, 30));
         blocksLabel.setMaximumSize(new Dimension(400, 30));
 
-        DefaultListModel<String> blockModel = new DefaultListModel<>();
+        blockModel = new DefaultListModel<>();
         for (String block : blocks) {
             blockModel.addElement(block);
         }
@@ -246,7 +249,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         hiddenPostsLabel.setPreferredSize(new Dimension(400, 30));
         hiddenPostsLabel.setMaximumSize(new Dimension(400, 30));
 
-        DefaultListModel<String> hiddenModel = new DefaultListModel<>();
+        hiddenModel = new DefaultListModel<>();
         for (String hidden : hiddenPosts) {
             hiddenModel.addElement(hidden);
         }
