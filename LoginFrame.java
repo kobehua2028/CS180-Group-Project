@@ -15,7 +15,7 @@ import java.io.IOException;
  * @version Dec 07, 2024
  */
 
-public class LoginFrame implements Runnable, LoginFrameInterface {
+public class LoginFrame implements Runnable, LogInFrameInterface {
 
     SMClient client;
     JFrame frame;
