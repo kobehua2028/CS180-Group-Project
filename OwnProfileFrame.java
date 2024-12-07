@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
 
 public class OwnProfileFrame extends JComponent implements Runnable {
@@ -40,6 +41,11 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         this.friends = profile.get(0);
         this.blocks = profile.get(1);
         this.hiddenPosts = profile.get(4);
+
+        System.out.println(profile.toString());
+        System.out.println(Arrays.asList(friends).toString());
+        System.out.println(Arrays.asList(blocks).toString());
+        System.out.println(Arrays.asList(hiddenPosts).toString());
     }
 
     private ActionListener actionListener = new ActionListener() {
@@ -69,6 +75,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                 }
                 if (buttonClicked.getText().equals("Unhide selected posts")) {
                     //
+                    feed
                 }
                 if (buttonClicked.getText().equals("Delete profile")) {
                     int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete your account? This is permanent and cannot be undone.","Warning", JOptionPane.YES_NO_OPTION);

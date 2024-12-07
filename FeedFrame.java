@@ -202,7 +202,7 @@ public class FeedFrame extends JComponent implements Runnable {
                             if (client.getUsername().equals(searchUsername)) {
                                 SwingUtilities.invokeLater(new OwnProfileFrame(client));
                             } else if (client.searchUser(searchUsername)) {
-                                SwingUtilities.invokeLater(new OtherProfileFrame(client, searchUsername));
+                                SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client, searchUsername));
                             } else {
                                 JOptionPane.showMessageDialog(null, "No User Found With the Given Username", "No User Found", JOptionPane.INFORMATION_MESSAGE);
                             }
@@ -223,7 +223,7 @@ public class FeedFrame extends JComponent implements Runnable {
                     feedFrame.dispose();
                 }
                 if (buttonClicked.getName().contains("AuthorButton")) {
-                    SwingUtilities.invokeLater(new OtherProfileFrame(client, buttonClicked.getName().split(":")[1]));
+                    SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client, buttonClicked.getName().split(":")[1]));
                 }
             }
         }
@@ -533,7 +533,7 @@ public class FeedFrame extends JComponent implements Runnable {
                 commentDislikesButton.setName("commentnotdisliked");
                 buttonPanel.add(commentLikesButton);
                 buttonPanel.add(commentDislikesButton);
-                if (client.getUsername().equals(commentAuthor)) {
+                if (client.getUsername().equals(commentAuthor) || client.getUsername().equals(author)) {
                     JButton deleteComment = new JButton("\uD83D\uDDD1");
                     deleteComment.setName("commentnotdeleted");
                     buttonPanel.add(deleteComment);

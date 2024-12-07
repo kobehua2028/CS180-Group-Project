@@ -508,7 +508,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         System.out.println("Size: " + sm.getPosts().size());
         while (postsShown < postLimit) {
             Post post = sm.getPosts().get(sm.getPosts().size() - i - 1);
-            if (!user.searchHiddenPosts(post) && !user.searhBlockedList(post.getAuthor())) {
+            if (!user.searchHiddenPosts(post) && !user.searhBlockedList(post.getAuthor())
+                    && user.isFriend(post.getAuthor().getUsername())) {
                 String postString = "POST_" + post.getTitle() + "`" + post.getSubtext() + "`" +
                         post.getAuthor().getUsername() + "`" + post.getComments().size() + "`" +
                         post.getLikes() + "`" + post.getDislikes();
@@ -567,6 +568,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             for (int i = 0; i < profileUser.getHiddenPosts().size(); i++) {
                 hiddenPostlist += profileUser.getHiddenPosts().get(i).getTitle() + "`";
             }
+
 
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
@@ -917,6 +919,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         sm.writeUser(user);
         return true;
     }
+
     public void setSM(SocialMediaDatabase sm1) {
         SocialMediaServer.sm = sm1;
     }
