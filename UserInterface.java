@@ -59,4 +59,6 @@ public interface UserInterface {
     void addDislikedPost(Post post);
 
     void removeDislikedPost(Post post);
+
+    boolean isFriend(String username);
 }

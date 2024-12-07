@@ -65,4 +65,6 @@ public interface SMClientInterface {
     boolean searchUser(String username) throws IOException;
 
     void logout() throws IOException;
+
+    String getUsername() throws IOException;
 }

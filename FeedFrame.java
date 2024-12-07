@@ -6,6 +6,19 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * CS180 Group Project
+ * A frame class that displays posts with buttons to like,
+ * dislike, comment, and hide post.
+ *
+ * As well as showing all comments under a post
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Kobe Huang, Levin Cozza
+ * @version Dec 07, 2024
+ */
+
 public class FeedFrame extends JComponent implements Runnable {
     private SMClient client;
     private JFrame feedFrame;
