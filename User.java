@@ -239,4 +239,13 @@ public class User implements Serializable, UserInterface {
         }
         return false;
     }
+
+    public boolean isFriend(String username) {
+        for (User friend : friendsList) {
+            if (friend.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
