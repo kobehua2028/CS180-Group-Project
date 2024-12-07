@@ -16,7 +16,7 @@ import java.net.Socket;
  * @version Dec 07, 2024
  */
 
-public class LoginFrame implements Runnable {
+public class LoginFrame implements Runnable, LoginFrameInterface {
 
     SMClient client;
     JFrame frame;
