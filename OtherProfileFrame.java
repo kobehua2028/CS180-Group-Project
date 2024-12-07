@@ -6,6 +6,16 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * CS180 Group Project
+ * A frame class that displays info about other users
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Levin Cozza
+ * @version Dec 07, 2024
+ */
+
 public class OtherProfileFrame extends JComponent implements Runnable {
 
     SMClient client;

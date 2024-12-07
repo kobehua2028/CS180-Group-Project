@@ -5,6 +5,17 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * CS180 Group Project
+ * A frame class that displays a frame for users to login or
+ * register an account
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Kobe Huang, Levin Cozza
+ * @version Dec 07, 2024
+ */
+
 public class LoginFrame implements Runnable {
 
     SMClient client;

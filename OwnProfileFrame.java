@@ -9,6 +9,17 @@ import java.util.Arrays;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * CS180 Group Project
+ * A frame class that displays info about your account
+ * and gives you the option to edit or delete your account
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Levin Cozza
+ * @version Dec 07, 2024
+ */
+
 public class OwnProfileFrame extends JComponent implements Runnable {
 
     SMClient client;

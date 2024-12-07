@@ -4,6 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+
+/**
+ * CS180 Group Project
+ * A frame class to allow users to create posts
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2024</p>
+ *
+ * @author Kobe Huang
+ * @version Dec 07, 2024
+ */
+
 public class CreatePostFrame extends JComponent implements Runnable {
     JFrame createPostFrame;
     private SMClient client;

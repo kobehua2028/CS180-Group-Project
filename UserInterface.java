@@ -65,4 +65,6 @@ public interface UserInterface {
     boolean searchHiddenPosts(Post post);
 
     boolean searhBlockedList(User author);
+
+    boolean isFriend(String username);
 }

@@ -134,8 +134,9 @@ Verified in SocialMediaServerTest through manual input tests covering:
 ### FeedFrame
 ##### FeedFrame displays the user's feed, showing a list of posts. It allows users to interact with posts by liking, disliking, commenting, and hiding them.
 #### Key Features:
-  - Displays a list of posts from the user’s feed.
+  - Displays a list of posts made by users that they have friended from the user’s feed.
   - Provides buttons to like, dislike, comment, and hide posts.
+  - Displays the comments of a selected post
   - Runs operations through interacting with SMClient
   - Updates the feed in real-time based on user actions.
     
