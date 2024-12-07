@@ -565,7 +565,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
 
             String hiddenPostlist = "HIDDEN_POSTS_LIST`";
             for (int i = 0; i < profileUser.getHiddenPosts().size(); i++) {
-                postList += profileUser.getHiddenPosts().get(i).getTitle() + "`";
+                hiddenPostlist += profileUser.getHiddenPosts().get(i).getTitle() + "`";
             }
 
             profileInfo.add(postList.substring(0, postList.length() - 1));
