@@ -25,10 +25,12 @@ public class OwnProfileFrame extends JComponent implements Runnable {
     DefaultListModel<String> friendModel = new DefaultListModel<>();
     DefaultListModel<String> blockModel = new DefaultListModel<>();
     DefaultListModel<String> hiddenModel = new DefaultListModel<>();
+    FeedFrame feedFrame;
 
 
-    public OwnProfileFrame(SMClient client) {
+    public OwnProfileFrame(SMClient client, FeedFrame feedFrame) {
         this.client = client;
+        this.feedFrame = feedFrame;
         try {
             this.name = client.getUsername();
         } catch (IOException e) {
@@ -77,6 +79,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                         try {
                             if(client.deleteFriend(friendsArray.get(i))) {
                                 friendModel.remove(friendsIndexArray[i]);
+                                feedFrame.run();
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -90,6 +93,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                         try {
                             if(client.unblockUser(blockArray.get(i))) {
                                 blockModel.remove(blockIndexArray[i]);
+                                feedFrame.run();
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -103,6 +107,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                         try {
                             if(client.unhidePost(hiddenArray.get(i))) {
                                 hiddenModel.remove(hiddenIndexArray[i]);
+                                feedFrame.run();
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
