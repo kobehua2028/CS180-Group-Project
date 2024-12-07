@@ -123,10 +123,10 @@ public class UserTest {
     @Test
     public void testEquals() {
         User user3 = user1;
-        assertTrue(user1.equals(user3));
-        assertFalse(user1.equals(new User("BobbyB", "password999",
+        assertEquals(user1, user3);
+        assertNotEquals(user1, new User("BobbyB", "password999",
                 "Hello, I'm Alice!", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm)));
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), sm));
     }
 
     @Test(expected = IllegalArgumentException.class)

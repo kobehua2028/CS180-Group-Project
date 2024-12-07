@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * CS180 Group Project
@@ -17,18 +16,18 @@ import java.util.Iterator;
 
 public class User implements Serializable, UserInterface {
     private static final long serialVersionUID = 1810526504588534166L;
+    private final String username; //the name of this account
+    private final String password; //the password to this account
+    private final SocialMediaDatabase sm;
+    public int i = 0;
     private ArrayList<User> friendsList = new ArrayList<User>(); //list of users that are friends/followed by this user
     private ArrayList<User> blockedList = new ArrayList<User>(); //list of users that are blocked by this user
     private ArrayList<Post> likedPosts = new ArrayList<Post>();
     private ArrayList<Post> dislikedPosts = new ArrayList<Post>();
     private ArrayList<Post> hiddenPosts = new ArrayList<>();
     private ArrayList<Post> userPosts = new ArrayList<>();
-    private final String username; //the name of this account
-    private final String password; //the password to this account
     private String aboutMe; //The "about me" section
-    private final SocialMediaDatabase sm;
     private boolean isDeleted;
-    public int i = 0;
 
     public User(String username, String password, String aboutMe, ArrayList<User> friendsList,
                 ArrayList<User> blockedList, ArrayList<Post> likedPosts, ArrayList<Post> dislikedPosts,
@@ -225,8 +224,8 @@ public class User implements Serializable, UserInterface {
     public boolean searchHiddenPosts(Post post) {
         for (int i = 0; i < hiddenPosts.size(); i++) {
             if (post.getTitle().equals(hiddenPosts.get(i).getTitle()) &&
-                post.getSubtext().equals(hiddenPosts.get(i).getSubtext()) &&
-                post.getAuthor().getUsername().equals(hiddenPosts.get(i).getAuthor().getUsername())) {
+                    post.getSubtext().equals(hiddenPosts.get(i).getSubtext()) &&
+                    post.getAuthor().getUsername().equals(hiddenPosts.get(i).getAuthor().getUsername())) {
                 return true;
             }
         }

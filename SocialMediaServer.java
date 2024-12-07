@@ -17,8 +17,8 @@ import java.util.Arrays;
  */
 
 public class SocialMediaServer implements Runnable, ServerInterface {
-    private final Socket socket;
     private static SocialMediaDatabase sm;
+    private final Socket socket;
 
     public SocialMediaServer(Socket socket) {
         this.socket = socket;

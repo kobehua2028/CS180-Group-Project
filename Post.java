@@ -15,10 +15,10 @@ public class Post implements Serializable, PostInterface {
     private final User author; //The user who created this post.
     private final String title; //title of post.
     private final String subtext; //subtext of post
+    private final SocialMediaDatabase sm;
     private ArrayList<Comment> comments = new ArrayList<Comment>();
     private int likes; //number of likes this post received
     private int dislikes; //number of dislikes this post received.
-    private final SocialMediaDatabase sm;
 
     public Post(User author, String title, String subtext, ArrayList<Comment> comments,
                 int likes, int dislikes, SocialMediaDatabase sm) {

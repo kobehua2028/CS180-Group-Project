@@ -30,7 +30,72 @@ public class OtherProfileFrame extends JComponent implements Runnable {
     boolean blocked = false;
     JButton friendButton = new JButton("");
     JButton blockButton = new JButton("");
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() instanceof JButton buttonClicked) {
+                if (buttonClicked.getText().equals("Unblock")) {
+                    if (blocked && !name.equals("No user")) {
+                        try {
+                            client.unblockUser(name);
+                            blocked = false;
+                            friendButton.setText("Add Friend");
+                            friendButton.setVisible(true);
+                            blockButton.setText("Block");
+                            feedFrame.run();
+                        } catch (IOException e1) {
+                            JOptionPane.showMessageDialog(null, "Failed to unblock user", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else if (buttonClicked.getText().equals("Block")) {
+                    if (!blocked && !name.equals("No user")) {
+                        try {
+                            client.blockUser(name);
+                            blocked = true;
+                            friendsWith = false;
+                            friendButton.setText("");
+                            friendButton.setVisible(false);
+                            blockButton.setText("Unblock");
+                            feedFrame.run();
+                        } catch (IOException e1) {
+                            JOptionPane.showMessageDialog(null, "Failed to block user", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+                if (buttonClicked.getText().equals("Add Friend")) {
+                    if (!name.equals("No user")) {
+                        if (blocked) {
+                            JOptionPane.showMessageDialog(null, "You have blocked this user, first unblock them to add them as a friend", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        try {
+                            client.addFriend(name);
+                            friendsWith = true;
+                            friendButton.setText("Remove Friend");
+                            friendButton.setVisible(true);
+                            blockButton.setText("Block");
+                            feedFrame.run();
+                        } catch (IOException e1) {
+                            JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else if (buttonClicked.getText().equals("Remove Friend")) {
+                    if (!name.equals("No user")) {
+                        try {
+                            client.deleteFriend(name);
+                            friendsWith = false;
+                            friendButton.setText("Remove Friend");
+                            friendButton.setVisible(true);
+                            blockButton.setText("Block");
+                            feedFrame.run();
+                        } catch (IOException e1) {
+                            JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
 
+        }
+    };
 
     public OtherProfileFrame(FeedFrame feedFrame, SMClient client, String profileUsername) {
         this.feedFrame = feedFrame;
@@ -39,7 +104,7 @@ public class OtherProfileFrame extends JComponent implements Runnable {
         ArrayList<String[]> profile = new ArrayList<>();
         try {
             profile = client.displayProfile(profileUsername);
-         } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         this.aboutMe = profile.get(3)[0];
@@ -72,70 +137,6 @@ public class OtherProfileFrame extends JComponent implements Runnable {
             e.printStackTrace();
         }
     }
-
-    ActionListener actionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() instanceof JButton) {
-                JButton buttonClicked = (JButton) e.getSource();
-                if (buttonClicked.getText().equals("Unblock")) {
-                    if (blocked && !name.equals("No user")) {
-                        try {
-                            client.unblockUser(name);
-                            blocked = false;
-                            friendButton.setText("Add Friend");
-                            friendButton.setVisible(true);
-                            blockButton.setText("Block");
-                            feedFrame.run();
-                        } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to unblock user", "Error", JOptionPane.ERROR_MESSAGE);                        }
-                    }
-                } else if (buttonClicked.getText().equals("Block")) {
-                    if (!blocked && !name.equals("No user")) {
-                        try {
-                            client.blockUser(name);
-                            blocked = true;
-                            friendsWith = false;
-                            friendButton.setText("");
-                            friendButton.setVisible(false);
-                            blockButton.setText("Unblock");
-                            feedFrame.run();
-                        } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to block user", "Error", JOptionPane.ERROR_MESSAGE);                        }
-                    }
-                }
-                if (buttonClicked.getText().equals("Add Friend")) {
-                    if (!name.equals("No user")) {
-                        if (blocked) {
-                            JOptionPane.showMessageDialog(null, "You have blocked this user, first unblock them to add them as a friend", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        try {
-                            client.addFriend(name);
-                            friendsWith = true;
-                            friendButton.setText("Remove Friend");
-                            friendButton.setVisible(true);
-                            blockButton.setText("Block");
-                            feedFrame.run();
-                        } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);                        }
-                    }
-                } else if (buttonClicked.getText().equals("Remove Friend")) {
-                    if (!name.equals("No user")) {
-                        try {
-                            client.deleteFriend(name);
-                            friendsWith = false;
-                            friendButton.setText("Remove Friend");
-                            friendButton.setVisible(true);
-                            blockButton.setText("Block");
-                            feedFrame.run();
-                        } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);                        }
-                    }
-                }
-            }
-
-        }
-    };
 
     @Override
     public void run() {

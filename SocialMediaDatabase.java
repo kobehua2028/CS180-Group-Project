@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * @version Nov 03, 2024
  */
 public class SocialMediaDatabase implements Serializable, DatabaseInterface {
-    private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
-    // (in reverse chronological order?)
-    private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
     //private ArrayList<Comment> comments = new ArrayList<Comment>(); //This array should be in the posts imo (Abdul)
     private final String usersIn; //filename that supplied a list of all initial users
     private final String postsIn;
+    private ArrayList<Post> posts = new ArrayList<Post>(); //list of all posts on the platform
+    // (in reverse chronological order?)
+    private ArrayList<User> users = new ArrayList<User>(); //list of all user accounts on the platform
 
 
     public SocialMediaDatabase(String usersIn, String postsIn) {

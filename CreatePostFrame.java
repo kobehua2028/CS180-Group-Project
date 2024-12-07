@@ -17,8 +17,8 @@ import java.io.IOException;
 
 public class CreatePostFrame extends JComponent implements Runnable {
     JFrame createPostFrame;
-    private SMClient client;
-    private FeedFrame feedFrame;
+    private final SMClient client;
+    private final FeedFrame feedFrame;
 
     public CreatePostFrame(SMClient client, FeedFrame feedFrame) {
         this.client = client;
@@ -89,8 +89,7 @@ public class CreatePostFrame extends JComponent implements Runnable {
         postButton.setFocusPainted(false);
         postButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() instanceof JButton) {
-                    JButton button = (JButton) e.getSource();
+                if (e.getSource() instanceof JButton button) {
                     try {
                         if ("CREATE_NEW_POST".equals(button.getName())) {
                             client.createPost(titleField.getText(), subTextField.getText());

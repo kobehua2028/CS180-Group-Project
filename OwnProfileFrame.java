@@ -1,12 +1,9 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,33 +34,10 @@ public class OwnProfileFrame extends JComponent implements Runnable {
     DefaultListModel<String> blockModel = new DefaultListModel<>();
     DefaultListModel<String> hiddenModel = new DefaultListModel<>();
     FeedFrame feedFrame;
-
-
-    public OwnProfileFrame(SMClient client, FeedFrame feedFrame) {
-        this.client = client;
-        this.feedFrame = feedFrame;
-        try {
-            this.name = client.getUsername();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ArrayList<String[]> profile = new ArrayList<>();
-        try {
-            profile = client.displayProfile(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.aboutMe = profile.get(3)[0];
-        this.friends = profile.get(0);
-        this.blocks = profile.get(1);
-        this.hiddenPosts = profile.get(4);
-    }
-
-    private ActionListener actionListener = new ActionListener() {
+    private final ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() instanceof JButton) {
-                JButton buttonClicked = (JButton) e.getSource();
+            if (e.getSource() instanceof JButton buttonClicked) {
                 if (buttonClicked.getText().equals("Edit About Me")) {
                     buttonClicked.setText("Save Edited About Me");
                     aboutMeTextArea.setEditable(true);
@@ -83,7 +57,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     List<String> friendsArray = friendsList.getSelectedValuesList();
                     for (int i = 0; i < friendsIndexArray.length; i++) {
                         try {
-                            if(client.deleteFriend(friendsArray.get(i))) {
+                            if (client.deleteFriend(friendsArray.get(i))) {
                                 friendModel.remove(friendsIndexArray[i]);
                                 feedFrame.run();
                             }
@@ -97,7 +71,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     List<String> blockArray = blocksList.getSelectedValuesList();
                     for (int i = 0; i < blockIndexArray.length; i++) {
                         try {
-                            if(client.unblockUser(blockArray.get(i))) {
+                            if (client.unblockUser(blockArray.get(i))) {
                                 blockModel.remove(blockIndexArray[i]);
                                 feedFrame.run();
                             }
@@ -111,7 +85,7 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     List<String> hiddenArray = hiddenList.getSelectedValuesList();
                     for (int i = 0; i < hiddenIndexArray.length; i++) {
                         try {
-                            if(client.unhidePost(hiddenArray.get(i))) {
+                            if (client.unhidePost(hiddenArray.get(i))) {
                                 hiddenModel.remove(hiddenIndexArray[i]);
                                 feedFrame.run();
                             }
@@ -121,8 +95,8 @@ public class OwnProfileFrame extends JComponent implements Runnable {
                     }
                 }
                 if (buttonClicked.getText().equals("Delete profile")) {
-                    int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete your account? This is permanent and cannot be undone.","Warning", JOptionPane.YES_NO_OPTION);
-                    if(dialogResult == JOptionPane.YES_OPTION){
+                    int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete your account? This is permanent and cannot be undone.", "Warning", JOptionPane.YES_NO_OPTION);
+                    if (dialogResult == JOptionPane.YES_OPTION) {
                         String name = JOptionPane.showInputDialog(profileFrame, "Type your username to delete your account: ");
                         try {
                             if (name.equals(client.getUsername())) {
@@ -147,6 +121,26 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         }
         //
     };
+
+    public OwnProfileFrame(SMClient client, FeedFrame feedFrame) {
+        this.client = client;
+        this.feedFrame = feedFrame;
+        try {
+            this.name = client.getUsername();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String[]> profile = new ArrayList<>();
+        try {
+            profile = client.displayProfile(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.aboutMe = profile.get(3)[0];
+        this.friends = profile.get(0);
+        this.blocks = profile.get(1);
+        this.hiddenPosts = profile.get(4);
+    }
 
     @Override
     public void run() {
@@ -177,7 +171,6 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         aboutMeTextArea.setMaximumSize(new Dimension(400, 100));
         aboutMeTextArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         aboutMeTextArea.setBackground(new Color(245, 245, 245));
-
 
 
         JPanel profileButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

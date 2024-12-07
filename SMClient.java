@@ -1,9 +1,10 @@
-import java.io.*;
-import java.net.Socket;
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * CS180 Group Project
@@ -19,12 +20,16 @@ import java.awt.event.*;
 
 public class SMClient extends JComponent implements Runnable, Serializable, SMClientInterface {
 
-    private String username;
     private final Socket socket;
+    ActionListener actionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        }
+    };
+    private String username;
     private BufferedReader br;
     private PrintWriter pw;
-    private SMClient client;
     // [["author","text","subtext","likes","dislikes"],        ,       ,      ,       ]
+    private SMClient client;
 
     public SMClient(Socket socket) {
         this.socket = socket;
@@ -36,9 +41,11 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         }
     }
 
-    ActionListener actionListener = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {}
-    };
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket("localhost", 1111);
+        SMClient client = new SMClient(socket);
+        SwingUtilities.invokeLater(new LoginFrame(client));
+    }
 
     public void run() {
         JFrame frame = new JFrame("Social Media Name");
@@ -525,7 +532,6 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         return false;
     }
 
-
     public boolean undislikeComment(String postTitle, String comment) throws IOException {
         pw.println(String.format("UNDISLIKE_COMMENT`%s`%s`%s", postTitle, username, comment));
         pw.flush();
@@ -576,12 +582,6 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
             line = br.readLine();
         }
         return false;
-    }
-
-    public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 1111);
-        SMClient client = new SMClient(socket);
-        SwingUtilities.invokeLater(new LoginFrame(client));
     }
 
     public String getUsername() throws IOException {

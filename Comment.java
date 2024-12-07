@@ -13,13 +13,13 @@ import java.util.ArrayList;
  */
 public class Comment implements Serializable, CommentInterface {
     private final String text;
-    private int likes;
     private final ArrayList<User> likers = new ArrayList<>();
     private final ArrayList<User> dislikers = new ArrayList<>();
-    private int dislikes;
     private final User author;
     private final Post post; //the post to which this comment belongs
     private final SocialMediaDatabase sm;
+    private int likes;
+    private int dislikes;
 
     public Comment(User author, String text, int likes, int dislikes, Post post, SocialMediaDatabase sm) {
         this.author = author;
