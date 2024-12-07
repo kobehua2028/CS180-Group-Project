@@ -501,8 +501,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         if (user == null) {
             return postStrings;
         }
-        int postLimit = Integer.min(5, sm.getPosts().size());
-        int i = user.i;
+        int postLimit = sm.getPosts().size();
+        int i = 0;
         int postsShown = 0;
         System.out.println("Post limit: " + postLimit);
         System.out.println("Size: " + sm.getPosts().size());
@@ -514,12 +514,11 @@ public class SocialMediaServer implements Runnable, ServerInterface {
                         post.getLikes() + "`" + post.getDislikes();
                 postStrings.add(postString);
                 postsShown++;
-            } else if (postLimit < 5) {
+            } else {
                 postLimit--;
             }
             i++;
         }
-        user.i = i;
         return postStrings;
     }
 
@@ -563,6 +562,12 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             for (int i = 0; i < profileUser.getUserPosts().size(); i++) {
                 postList += profileUser.getUserPosts().get(i).getTitle() + "`";
             }
+
+            String hiddenPostlist = "HIDDEN_POSTS_LIST`";
+            for (int i = 0; i < profileUser.getHiddenPosts().size(); i++) {
+                postList += profileUser.getHiddenPosts().get(i).getTitle() + "`";
+            }
+
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
             profileInfo.add(aboutme);

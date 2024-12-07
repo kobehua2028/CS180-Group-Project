@@ -149,7 +149,6 @@ public class FeedFrame extends JComponent implements Runnable {
                     buttonClicked.setName("commentclicked");
                 } else if (buttonClicked.getName().equals("CREATE_NEW_POST")) {
                     SwingUtilities.invokeLater(new CreatePostFrame(client,FeedFrame.this));
-//                    FeedFrame.this.run();
                 }
                 if (buttonClicked.getText().equals("Profile")) {
                     System.out.println("Profile clicked");
@@ -235,25 +234,41 @@ public class FeedFrame extends JComponent implements Runnable {
     }
     private JPanel createTopFeedPanel() {
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        topPanel.setLayout(new BorderLayout());
+
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JButton searchButton = new JButton("Search");
         searchButton.setName("SEARCH_USER");
         searchText = new JTextField();
         searchText.setPreferredSize(new Dimension(150, 30));
         searchButton.setMaximumSize(new Dimension(150, 30));
-        JButton profileButton = new JButton("Profile");
-        profileButton.setName("Profile");
-        profileButton.setName("VIEW_OWN_PROFILE");
+        leftPanel.add(searchText);
+        leftPanel.add(searchButton);
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JButton createPostButton = new JButton("Create Post");
         createPostButton.setName("CREATE_NEW_POST");
+        centerPanel.add(createPostButton);
 
-        topPanel.add(searchText);
-        topPanel.add(searchButton);
-        topPanel.add(profileButton);
-        topPanel.add(createPostButton);
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        JButton profileButton = new JButton("Profile");
+        profileButton.setName("VIEW_OWN_PROFILE");
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setName("LOG_OUT");
+        rightPanel.add(profileButton);
+        rightPanel.add(logoutButton);
 
         profileButton.addActionListener(actionListener);
         createPostButton.addActionListener(actionListener);
+        searchButton.addActionListener(actionListener);
+        logoutButton.addActionListener(actionListener);
+
+        topPanel.add(leftPanel, BorderLayout.WEST);
+        topPanel.add(centerPanel, BorderLayout.CENTER);
+        topPanel.add(rightPanel, BorderLayout.EAST);
 
         return topPanel;
     }
