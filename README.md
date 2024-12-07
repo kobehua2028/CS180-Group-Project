@@ -12,7 +12,7 @@ News feed style application, where users are able to...
 
 #### Compile all classes, run test cases to check functionality
 
-#### vocareum workspace is submitted by Levin
+#### vocareum workspace, project report, and presentation is submitted by Levin
 
 ## Phase 1
 
