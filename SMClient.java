@@ -208,6 +208,7 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         String[] friends = {};
         String[] blocks = {};
         String[] posts = {};
+        String[] hiddenPosts = {};
         String[] aboutMe = new String[1];
         while (true) {
             if (line.equals("FAIL")) {
@@ -234,6 +235,12 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
                     posts[0] = null;
                 }
             }
+            if (line.contains("HIDDEN_POSTS_LIST")) {
+                hiddenPosts = line.substring(line.indexOf("`") + 1).split("`");
+                if (hiddenPosts[0].equals("HIDDEN_POSTS_LIST")) {
+                    hiddenPosts[0] = null;
+                }
+            }
             if (line.contains("ABOUT_ME")) {
                 aboutMe[0] = line.substring(line.indexOf("`") + 1);
             }
@@ -243,6 +250,7 @@ public class SMClient extends JComponent implements Runnable, Serializable, SMCl
         profile.add(blocks);
         profile.add(posts);
         profile.add(aboutMe);
+        profile.add(hiddenPosts);
         return profile;
     }
 
