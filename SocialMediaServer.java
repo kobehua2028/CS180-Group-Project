@@ -573,6 +573,7 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             profileInfo.add(postList.substring(0, postList.length() - 1));
             String aboutme = "ABOUT_ME`" + profileUser.getAboutMe();
             profileInfo.add(aboutme);
+            profileInfo.add(hiddenPostlist.substring(0, hiddenPostlist.length() - 1));
 
         } else {
             profileInfo.add(profileUsername);
