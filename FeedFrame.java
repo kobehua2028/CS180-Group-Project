@@ -168,17 +168,21 @@ public class FeedFrame extends JComponent implements Runnable {
                         ex.printStackTrace();
                     }
                 } else if (buttonClicked.getName().equals("SEARCH_USER")) {
-                    String searchUsername = searchText.getText();
-                    try {
-                        if (client.searchUser(searchUsername)) {
-                            SwingUtilities.invokeLater(new OtherProfileFrame(client, searchUsername));
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No User Found With the Given Username", "No User Found", JOptionPane.INFORMATION_MESSAGE);
+                    if (!searchText.getText().isEmpty()) {
+                        String searchUsername = searchText.getText();
+                        try {
+                            if (client.searchUser(searchUsername)) {
+                                SwingUtilities.invokeLater(new OtherProfileFrame(client, searchUsername));
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No User Found With the Given Username", "No User Found", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } catch (IOException e4) {
+                            e4.printStackTrace();
                         }
-                    } catch (IOException e4) {
-                        e4.printStackTrace();
+                        searchText.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No Username to Search", "Search Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    searchText.setText("");
                 }
                 if (buttonClicked.getText().equals("LOG_OUT")) {
                     try {
