@@ -74,7 +74,7 @@ public class CreatePostFrame extends JComponent implements Runnable {
         postButton.setName("CREATE_NEW_POST");
         postButton.setFont(new Font("Arial", Font.BOLD, 14));
         postButton.setBackground(new Color(50, 150, 250));
-        postButton.setForeground(Color.WHITE);
+        postButton.setForeground(Color.BLACK);
         postButton.setFocusPainted(false);
         postButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

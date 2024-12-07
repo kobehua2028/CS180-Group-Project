@@ -76,6 +76,7 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                             friendButton.setText("Add Friend");
                             friendButton.setVisible(true);
                             blockButton.setText("Block");
+                            feedFrame.run();
                         } catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Failed to unblock user", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
