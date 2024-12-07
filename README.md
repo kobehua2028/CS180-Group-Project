@@ -123,14 +123,6 @@ Verified in SocialMediaServerTest through manual input tests covering:
 
 ## Phase 3
 
-### OtherProfileFrame
-##### OtherProfileFrame is a GUI class that displays another user's profile. It allows the logged-in user to interact with the profile by adding or removing friends, blocking or unblocking the user, and viewing their posts and "About Me" section.
-#### Key Features:
- - Displays the user's profile, including the "About Me" section and friends list.
- - Allows actions like blocking, unblocking, adding, or removing friends.
- - Dynamically updates the UI based on the user’s actions.
- - Integrates with FeedFrame to reflect changes in the feed.
-
 ### LoginFrame
 ##### LoginFrame is the first screen a user interacts with. It handles user login and registration, including input validation and error handling.
 #### Key Features:
@@ -159,6 +151,14 @@ Verified in SocialMediaServerTest through manual input tests covering:
   - Users can remove friends and block/unblock other users from this frame.
   - Supports deleting the profile.
 
+### OtherProfileFrame
+##### OtherProfileFrame is a GUI class that displays another user's profile. It allows the logged-in user to interact with the profile by adding or removing friends, blocking or unblocking the user, and viewing their posts and "About Me" section.
+#### Key Features:
+ - Displays the user's profile, including the "About Me" section and friends list.
+ - Allows actions like blocking, unblocking, adding, or removing friends.
+ - Dynamically updates the UI based on the user’s actions.
+ - Integrates with FeedFrame to reflect changes in the feed.
+
 ### How to Use
 
 #### Run the Application:
@@ -169,10 +169,10 @@ Verified in SocialMediaServerTest through manual input tests covering:
   - If you have an account, log in with your credentials.
 
 #### Navigate the Feed:
-  - Once logged in, you will be taken to the FeedFrame where you can interact with posts (like, dislike, comment, etc.).
+  - Once logged in, you will be taken to the FeedFrame where you can interact with posts (like, dislike, comment, hide posts, etc.).
 
 #### Manage Your Profile:
-  - From the OwnProfileFrame, you can edit your "About Me" section, view your friends, and delete your account.
+  - From the OwnProfileFrame, you can edit your "About Me" section, view your friends, hide and block users, and delete your account.
 
 #### Interact with Other Users:
   - Use the OtherProfileFrame to search for other users, add/remove friends, and manage your interactions with them.
