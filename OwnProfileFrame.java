@@ -27,10 +27,10 @@ public class OwnProfileFrame extends JComponent implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.aboutMe = profile.get(3)[0];
+        this.aboutMe = profile.get(4)[0];
         this.friends = profile.get(0);
         this.blocks = profile.get(1);
-        this.hiddenPosts = profile.get(4);
+        this.hiddenPosts = profile.get(3);
     }
 
     @Override
