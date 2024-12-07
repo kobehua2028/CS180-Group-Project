@@ -38,16 +38,16 @@ public class LoginFrame implements Runnable {
                 try {
                     if (client.login(username, password)) {
                         // invoke newsfeed
-                        client.createComment("HI im bob!", "yo im levin yo 19231239");
-                        client.addFriend("Bob");
-                        client.blockUser("Jimmy");
-                        client.createPost("THIS IS MY POST", "MY NAME IS LEVIN");
-                        client.createComment("THIS IS MY POST", "This is my cmment under my own post");
-                        SMClient client3 = new SMClient(new Socket("localhost", 1111));
-                        client3.createUser("Billy", "Billyjoe", "jameson");
-                        client3.login("Billy", "Billyjoe");
-                        client3.createComment("THIS IS MY POST", "Hey, Billy here!");
-                        client3.likeComment("THIS IS MY POST", "MY NAME IS LEVIN");
+//                        client.createComment("HI im bob!", "yo im levin yo 19231239");
+//                        client.addFriend("Bob");
+//                        client.blockUser("Jimmy");
+//                        client.createPost("THIS IS MY POST", "MY NAME IS LEVIN");
+//                        client.createComment("THIS IS MY POST", "This is my cmment under my own post");
+//                        SMClient client3 = new SMClient(new Socket("localhost", 1111));
+//                        client3.createUser("Billy", "Billyjoe", "jameson");
+//                        client3.login("Billy", "Billyjoe");
+//                        client3.createComment("THIS IS MY POST", "Hey, Billy here!");
+//                        client3.likeComment("THIS IS MY POST", "MY NAME IS LEVIN");
                         SwingUtilities.invokeLater(new FeedFrame(client));
                         frame.dispose();
                     } else {

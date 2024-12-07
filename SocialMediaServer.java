@@ -18,10 +18,11 @@ import java.util.Arrays;
 
 public class SocialMediaServer implements Runnable, ServerInterface {
     private final Socket socket;
-    private static SocialMediaDatabase sm = new SocialMediaDatabase("users.dat", "posts.dat");
+    private static SocialMediaDatabase sm;
 
     public SocialMediaServer(Socket socket) {
         this.socket = socket;
+        sm = new SocialMediaDatabase("users.dat", "posts.dat");
         sm.readUsers();
         sm.readPosts();
     }
@@ -770,7 +771,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             post.incrementLikes();
             user.addLikedPost(post);
             sm.writeUser(user);
-            sm.writePost(post);
             return true;
         }
     }
@@ -788,7 +788,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
                     post.removeLike();
                     user.removeLikedPost(post);
                     sm.writeUser(user);
-                    sm.writePost(post);
                     return true;
                 }
             }
@@ -812,7 +811,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
             post.incrementDislikes();
             user.addDislikedPost(post);
             sm.writeUser(user);
-            sm.writePost(post);
             return true;
         }
     }
@@ -830,7 +828,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
                     post.removeDislike();
                     user.removeDislikedPost(post);
                     sm.writeUser(user);
-                    sm.writePost(post);
                     return true;
                 }
             }
@@ -847,9 +844,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && !post.getComments().get(i).getLikers().contains(liker)) {
-                post.getComments().get(i).incrementLikes();
                 post.getComments().get(i).addLiker(liker);
-                sm.writePost(post);
+                post.getComments().get(i).incrementLikes();
                 return true;
             }
         }
@@ -865,9 +861,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment) &&
                     post.getComments().get(i).getLikers().contains(liker)) {
-                post.getComments().get(i).removeLike();
                 post.getComments().get(i).removeLiker(liker);
-                sm.writePost(post);
+                post.getComments().get(i).removeLike();
                 return true;
             }
         }
@@ -883,9 +878,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && !post.getComments().get(i).getDislikers().contains(disliker)) {
-                post.getComments().get(i).incrementDislikes();
                 post.getComments().get(i).addDisliker(disliker);
-                sm.writePost(post);
+                post.getComments().get(i).incrementDislikes();
                 return true;
             }
         }
@@ -901,9 +895,8 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         for (int i = 0; i < post.getComments().size(); i++) {
             if (post.getComments().get(i).getText().equals(comment)
                     && post.getComments().get(i).getDislikers().contains(disliker)) {
-                post.getComments().get(i).removeDislike();
                 post.getComments().get(i).removeDisliker(disliker);
-                sm.writePost(post);
+                post.getComments().get(i).removeDislike();
                 return true;
             }
         }

@@ -534,7 +534,6 @@ public class FeedFrame extends JComponent implements Runnable {
                 buttonPanel.add(commentLikesButton);
                 buttonPanel.add(commentDislikesButton);
                 if (client.getUsername().equals(commentAuthor) || author.equals(client.getUsername())) {
-                    System.out.println(author + " " + client.getUsername() + "WHAT!?!?!?!?!!?");
                     JButton deleteComment = new JButton("\uD83D\uDDD1");
                     deleteComment.setName("commentnotdeleted");
                     buttonPanel.add(deleteComment);
