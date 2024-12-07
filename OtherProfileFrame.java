@@ -85,6 +85,7 @@ public class OtherProfileFrame extends JComponent implements Runnable {
                         try {
                             client.blockUser(name);
                             blocked = true;
+                            friendsWith = false;
                             friendButton.setText("");
                             friendButton.setVisible(false);
                             blockButton.setText("Unblock");
