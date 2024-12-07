@@ -36,9 +36,6 @@ public class FeedFrame extends JComponent implements Runnable {
             if (e.getSource() instanceof JButton) {
                 JButton buttonClicked = (JButton) e.getSource();
 
-                System.out.println(buttonClicked.getParent().getParent().getName());
-                System.out.println(buttonClicked.getParent().getName());
-                System.out.println(buttonClicked.getName());
                 String [] componentInfo;
                 String holder;
                 if (buttonClicked.getText().contains("\uD83D\uDC4D")) {
@@ -179,7 +176,6 @@ public class FeedFrame extends JComponent implements Runnable {
                     SwingUtilities.invokeLater(new CreatePostFrame(client,FeedFrame.this));
                 }
                 if (buttonClicked.getText().equals("Profile")) {
-                    System.out.println("Profile clicked");
                     SwingUtilities.invokeLater(new OwnProfileFrame(client, FeedFrame.this));
                 }
                 if (buttonClicked.getName().equals("CREATE_NEW_COMMENT")) {
@@ -240,7 +236,6 @@ public class FeedFrame extends JComponent implements Runnable {
     @Override
     public void run() {
         if (feedFrame == null) {
-            System.out.println("RAN GOT AND RAN GOT");
             // Create the frame only once
             feedFrame = new JFrame("Feed");
             feedFrame.setLayout(new BorderLayout());
@@ -255,7 +250,6 @@ public class FeedFrame extends JComponent implements Runnable {
 
             feedFrame.setVisible(true);
         } else {
-            System.out.println("GOT RAN AND GOT RAN");
             // Refresh the feed
             feedFrame.getContentPane().removeAll(); // Clear existing content
             feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);

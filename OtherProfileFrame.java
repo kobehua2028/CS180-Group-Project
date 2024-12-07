@@ -159,9 +159,6 @@ public class OtherProfileFrame extends JComponent implements Runnable {
 
         JPanel profileButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        System.out.println(friendsWith);
-        System.out.println(blocked);
-
         if (friendsWith && !blocked) {
             friendButton.setText("Remove Friend");
             blockButton.setText("Block");

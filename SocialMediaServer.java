@@ -30,8 +30,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(1111);
         System.out.println("SOCIAL MEDIA SERVER STARTED");
-//        System.out.println(sm.createUser("Bob", "Password5", "sdgsdg").getUsername());
-
         while (true) {
             Socket socket = serverSocket.accept();
             SocialMediaServer sm1 = new SocialMediaServer(socket);
@@ -64,7 +62,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
                             pw.flush();
                         } else {
                             success = login(command[1], command[2]);
-                            System.out.println(success + command[1] + command[2]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -80,7 +77,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
                             pw.flush();
                         } else {
                             success = createUser(command[1], command[2], command[3]);
-                            System.out.println(success + command[1] + command[2]);
                             if (success) {
                                 pw.println("SUCCESS");
                                 pw.flush();
@@ -505,8 +501,6 @@ public class SocialMediaServer implements Runnable, ServerInterface {
         int postLimit = sm.getPosts().size();
         int i = 0;
         int postsShown = 0;
-        System.out.println("Post limit: " + postLimit);
-        System.out.println("Size: " + sm.getPosts().size());
         while (postsShown < postLimit) {
             Post post = sm.getPosts().get(sm.getPosts().size() - i - 1);
             if (!user.searchHiddenPosts(post) && !user.searhBlockedList(post.getAuthor())
