@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @version Dec 07, 2024
  */
 
-public class FeedFrame extends JComponent implements Runnable {
+public class FeedFrame extends JComponent implements Runnable, FeedFrameInterface {
     private final SMClient client;
     private JFrame feedFrame;
     private JButton dislikesButton;
@@ -42,6 +42,33 @@ public class FeedFrame extends JComponent implements Runnable {
 
     FeedFrame(SMClient client) {
         this.client = client;
+    }
+
+    @Override
+    public void run() {
+        if (feedFrame == null) {
+            // Create the frame only once
+            feedFrame = new JFrame("Feed");
+            feedFrame.setLayout(new BorderLayout());
+            feedFrame.setSize(1280, 720);
+            feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            feedFrame.setLocationRelativeTo(null);
+            feedFrame.setResizable(false);
+
+            // Add top panel and feed (initial setup)
+            feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);
+            feedFrame.add(createFeedPanel(), BorderLayout.WEST);
+
+            feedFrame.setVisible(true);
+        } else {
+            // Refresh the feed
+            feedFrame.getContentPane().removeAll(); // Clear existing content
+            feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);
+            feedFrame.add(createFeedPanel(), BorderLayout.WEST);
+            feedFrame.revalidate(); // Refresh UI
+            feedFrame.repaint();
+            feedFrame.setVisible(true);
+        }
     }    ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -244,33 +271,6 @@ public class FeedFrame extends JComponent implements Runnable {
 //    split by ":" and take everything after the : (thats the username of profile)
 //    invoke ProfileFrame(client, profileUsername)
 
-    @Override
-    public void run() {
-        if (feedFrame == null) {
-            // Create the frame only once
-            feedFrame = new JFrame("Feed");
-            feedFrame.setLayout(new BorderLayout());
-            feedFrame.setSize(1280, 720);
-            feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            feedFrame.setLocationRelativeTo(null);
-            feedFrame.setResizable(false);
-
-            // Add top panel and feed (initial setup)
-            feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);
-            feedFrame.add(createFeedPanel(), BorderLayout.WEST);
-
-            feedFrame.setVisible(true);
-        } else {
-            // Refresh the feed
-            feedFrame.getContentPane().removeAll(); // Clear existing content
-            feedFrame.add(createTopFeedPanel(), BorderLayout.NORTH);
-            feedFrame.add(createFeedPanel(), BorderLayout.WEST);
-            feedFrame.revalidate(); // Refresh UI
-            feedFrame.repaint();
-            feedFrame.setVisible(true);
-        }
-    }
-
     private JScrollPane createFeedPanel() {
         JPanel feed = new JPanel();
         feed.setLayout(new BoxLayout(feed, BoxLayout.Y_AXIS));
@@ -288,7 +288,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return scrollPane;
     }
 
-    private JPanel createTopFeedPanel() {
+    public JPanel createTopFeedPanel() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
 
@@ -415,7 +415,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return postFrame;
     }
 
-    private JPanel createPostFrame() {
+    public JPanel createPostFrame() {
         JPanel postFrame = new JPanel();
         postFrame.setName(title);
         postFrame.setLayout(new BorderLayout());
@@ -424,7 +424,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return postFrame;
     }
 
-    private JPanel createCommentTopPanel() {
+    public JPanel createCommentTopPanel() {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(new Color(240, 240, 240));
@@ -444,7 +444,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return topPanel;
     }
 
-    private JTextArea createSubtextArea() {
+    public JTextArea createSubtextArea() {
         JTextArea subtextArea = new JTextArea(subtext);
         subtextArea.setFont(new Font("Arial", Font.PLAIN, 14));
         subtextArea.setLineWrap(true);
@@ -455,7 +455,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return subtextArea;
     }
 
-    private JPanel createCommentSection() {
+    public JPanel createCommentSection() {
         JPanel commentSection = new JPanel(new BorderLayout());
         commentSection.setPreferredSize(new Dimension(600, 350));
         commentSection.setMaximumSize(new Dimension(600, 350));
@@ -469,7 +469,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return commentSection;
     }
 
-    private JScrollPane createCommentsPanel() {
+    public JScrollPane createCommentsPanel() {
         JPanel commentsPanel = new JPanel();
         commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
         loadComments(); // Load comments into the `comments` list
@@ -490,7 +490,7 @@ public class FeedFrame extends JComponent implements Runnable {
         return scrollPane;
     }
 
-    private JPanel createMakeCommentPanel() {
+    public JPanel createMakeCommentPanel() {
         JPanel makeComment = new JPanel();
         makeComment.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         commentTextField = new JTextField();

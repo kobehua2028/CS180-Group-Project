@@ -61,5 +61,7 @@ public interface ServerInterface {
 
     boolean undislikeComment(String postTitle, String dislikerUsername, String comment);
 
+    boolean changeAboutMe(String username, String aboutMe);
+
     void setSM(SocialMediaDatabase sm);
 }

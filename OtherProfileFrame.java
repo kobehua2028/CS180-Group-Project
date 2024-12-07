@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @version Dec 07, 2024
  */
 
-public class OtherProfileFrame extends JComponent implements Runnable {
+public class OtherProfileFrame extends JComponent implements Runnable, OtherProfileFrameInterface {
 
     SMClient client;
     FeedFrame feedFrame;

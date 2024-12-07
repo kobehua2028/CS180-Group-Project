@@ -15,10 +15,10 @@ import java.io.IOException;
  * @version Dec 07, 2024
  */
 
-public class CreatePostFrame extends JComponent implements Runnable {
-    JFrame createPostFrame;
+public class CreatePostFrame extends JComponent implements Runnable, CreatePostFrameInterface {
     private final SMClient client;
     private final FeedFrame feedFrame;
+    JFrame createPostFrame;
 
     public CreatePostFrame(SMClient client, FeedFrame feedFrame) {
         this.client = client;

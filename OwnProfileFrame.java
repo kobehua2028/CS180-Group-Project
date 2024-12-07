@@ -17,7 +17,7 @@ import java.util.List;
  * @version Dec 07, 2024
  */
 
-public class OwnProfileFrame extends JComponent implements Runnable {
+public class OwnProfileFrame extends JComponent implements Runnable, OwnProfileFrameInterface {
 
     SMClient client;
     String name = "No user";
