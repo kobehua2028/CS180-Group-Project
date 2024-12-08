@@ -44,7 +44,8 @@ public class OtherProfileFrame extends JComponent implements Runnable, OtherProf
                             blockButton.setText("Block");
                             feedFrame.run();
                         } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to unblock user", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Failed to unblock user",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else if (buttonClicked.getText().equals("Block")) {
@@ -58,14 +59,17 @@ public class OtherProfileFrame extends JComponent implements Runnable, OtherProf
                             blockButton.setText("Unblock");
                             feedFrame.run();
                         } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to block user", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Failed to block user",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
                 if (buttonClicked.getText().equals("Add Friend")) {
                     if (!name.equals("No user")) {
                         if (blocked) {
-                            JOptionPane.showMessageDialog(null, "You have blocked this user, first unblock them to add them as a friend", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null,
+                                    "You have blocked this user, first unblock them to add them as a friend",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         try {
                             client.addFriend(name);
@@ -75,7 +79,8 @@ public class OtherProfileFrame extends JComponent implements Runnable, OtherProf
                             blockButton.setText("Block");
                             feedFrame.run();
                         } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Failed to add user",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else if (buttonClicked.getText().equals("Remove Friend")) {
@@ -88,7 +93,8 @@ public class OtherProfileFrame extends JComponent implements Runnable, OtherProf
                             blockButton.setText("Block");
                             feedFrame.run();
                         } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Failed to add user", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Failed to add user",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }

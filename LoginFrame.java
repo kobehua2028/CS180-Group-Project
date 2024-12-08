@@ -35,7 +35,8 @@ public class LoginFrame implements Runnable, LogInFrameInterface {
                 char[] rawPassword = passwordField.getPassword();
                 password = String.valueOf(rawPassword);
             } catch (NullPointerException e1) {
-                JOptionPane.showMessageDialog(frame, "Username or password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Username or password cannot be empty", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
             if (e.getSource() == loginButton) {
                 try {
@@ -53,7 +54,8 @@ public class LoginFrame implements Runnable, LogInFrameInterface {
             if (e.getSource() == registerButton) {
                 try {
                     if (client.createUser(username, password, "I love long walks on the beach")) {
-                        JOptionPane.showMessageDialog(frame, "New User Created", "User Created", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "New User Created", "User Created",
+                                JOptionPane.INFORMATION_MESSAGE);
                         frame.dispose();
                         SwingUtilities.invokeLater(new FeedFrame(client));
                     } else {

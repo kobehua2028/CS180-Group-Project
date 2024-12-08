@@ -45,10 +45,12 @@ public class OwnProfileFrame extends JComponent implements Runnable, OwnProfileF
                     aboutMeTextArea.setEditable(false);
                     try {
                         if (!client.changeAboutMe(client.getUsername(), aboutMeTextArea.getText())) {
-                            JOptionPane.showMessageDialog(profileFrame, "Failed to change about me", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(profileFrame, "Failed to change about me",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(profileFrame, "Failed to change about me", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(profileFrame, "Failed to change about me",
+                                "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     buttonClicked.setText("Edit About Me");
                 }
@@ -95,9 +97,12 @@ public class OwnProfileFrame extends JComponent implements Runnable, OwnProfileF
                     }
                 }
                 if (buttonClicked.getText().equals("Delete profile")) {
-                    int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete your account? This is permanent and cannot be undone.", "Warning", JOptionPane.YES_NO_OPTION);
+                    int dialogResult = JOptionPane.showConfirmDialog(null,
+                            "Are you sure you want to delete your account? This is permanent " +
+                                    "and cannot be undone.", "Warning", JOptionPane.YES_NO_OPTION);
                     if (dialogResult == JOptionPane.YES_OPTION) {
-                        String name = JOptionPane.showInputDialog(profileFrame, "Type your username to delete your account: ");
+                        String name = JOptionPane.showInputDialog(profileFrame,
+                                "Type your username to delete your account: ");
                         try {
                             if (name.equals(client.getUsername())) {
                                 if (client.deleteUser(client.getUsername())) {
@@ -107,13 +112,16 @@ public class OwnProfileFrame extends JComponent implements Runnable, OwnProfileF
                                     }
                                     SwingUtilities.invokeLater(new LoginFrame(client));
                                 } else {
-                                    JOptionPane.showMessageDialog(profileFrame, "Failed to delete user", "Error", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(profileFrame, "Failed to delete user",
+                                            "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(profileFrame, "Wrong username", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(profileFrame, "Wrong username", "Error",
+                                        JOptionPane.ERROR_MESSAGE);
                             }
                         } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(profileFrame, "Failed to delete your account", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(profileFrame, "Failed to delete your account",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }

@@ -90,21 +90,26 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                             holder = componentInfo[4];
                             componentInfo[4] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("notliked");
-                        } else if (buttonClicked.getName().equals("commentnotliked") && client.likeComment(title, componentInfo[0])) {
+                        } else if (buttonClicked.getName().equals("commentnotliked") &&
+                                client.likeComment(title, componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4D" + (Integer.parseInt(componentInfo[2]) + 1));
                             holder = componentInfo[2];
                             componentInfo[2] = String.valueOf(Integer.parseInt(holder) + 1);
                             buttonClicked.setName("commentliked");
-                        } else if (buttonClicked.getName().equals("commentliked") && client.unlikeComment(title, componentInfo[0])) {
+                        } else if (buttonClicked.getName().equals("commentliked") &&
+                                client.unlikeComment(title, componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4D" + (Integer.parseInt(componentInfo[2]) - 1));
                             holder = componentInfo[2];
                             componentInfo[2] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("commentnotliked");
                         }
                         if (buttonClicked.getName().contains("comment")) {
-                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3]));
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s",
+                                    componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3]));
                         } else {
-                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3], componentInfo[4], componentInfo[5]));
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s",
+                                    componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3],
+                                    componentInfo[4], componentInfo[5]));
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -117,26 +122,32 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                             holder = componentInfo[5];
                             componentInfo[5] = String.valueOf(Integer.parseInt(holder) + 1);
                             buttonClicked.setName("disliked");
-                        } else if (buttonClicked.getName().equals("disliked") && client.undislikePost(componentInfo[0])) {
+                        } else if (buttonClicked.getName().equals("disliked") &&
+                                client.undislikePost(componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4E" + (Integer.parseInt(componentInfo[5]) - 1));
                             holder = componentInfo[5];
                             componentInfo[5] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("notdisliked");
-                        } else if (buttonClicked.getName().equals("commentnotdisliked") && client.dislikeComment(title, componentInfo[0])) {
+                        } else if (buttonClicked.getName().equals("commentnotdisliked") &&
+                                client.dislikeComment(title, componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4E" + (Integer.parseInt(componentInfo[3]) + 1));
                             holder = componentInfo[3];
                             componentInfo[3] = String.valueOf(Integer.parseInt(holder) + 1);
                             buttonClicked.setName("commentdisliked");
-                        } else if (buttonClicked.getName().equals("commentdisliked") && client.undislikeComment(title, componentInfo[0])) {
+                        } else if (buttonClicked.getName().equals("commentdisliked") &&
+                                client.undislikeComment(title, componentInfo[0])) {
                             buttonClicked.setText("\uD83D\uDC4E" + (Integer.parseInt(componentInfo[3]) - 1));
                             holder = componentInfo[3];
                             componentInfo[3] = String.valueOf(Integer.parseInt(holder) - 1);
                             buttonClicked.setName("commentnotdisliked");
                         }
                         if (buttonClicked.getName().contains("comment")) {
-                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3]));
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s",
+                                    componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3]));
                         } else {
-                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s", componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3], componentInfo[4], componentInfo[5]));
+                            buttonClicked.getParent().getParent().setName(String.format("%s`%s`%s`%s`%s`%s",
+                                    componentInfo[0], componentInfo[1], componentInfo[2], componentInfo[3],
+                                    componentInfo[4], componentInfo[5]));
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -156,31 +167,39 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                             if (success) {
                                 buttonClicked.getParent().getParent().setVisible(false);
                                 try {
-                                    Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2); // EAST region is index 2 in BorderLayout
-                                    if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(componentInfo[0])) {
+                                    Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2);
+                                    // EAST region is index 2 in BorderLayout
+                                    if (existingCommentsPanel != null &&
+                                            existingCommentsPanel.getName().equals(componentInfo[0])) {
                                         existingCommentsPanel.setVisible(false);
                                     }
                                 } catch (IndexOutOfBoundsException e3) {
                                 }
                                 buttonClicked.setName("hidden");
                             } else if (delete) {
-                                JOptionPane.showMessageDialog(null, "Issue with Deleting Post", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Issue with Deleting Post",
+                                        "Error", JOptionPane.ERROR_MESSAGE);
                             } else if (!delete) {
-                                JOptionPane.showMessageDialog(null, "Issue with Hiding Post", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Issue with Hiding Post",
+                                        "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         } else if (buttonClicked.getName().equals("commentnotdeleted")) {
                             if (client.deleteComment(title, componentInfo[0])) {
                                 buttonClicked.getParent().getParent().setVisible(false);
                                 try {
-                                    Component existingCommentsPanel = feedFrame.getContentPane().getComponent(4); // EAST region is index 2 in BorderLayout
-                                    if (existingCommentsPanel != null && existingCommentsPanel.getName().equals(componentInfo[0])) {
+                                    Component existingCommentsPanel = feedFrame.getContentPane().getComponent(4);
+                                    // EAST region is index 2 in BorderLayout
+                                    if (existingCommentsPanel != null &&
+                                            existingCommentsPanel.getName().equals(componentInfo[0])) {
                                         existingCommentsPanel.setVisible(false);
                                     }
                                 } catch (IndexOutOfBoundsException e3) {
                                 }
                                 buttonClicked.setName("commentdeleted");
                             } else {
-                                JOptionPane.showMessageDialog(null, "Issue with Deleting Comment", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null,
+                                        "Issue with Deleting Comment",
+                                        "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
                     } catch (IOException e1) {
@@ -198,7 +217,8 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
 
                     // Remove the existing comment section (if any)
                     try {
-                        Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2); // EAST region is index 2 in BorderLayout
+                        Component existingCommentsPanel = feedFrame.getContentPane().getComponent(2);
+                        // EAST region is index 2 in BorderLayout
                         if (existingCommentsPanel != null) {
                             feedFrame.remove(existingCommentsPanel);
                         }
@@ -225,7 +245,9 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                             commentSectionButton.setText("\uD83D\uDCAC " + numberOfComments);
                             FeedFrame.this.displayComments();
                         } else {
-                            JOptionPane.showMessageDialog(null, "Issue with Creating New Comment", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null,
+                                    "Issue with Creating New Comment",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -237,16 +259,20 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                             if (client.getUsername().equals(searchUsername)) {
                                 SwingUtilities.invokeLater(new OwnProfileFrame(client, FeedFrame.this));
                             } else if (client.searchUser(searchUsername)) {
-                                SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client, searchUsername));
+                                SwingUtilities.invokeLater(new OtherProfileFrame(
+                                        FeedFrame.this, client, searchUsername));
                             } else {
-                                JOptionPane.showMessageDialog(null, "No User Found With the Given Username", "No User Found", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null,
+                                        "No User Found With the Given Username", "No User Found",
+                                        JOptionPane.INFORMATION_MESSAGE);
                             }
                         } catch (IOException e4) {
                             e4.printStackTrace();
                         }
                         searchText.setText("");
                     } else {
-                        JOptionPane.showMessageDialog(null, "No Username to Search", "Search Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "No Username to Search",
+                                "Search Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 if (buttonClicked.getName().equals("LOG_OUT")) {
@@ -262,7 +288,8 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                     }
                 }
                 if (buttonClicked.getName().contains("AuthorButton")) {
-                    SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client, buttonClicked.getName().split(":")[1]));
+                    SwingUtilities.invokeLater(new OtherProfileFrame(FeedFrame.this, client,
+                            buttonClicked.getName().split(":")[1]));
                 }
             }
         }
@@ -388,7 +415,8 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                 postPanel.add(subtextArea, BorderLayout.CENTER);
                 postPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-                postPanel.setName(String.format("%s`%s`%s`%s`%s`%s", post.get(0), post.get(1), post.get(2), post.get(3), post.get(4), post.get(5)));
+                postPanel.setName(String.format("%s`%s`%s`%s`%s`%s", post.get(0), post.get(1), post.get(2),
+                        post.get(3), post.get(4), post.get(5)));
                 posts.add(postPanel);
             }
         } catch (Exception e) {
@@ -562,7 +590,8 @@ public class FeedFrame extends JComponent implements Runnable, FeedFrameInterfac
                 commentPanel.setPreferredSize(new Dimension(600, 100));
                 commentPanel.setMaximumSize(new Dimension(600, 100));
 
-                commentPanel.setName(String.format("%s`%s`%s`%s", comment.get(0), comment.get(1), comment.get(2), comment.get(3)));
+                commentPanel.setName(String.format("%s`%s`%s`%s", comment.get(0), comment.get(1), comment.get(2),
+                        comment.get(3)));
 
                 comments.add(commentPanel);
             }
