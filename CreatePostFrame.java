@@ -92,6 +92,9 @@ public class CreatePostFrame extends JComponent implements Runnable, CreatePostF
                 if (e.getSource() instanceof JButton button) {
                     try {
                         if ("CREATE_NEW_POST".equals(button.getName())) {
+                            if (titleField.getText().isEmpty() || subTextField.getText().isEmpty()) {
+                                throw new IOException();
+                            }
                             client.createPost(titleField.getText(), subTextField.getText());
                             createPostFrame.dispose();
                             feedFrame.run();
